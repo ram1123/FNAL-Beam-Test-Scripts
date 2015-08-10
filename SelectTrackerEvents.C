@@ -1,8 +1,24 @@
-//this v1 is only used to output histograms with number of strips > 1
+//this v0 is only used to output histograms with number of strips > 1
 #include <TString.h>
+#include <iostream>
+#include <vector>
 void main(){
   const int NN = 2000000; //number of events
   fstream fin("TheCombinedData.txt",ios::in);
+  //number of hits
+  vector <int> NHitsEta1,NHitsEta2,NHitsEta3,NHitsEta4,NHitsEta5,NHitsEta6,NHitsEta7,NHitsEta8;
+  vector <int> NHitsZZ1,NHitsZZ2;
+  vector <int> NHitsREF2X,NHitsREF2Y,NHitsREF3X,NHitsREF3Y,NHitsUVA3X,NHitsUVA3Y,NHitsREF1X,NHitsREF1Y;
+  //positions on detectors
+  vector <double> pREF2X,pREF2Y,pREF3X,pREF3Y,pUVA3X,pUVA3Y,pREF1X,pREF1Y;
+  vector <double> pEta1,pEta2,pEta3,pEta4,pEta5,pEta6,pEta7,pEta8,pZZ1,pZZ2;
+  //charges in detectors
+  vector <double> qREF2X,qREF2Y,qREF23X,qREF3Y,qUVA3X,qUVA3Y,qREF1X,qREF1Y;
+  vector <double> qEta1,qEta2,qEta3,qEta4,qEta5,qEta6,qEta7,qEta8,qZZ1,qZZ2;
+  vector <double> sREF2X,sREF2Y,sREF3X,sREF3Y,sUVA3X,sUVA3Y,sREF1X,sREF1Y;
+  vector <double> sEta1,sEta2,sEta3,sEta4,sEta5,sEta6,sEta7,sEta8,sZZ1,sZZ2;
+
+
   //number of hits
   int NHitsEta1[NN],NHitsEta2[NN],NHitsEta3[NN],NHitsEta4[NN],NHitsEta5[NN],NHitsEta6[NN],NHitsEta7[NN],NHitsEta8[NN];
   int NHitsZZ1[NN],NHitsZZ2[NN];
