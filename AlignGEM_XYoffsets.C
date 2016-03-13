@@ -69,9 +69,9 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
     TH1F* xTrackChi2=0;
     TH1F* yTrackChi2=0;
     
-    preshiREF1X = -2580.-iterNbX;// - iterNbX*2;
+    preshiREF1X = -2550.-iterNbX;// - iterNbX*2;
     preshiREF2X = preshiREF1X; preshiREF3X=preshiREF1X;
-    preshiREF1Y = -445. + iterNbY*0.2;
+    preshiREF1Y = -440. + iterNbY*0.2;
     preshiREF2Y = preshiREF1Y;  preshiREF3Y = preshiREF1Y;
     
     char cp1x[20]; sprintf(cp1x,"%.2f",preshiREF1X);
@@ -190,7 +190,7 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
         g1->SetPoint(1,Trk2Pos, d.vpREF2X);
         g1->SetPoint(2,Trk3Pos, d.vpREF3X);
         g1->GetXaxis()->SetRangeUser(0,900);
-        TF1* f1 = new TF1("line1","pol1",0,900);
+        TF1* f1 = new TF1("line1","pol1",0,1100);
         g1->Fit("line1","Q");
         double intercept1 = f1->GetParameter(0);
         double slope1     = f1->GetParameter(1);
@@ -277,27 +277,30 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
       //vpUVA3X.swap(DefaultVector); vpUVA3Y.swap(DefaultVector); vpREF1X.swap(DefaultVector); vpREF1Y.swap(DefaultVector); vpEta5.swap(DefaultVector);
     
      // cout<<residualEta5->GetEntries()<<"TTTTTTTTTTTT"<<endl;
-     //gDirectory->GetList()->Delete();
-      //hpREF2X=NULL; hpREF2Y=NULL; hpREF3X=NULL; hpREF3Y=NULL;
-      //hpUVA3X=NULL; hpUVA3Y=NULL; hpREF1X=NULL; hpREF1Y=NULL;
-      //residualREF2X=NULL; residualREF2Y=NULL; residualREF3X=NULL; residualREF3Y=NULL;
-      //residualUVA3X=NULL; residualUVA3Y=NULL; residualREF1X=NULL; residualREF1Y=NULL;
-      //residualEta5=NULL;
+     gDirectory->GetList()->Delete();
+      hpREF2X=NULL; hpREF2Y=NULL; hpREF3X=NULL; hpREF3Y=NULL;
+      hpREF1X=NULL; hpREF1Y=NULL;
+      residualREF2X=NULL; residualREF2Y=NULL; residualREF3X=NULL; residualREF3Y=NULL;
+      residualREF1X=NULL; residualREF1Y=NULL;
+      residualEta5=NULL;
       //funResidualEta5=NULL;
-      //angleREF3=NULL; angleUVA3=NULL; angleREF1=NULL; angleEta5=NULL;
+      angleREF3=NULL; angleREF2=NULL; angleEta5=NULL;
+      xTrackChi2=NULL; yTrackChi2=NULL;
+      residualEta5_tmp=NULL;
 
       //myValues.fit_func=NULL; 
      // delete myValues.fit_func;
      // f=NULL; delete f;
    //}//for-loop instead of while(1)
-   //   delete hpREF2X; delete hpREF2Y; delete hpREF3X; delete hpREF3Y;
-   //   delete hpUVA3X; delete hpUVA3Y; delete hpREF1X; delete hpREF1Y;
-   //   delete residualREF2X; delete residualREF2Y; delete residualREF3X; delete residualREF3Y;
-   //   delete residualUVA3X; delete residualUVA3Y; delete residualREF1X; delete residualREF1Y;
-   //   delete residualEta5;
-      //delete funResidualEta5;
-   //   delete angleREF3; delete angleUVA3; delete angleREF1;
-   //   delete angleEta5;
+      delete hpREF2X; delete hpREF2Y; delete hpREF3X; delete hpREF3Y;
+      delete hpREF1X; delete hpREF1Y; delete hpEta5;
+      delete residualREF2X; delete residualREF2Y; delete residualREF3X; delete residualREF3Y;
+      delete residualREF1X; delete residualREF1Y;
+      delete residualEta5;
+      delete angleREF3; delete angleREF2; delete angleEta5;
+      delete xTrackChi2; delete yTrackChi2;
+      delete residualEta5_tmp;
+//      delete [] myValues;
   //}
  fout1.close();
  //fout3.close();
@@ -310,13 +313,10 @@ void AlignGEM_XYoffsets(string InputTextFile, double shiREF1X, double shiREF1Y, 
 //  string name[1]={
 //  	"Position_Cluster_run017_HVScan_4150V_32GeV_20131017_1254pm_all"
 //  };
-  for(int iterNbX=0;iterNbX<=5;iterNbX++)
-    for(int iterNbY=0;iterNbY<10;iterNbY++)
-  //for(int iterNbX=0;iterNbX<=50;iterNbX++)
-    //for(int iterNbY=0;iterNbY<101;iterNbY++)
+  for(int iterNbX=0;iterNbX<=50;iterNbX++)
+    for(int iterNbY=0;iterNbY<100;iterNbY++)
     {
      tracking(InputTextFile, iterNbX, iterNbY, shiREF1X, shiREF1Y, shiREF2X, shiREF2Y, shiREF3X, shiREF3Y, shiEta5, Trk1Pos, Trk2Pos, Trk3Pos, GEMPos , aREF2REF1, aREF3REF1);
-     //tracking(name[0],iterNbX, iterNbY);
     }
 //  return 0;
 }

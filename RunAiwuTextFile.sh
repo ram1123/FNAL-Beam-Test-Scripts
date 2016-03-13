@@ -1,3 +1,17 @@
+############################################################
+#		 To Do List	
+#
+# 1. Add the Brian's macros for analyzing efficiency 
+#
+#
+############################################################
+#		Basic Info about this Macro
+#
+#
+#
+#
+############################################################
+
 source /afs/cern.ch/sw/lcg/external/gcc/4.8/x86_64-slc6/setup.sh
 source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh
 IRunNo=$1
@@ -10,7 +24,7 @@ if [[ $IRunNo -le 1587 ]]; then
 else
 	PathOfInputData=/afs/cern.ch/user/r/rasharma/work/public/GEMTestBeam/Ntuples/H4TestBeam			# PATH FOR H4 TEST BEAM
 fi	
-#PathOfInputData=/home/ramkrishna/TEMP/FNAL_BT	
+PathOfInputData=/home/ramkrishna/cernbox/LaptopBackup/AllAnalysis/TBA/FNAL-Beam-Test-Scripts/
 
     #/*
     # * EfficiencyType : If want to calculate efficiency of each GE11's independently
@@ -87,7 +101,7 @@ do
             fi
         fi
     fi
-    for dir in $PathOfInputData/Run$file*; do	    # Start of dir for loop
+    for dir in $PathOfInputData/Run$file*/; do	    # Start of dir for loop
 	echo "===============================================:"
 	echo "Directory name : "$dir
 	echo "Base name : "$(basename $dir)
@@ -130,5 +144,5 @@ done 	# End of while loop
 
 cp EfficiencyTxtFiles/FilesToAnalyze.txt EfficiencyTxtFiles/FilesToAnalyze_R${IRunNo}_R${FRunNo}.txt
 
-echo "To Make Efficiency Curves Execute In Terminal:"
-echo "./analyzeEff.sh"
+#echo "To Make Efficiency Curves Execute In Terminal:"
+#echo "./analyzeEff.sh"
