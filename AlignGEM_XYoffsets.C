@@ -10,10 +10,14 @@
 
 //vector<double> DefaultVector; // just used to free memory from vectors.
 int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2Y, double shiREF3X, double shiREF3Y, double shiEta5, double Trk1Pos, double Trk2Pos, double Trk3Pos, double GEMPos , double aREF2REF1, double aREF3REF1 ){
+//gObjectTable->Print();
+
+  bool ShiftOrigin = 0;
+
   double PI=TMath::Pi();
   string txtfilename = thestring ;
   //string txtfilename = thestring + ".txt";
-  thestring = "PostionLC1";
+  thestring = "PositionLC1";
   string residualHead = "rPhi_residual_";
   string residualMeanHead = "rPhi_residualMean_";
   string residualSigmaHead="rPhi_residualSigma_";
@@ -26,54 +30,40 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
   double pREF3X=0.0, pREF3Y=0.0;
   double pEta5=0.0;
   
-  /* 
-    double shiREF1X=-9.92822, shiREF1Y=-0.68756;
-    double shiREF2X=12.26791212, shiREF2Y=2.02708225;
-    double shiREF3X=7.4824985, shiREF3Y=-2.35562;
-    double shiEta5=0.0;//0.01509;
-    double preshiREF1X=-2265, preshiREF1Y=-32;
-    double preshiREF2X=-2265, preshiREF2Y=-32;  //2127.4275
-    double preshiREF3X=-2265, preshiREF3Y=-32;
-    */
-    double preshiREF1X=-2590.0, preshiREF1Y=-455.;
-    double preshiREF2X=-2590.0, preshiREF2Y=-455.;  //2127.4275
-    double preshiREF3X=-2590.0, preshiREF3Y=-455.;
-//    double aREF2REF1=0.0056995;//start angle: 0.01197;
-//    double aREF3REF1=-0.044254312;//-0.0171;//start angle: 0.008273;
-    double aEta5REF1=0.0;//0.008098;
+  // initial ccods for GEM positiosn
+    double preshiREF1X=-2400.0, preshiREF1Y=-415.;
+    double preshiREF2X=-2400.0, preshiREF2Y=-415.;  //2127.4275
+    double preshiREF3X=-2400.0, preshiREF3Y=-415.;
+
+
+    //double aEta5REF1=56.85+0.00005*iterNbX;//0.008098;
+    double aEta5REF1=56.8785;//0.008098;
+	cout<<"============>  aEta5REF1 = "<<aEta5REF1<<endl;
     double tempREF2X, tempREF2Y, tempREF3X, tempREF3Y, tempREF1X, tempREF1Y, tempEta5;
     double meanREF2X=0.0, meanREF2Y=0.0, meanREF3X=0.0, meanREF3Y=0.0, meanREF1X=0.0, meanREF1Y=0.0, meanEta5=0.0;
     double sigmaREF2X=0.0,sigmaREF2Y=0.0,sigmaREF3X=0.0,sigmaREF3Y=0.0, sigmaREF1X=0.0,sigmaREF1Y=0.0,sigmaEta5=0.0;
     double meanXChi2=0.0,meanYChi2=0.0, totalChi2=0.0; // chi square of tracks.
     double maximum=0.0, rms=0.0, lRange=0.0, hRange=0.0;
     
-    TH1F* hpREF1X = 0;
-    TH1F* hpREF1Y = 0;
-    TH1F* hpREF2X = 0;
-    TH1F* hpREF2Y = 0;
-    TH1F* hpREF3X = 0;
-    TH1F* hpREF3Y = 0;
+    TH1F* hpREF1X = 0;		TH1F* hpREF1Y = 0;
+    TH1F* hpREF2X = 0;		TH1F* hpREF2Y = 0;
+    TH1F* hpREF3X = 0;		TH1F* hpREF3Y = 0;
     TH1F* hpEta5  = 0;
     
-    TH1F* residualREF1X = 0;
-    TH1F* residualREF1Y = 0;
-    TH1F* residualREF2X = 0;
-    TH1F* residualREF2Y = 0;
-    TH1F* residualREF3X = 0;
-    TH1F* residualREF3Y = 0;
+    TH1F* residualREF1X = 0;	TH1F* residualREF1Y = 0;
+    TH1F* residualREF2X = 0;    TH1F* residualREF2Y = 0;
+    TH1F* residualREF3X = 0;    TH1F* residualREF3Y = 0;
     TH1F* residualEta5 = 0;
     
-    TH1F* angleREF2=0;
-    TH1F* angleREF3=0;
-    TH1F* angleEta5=0;
-    TH1F* xTrackChi2=0;
+    TH1F* angleREF2=0;		TH1F* angleREF3=0;
+    TH1F* angleEta5=0;		TH1F* xTrackChi2=0;
     TH1F* yTrackChi2=0;
     
-    preshiREF1X = -2550.-iterNbX;// - iterNbX*2;
+    preshiREF1X = preshiREF1X-iterNbX;// - iterNbX*2;
     preshiREF2X = preshiREF1X; preshiREF3X=preshiREF1X;
-    preshiREF1Y = -440. + iterNbY*0.2;
+    preshiREF1Y = preshiREF1Y + iterNbY*0.2;
     preshiREF2Y = preshiREF1Y;  preshiREF3Y = preshiREF1Y;
-    
+
     char cp1x[20]; sprintf(cp1x,"%.2f",preshiREF1X);
     char cp1y[20]; sprintf(cp1y,"%.2f",preshiREF1Y);
     
@@ -100,20 +90,19 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
     
     while(fin>>pREF1X>>pREF1Y>>pREF2X>>pREF2Y>>pREF3X>>pREF3Y>>pEta5)
     {
-        d.vpREF1X = pREF1X;
-        d.vpREF1Y = pREF1Y;
-        d.vpREF2X = pREF2X;
-        d.vpREF2Y = pREF2Y;
-        d.vpREF3X = pREF3X;
-        d.vpREF3Y = pREF3Y;
+        d.vpREF1X = pREF1X;        d.vpREF1Y = pREF1Y;
+        d.vpREF2X = pREF2X;        d.vpREF2Y = pREF2Y;
+        d.vpREF3X = pREF3X;        d.vpREF3Y = pREF3Y;
         d.vpEta5  = pEta5;
 
         //shift
+	//	cout<<"step 0"<<d.vpREF1X<<d.vpREF2X<<d.vpREF3X<<endl;
         d.vpREF1X -= shiREF1X; d.vpREF1Y -= shiREF1Y;
         d.vpREF2X -= shiREF2X; d.vpREF2Y -= shiREF2Y;
         d.vpREF3X -= shiREF3X; d.vpREF3Y -= shiREF3Y;
         
         //rotate
+	//	cout<<"step 1"<<d.vpREF1X<<d.vpREF2X<<d.vpREF3X<<endl;
 	tempREF1X = d.vpREF1X;	tempREF1Y = d.vpREF1Y;
 	tempREF2X = d.vpREF2X;	tempREF2Y = d.vpREF2Y;
 	tempREF3X = d.vpREF3X;	tempREF3Y = d.vpREF3Y;
@@ -126,28 +115,38 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
         d.vpEta5 -= aEta5REF1;
         
         //change origin, move in X and Y
+	if (ShiftOrigin)
+	{
         d.vpREF1X -= preshiREF1X; d.vpREF1Y -= preshiREF1Y;
         d.vpREF2X -= preshiREF2X; d.vpREF2Y -= preshiREF2Y;
         d.vpREF3X -= preshiREF3X; d.vpREF3Y -= preshiREF3Y;
+	}
         
+	/*							   
+out<<"after rotation and shifting as well"<<endl;
+	cout<<d.vpREF1X<<endl;	cout<<d.vpREF1Y<<endl;	
+	cout<<d.vpREF2X<<endl;	cout<<d.vpREF2Y<<endl;	
+	cout<<d.vpREF3X<<endl;	cout<<d.vpREF3Y<<endl;	
+	*/
+
         //transfer to (r,phi) position
         double rREF1	= sqrt(d.vpREF1X*d.vpREF1X+d.vpREF1Y*d.vpREF1Y);
         double phiREF1	= 0.0; if(d.vpREF1X != 0.0) phiREF1 = atan(d.vpREF1Y/d.vpREF1X);
+	//      cout<<"phiREF1"<<phiREF1<<endl;
         double rREF2	= sqrt(d.vpREF2X*d.vpREF2X+d.vpREF2Y*d.vpREF2Y);
         double phiREF2	= 0.0; if(d.vpREF2X != 0.0) phiREF2 = atan(d.vpREF2Y/d.vpREF2X);
         double rREF3	= sqrt(d.vpREF3X*d.vpREF3X+d.vpREF3Y*d.vpREF3Y);
         double phiREF3	= 0.0; if(d.vpREF3X != 0.0) phiREF3 = atan(d.vpREF3Y/d.vpREF3X);
         
         //asignment new r, phi position values to the vector. Note that from now on the vectors vp.. cantains r and phi values
-        d.vpREF1X = rREF1;
-        d.vpREF1Y = phiREF1;
-        d.vpREF2X = rREF2;
-        d.vpREF2Y = phiREF2;
-        d.vpREF3X = rREF3;
-        d.vpREF3Y = phiREF3;
+        d.vpREF1X = rREF1;        d.vpREF1Y = phiREF1;
+        d.vpREF2X = rREF2;        d.vpREF2Y = phiREF2;
+        d.vpREF3X = rREF3;        d.vpREF3Y = phiREF3;
         
         v->push_back(d);
     }
+
+//	cout<<"Size of V = "<<sizeof(v)<<endl;
     
       fin.close();
       //end of reading file
@@ -179,7 +178,7 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
        yTrackChi2->SetTitleSize(0.04,"XY"); yTrackChi2->SetLabelSize(0.04,"XY");
     
       //fill histograms first
-    
+       //            for(unsigned int i=0; i<1; i++)
     for(unsigned int i=0; i < v->size(); i++)
     {
         d=v->at(i);
@@ -190,7 +189,7 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
         g1->SetPoint(1,Trk2Pos, d.vpREF2X);
         g1->SetPoint(2,Trk3Pos, d.vpREF3X);
         g1->GetXaxis()->SetRangeUser(0,900);
-        TF1* f1 = new TF1("line1","pol1",0,1100);
+        TF1* f1 = new TF1("line1","pol1",0,900);
         g1->Fit("line1","Q");
         double intercept1 = f1->GetParameter(0);
         double slope1     = f1->GetParameter(1);
@@ -233,91 +232,54 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
       //going to fit residual histograms
       gStyle->SetOptFit(1111);
     
-/*
-      myValues = I2GFmainLoop(residualREF2X,1,10,1);  meanREF2X = myValues.mean; sigmaREF2X=myValues.sigma;
-      myValues = I2GFmainLoop(residualREF2Y,1,10,1);  meanREF2Y = myValues.mean; sigmaREF2Y=myValues.sigma;
-      myValues = I2GFmainLoop(residualREF3X,1,10,1);  meanREF3X = myValues.mean; sigmaREF3X=myValues.sigma;
-      myValues = I2GFmainLoop(residualREF3Y,1,10,1);  meanREF3Y = myValues.mean; sigmaREF3Y=myValues.sigma;
-      myValues = I2GFmainLoop(residualUVA3X,1,10,1);  meanUVA3X = myValues.mean; sigmaUVA3X=myValues.sigma;
-      myValues = I2GFmainLoop(residualUVA3Y,1,10,1);  meanUVA3Y = myValues.mean; sigmaUVA3Y=myValues.sigma;
-      myValues = I2GFmainLoop(residualREF1X,1,10,1);  meanREF1X = myValues.mean; sigmaREF1X=myValues.sigma;
-      myValues = I2GFmainLoop(residualREF1Y,1,10,1);  meanREF1Y = myValues.mean; sigmaREF1Y=myValues.sigma;
-*/      
+
       I2GFvalues myValues;
       
-      TH1F *residualEta5_tmp = (TH1F*) residualEta5->Clone("residualEta5_tmp");
+//      TH1F *residualEta5_tmp = (TH1F*) residualEta5->Clone("residualEta5_tmp");
 
-      myValues = I2GFmainLoop(residualEta5_tmp,1,10,1);   meanEta5 = myValues.mean; sigmaEta5=myValues.sigma;
-/*
-      maximum = residualEta5->GetXaxis()->GetBinCenter(residualEta5->GetMaximumBin());
-      rms = residualEta5->GetRMS(1);
-      lRange = maximum - rms*1.5; hRange = maximum + rms*1.5;
-      TF1* funResidualEta5 = new TF1("funResidualEta5","gaus",lRange,hRange); residualEta5->Fit("funResidualEta5","RQ");
-      meanEta5=funResidualEta5->GetParameter(1);
-      sigmaEta5=funResidualEta5->GetParameter(2);
-      delete funResidualEta5;
-*/
+      myValues = I2GFmainLoop(residualEta5,1,10,1);   meanEta5 = myValues.mean; sigmaEta5=myValues.sigma;
+      //myValues = I2GFmainLoop(residualEta5_tmp,1,10,1);   meanEta5 = myValues.mean; sigmaEta5=myValues.sigma;
+
       meanXChi2=xTrackChi2->GetMean();
       meanYChi2=yTrackChi2->GetMean();
       
+//	cout<<"\n\n============> size of myValues = "<<sizeof myValues<<"\n\n"<<endl;
 
       f->Write();
       f->Close();
+  //	if (iterNbX == 0 && iterNbY == 0)
+//      fout1<<"PreShift2X\tpreshiREF2Y\tmeanEta5\tsigmaEta5\tmeanXChi2\tmeanYChi2\ttotalChi2"<<endl;
 
-      fout1<<preshiREF2X<<"\t"<<preshiREF2Y<<"\t"<<meanEta5<<"\t"<<sigmaEta5<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<"\t"<<totalChi2<<endl;
-      //fout3<<preshiREF2X<<"\t"<<preshiREF2Y<<"\t"<<sigmaREF2X<<"\t"<<sigmaREF2Y<<"\t"<<sigmaREF3X<<"\t"<<sigmaREF3Y<<"\t"<<sigmaUVA3X<<"\t"<<sigmaUVA3Y<<"\t"<<sigmaREF1X<<"\t"<<sigmaREF1Y<<"\t"<<sigmaEta5<<endl;
-      //fout2<<preshiREF2X<<"\t"<<preshiREF2Y<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<endl;
-      //clear the vectors for next loop
-      //vpREF2X.clear(); vpREF2Y.clear();
-      //vpREF3X.clear(); vpREF3Y.clear();
-      //vpUVA3X.clear(); vpUVA3Y.clear();
-      //vpREF1X.clear(); vpREF1Y.clear();
-      //vpEta5.clear();
-      //vpREF2X.swap(DefaultVector); vpREF2Y.swap(DefaultVector); vpREF3X.swap(DefaultVector); vpREF3Y.swap(DefaultVector); 
-      //vpUVA3X.swap(DefaultVector); vpUVA3Y.swap(DefaultVector); vpREF1X.swap(DefaultVector); vpREF1Y.swap(DefaultVector); vpEta5.swap(DefaultVector);
-    
-     // cout<<residualEta5->GetEntries()<<"TTTTTTTTTTTT"<<endl;
-     gDirectory->GetList()->Delete();
-      hpREF2X=NULL; hpREF2Y=NULL; hpREF3X=NULL; hpREF3Y=NULL;
-      hpREF1X=NULL; hpREF1Y=NULL;
-      residualREF2X=NULL; residualREF2Y=NULL; residualREF3X=NULL; residualREF3Y=NULL;
-      residualREF1X=NULL; residualREF1Y=NULL;
-      residualEta5=NULL;
-      //funResidualEta5=NULL;
-      angleREF3=NULL; angleREF2=NULL; angleEta5=NULL;
-      xTrackChi2=NULL; yTrackChi2=NULL;
-      residualEta5_tmp=NULL;
+//      fout1<<preshiREF2X<<"\t"<<preshiREF2Y<<"\t"<<meanEta5<<"\t"<<sigmaEta5<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<"\t"<<totalChi2<<endl;
+//      cout<<preshiREF2X<<"\t"<<preshiREF2Y<<"\t"<<meanEta5<<"\t"<<sigmaEta5<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<"\t"<<totalChi2<<endl;
 
-      //myValues.fit_func=NULL; 
-     // delete myValues.fit_func;
-     // f=NULL; delete f;
-   //}//for-loop instead of while(1)
-      delete hpREF2X; delete hpREF2Y; delete hpREF3X; delete hpREF3Y;
-      delete hpREF1X; delete hpREF1Y; delete hpEta5;
-      delete residualREF2X; delete residualREF2Y; delete residualREF3X; delete residualREF3Y;
-      delete residualREF1X; delete residualREF1Y;
-      delete residualEta5;
-      delete angleREF3; delete angleREF2; delete angleEta5;
-      delete xTrackChi2; delete yTrackChi2;
-      delete residualEta5_tmp;
-//      delete [] myValues;
-  //}
- fout1.close();
+      fout1<<preshiREF2X<<"\t"<<aEta5REF1<<"\t"<<meanEta5<<"\t"<<sigmaEta5<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<"\t"<<totalChi2<<endl;	// For test
+      cout<<preshiREF2X<<"\t"<<aEta5REF1<<"\t"<<meanEta5<<"\t"<<sigmaEta5<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<"\t"<<totalChi2<<endl;	// For test
+      fout1.close();
  //fout3.close();
  //fout2.close();
+//gObjectTable->Print();
  return 0;
 } // entire script
 
 void AlignGEM_XYoffsets(string InputTextFile, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2Y, double shiREF3X, double shiREF3Y , double shiEta5, double Trk1Pos, double Trk2Pos, double Trk3Pos, double GEMPos, double aREF2REF1, double aREF3REF1)
 {
+//gObjectTable->Print();
+TStopwatch watch; // ... Constructor ...
+watch.Start(); // or watch.Start(kTRUE) which is the same
 //  string name[1]={
 //  	"Position_Cluster_run017_HVScan_4150V_32GeV_20131017_1254pm_all"
 //  };
-  for(int iterNbX=0;iterNbX<=50;iterNbX++)
-    for(int iterNbY=0;iterNbY<100;iterNbY++)
+  for(int iterNbX=0;iterNbX<1;iterNbX+=1)
+    for(int iterNbY=0;iterNbY<1;iterNbY+=1)
     {
      tracking(InputTextFile, iterNbX, iterNbY, shiREF1X, shiREF1Y, shiREF2X, shiREF2Y, shiREF3X, shiREF3Y, shiEta5, Trk1Pos, Trk2Pos, Trk3Pos, GEMPos , aREF2REF1, aREF3REF1);
+     //tracking(name[0],iterNbX, iterNbY);
     }
+watch.Stop(); // optional in fact ...
+cout <<"Total CPU Seconds Consumed = "<< watch.CpuTime() << endl;
+cout <<"Total Real Seconds Consumed = "<< watch.RealTime() << endl;
+//gObjectTable->Print();
 //  return 0;
 }
 
