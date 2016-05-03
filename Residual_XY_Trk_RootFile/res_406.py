@@ -5,8 +5,8 @@ ROOT.gROOT.SetBatch(True)  # This will prevent histogram to show
 
 output = open('Residual_Tracker.dat', 'w')
 
-for i in range(0, 62):
-	RootFile = 'Residual_Position_iter_'+str(i)+'_R406.root'
+for i in range(0, 47):
+	RootFile = 'Residual_Position_iter_'+str(i)+'_R411.root'
 	#print 'Input ROOT file : ',RootFile
 	#f = TFile("Residual_Position_iter_0_R406.root")
 	f = TFile(RootFile)

@@ -12,7 +12,10 @@
 int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2Y, double shiREF3X, double shiREF3Y, double shiEta5, double Trk1Pos, double Trk2Pos, double Trk3Pos, double GEMPos , double aREF2REF1, double aREF3REF1 ){
 //gObjectTable->Print();
 
-  bool ShiftOrigin = 0;
+  bool CommentShiftOrigin = 0;
+
+  bool CommentShift = 0;
+  bool CommentRotate = 0;
 
   double PI=TMath::Pi();
   string txtfilename = thestring ;
@@ -95,12 +98,17 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
         d.vpREF3X = pREF3X;        d.vpREF3Y = pREF3Y;
         d.vpEta5  = pEta5;
 
+	if (CommentShift)
+	{
         //shift
 	//	cout<<"step 0"<<d.vpREF1X<<d.vpREF2X<<d.vpREF3X<<endl;
         d.vpREF1X -= shiREF1X; d.vpREF1Y -= shiREF1Y;
         d.vpREF2X -= shiREF2X; d.vpREF2Y -= shiREF2Y;
         d.vpREF3X -= shiREF3X; d.vpREF3Y -= shiREF3Y;
+	}
         
+	if (CommentRotate)
+	{
         //rotate
 	//	cout<<"step 1"<<d.vpREF1X<<d.vpREF2X<<d.vpREF3X<<endl;
 	tempREF1X = d.vpREF1X;	tempREF1Y = d.vpREF1Y;
@@ -113,9 +121,10 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
         d.vpREF3Y = tempREF3X*sin(aREF3REF1) + tempREF3Y*cos(aREF3REF1);
 
         d.vpEta5 -= aEta5REF1;
-        
+        }
+
         //change origin, move in X and Y
-	if (ShiftOrigin)
+	if (CommentShiftOrigin)
 	{
         d.vpREF1X -= preshiREF1X; d.vpREF1Y -= preshiREF1Y;
         d.vpREF2X -= preshiREF2X; d.vpREF2Y -= preshiREF2Y;

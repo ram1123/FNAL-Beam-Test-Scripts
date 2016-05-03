@@ -242,7 +242,7 @@ I2GFvalues I2GFmainLoop(TH1F *htemp, int N_iter, float N_sigma_range, bool ShowF
       f_mean = func->GetParameter(1);
       f_mean_err = func->GetParError(1);
       f_sigma = func->GetParameter(2);
-cout << " sigma " << f_sigma << endl;
+//cout << " sigma " << f_sigma << endl;
       f_sigma_err = func->GetParError(2);
     }
 
@@ -329,8 +329,8 @@ cout << " sigma " << f_sigma << endl;
       //htemp->Fit("func3", "Q", "", "",(f_mean - (N_sigma_range*f_sigma)), (f_mean + (N_sigma_range*f_sigma) ) ); 
       
       //----------------Show or don't show fit----------------- 
-      if (ShowFit) htemp->Fit("func3");//*************Show Histo & Fit in quiet mode
-      //if (ShowFit) htemp->Fit("func3", "Q");//*************Show Histo & Fit in quiet mode
+      //if (ShowFit) htemp->Fit("func3");//*************Show Histo & Fit in quiet mode
+      if (ShowFit) htemp->Fit("func3", "Q");//*************Show Histo & Fit in quiet mode
       else htemp->Fit("func3", "Q0"); //*****************Don't show Histo & Fit in quiet mode
       //-------------------------------------------------------     
 
@@ -356,7 +356,7 @@ cout << " sigma " << f_sigma << endl;
 
   
 
-  //gStyle->SetOptFit(kTRUE);
+  gStyle->SetOptFit(kTRUE);
 
   //if (f_const > f_const2)
   if (abs(f_const-peak) < abs(f_const2-peak))

@@ -13,12 +13,7 @@
 #include <TString.h>
 #include <TAxis.h>
 #include "doubleGausFit_withHistParameter.C"
-//int  main(){
-/*
-    double shi_g2xcl =,	     shi_g2ycl = 55.83;
-    double shi_g3xcl =62.72, shi_g3ycl =56.06;
-    double shi_g1xcl =61.91, shi_g1ycl =55.68;
-    */
+
 void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, double shi_g1ycl, double shi_g2xcl, double shi_g2ycl, double shi_g3xcl, double shi_g3ycl , double Trk1Pos, double Trk2Pos, double Trk3Pos){
     string thestring = "Position";
     //string txtfilename = thestring + ".txt";	// Input text file 
@@ -52,6 +47,9 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
     bool verbose = 0;
     
     Int_t nbLines=0;
+    //
+    // Read all events and put each hits in a vector
+    //
     while(fin>>Pos_g1xcl>>Pos_g1ycl>>Pos_g2xcl>>Pos_g2ycl>>Pos_g3xcl>>Pos_g3ycl){
 	vPos_g2xcl.push_back(Pos_g2xcl); vPos_g2ycl.push_back(Pos_g2ycl); 
 	vPos_g3xcl.push_back(Pos_g3xcl); vPos_g3ycl.push_back(Pos_g3ycl);
@@ -59,17 +57,14 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	nbLines++;
     } // getting input
     fin.close();
+    //
+    //	File read completed and file closed 
+    //
     
     if (verbose)
 	cout << "................................................"<<endl;
     
     
-    /*
-    double shi_g2xcl=62.36, shi_g2ycl=55.83;
-    double shi_g3xcl=62.72, shi_g3ycl=56.06;
-    double shi_g1xcl=61.91, shi_g1ycl=55.68;
-    */
-
     double mean_g2xcl=0.0, mean_g2ycl=0.0;
     double mean_g3xcl=0.0, mean_g3ycl=0.0;
     double mean_g1xcl=0.0, mean_g1ycl=0.0;
@@ -82,6 +77,10 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
     if (verbose)
 	cout<<"Some problem 1"<<endl;
     
+    double Tot_Shift_2X = 0.0, Tot_Shift_2Y = 0.0;
+    double Tot_Shift_3X = 0.0, Tot_Shift_3Y = 0.0;
+
+    fout<<"# shi_g1xcl"<<"\t"<<"shi_g1ycl"<<"\t"<<"shi_g2xcl"<<"\t"<<"shi_g2ycl"<<"\t"<<"shi_g3xcl"<<"\t"<<"shi_g3ycl"<<endl;
     while(1){
 	if (verbose)
 	    cout<<"Some problem 2"<<endl;
@@ -117,8 +116,8 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
         TH1F* h_residual_g1xcl = new TH1F(nameRes1X,"",100,-4,4); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
         TH1F* h_residual_g1ycl = new TH1F(nameRes1Y,"",100,-4,4); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
 
-	
-	fout<<shi_g2xcl<<"\t"<<shi_g2ycl<<"\t"<<shi_g3xcl<<"\t"<<shi_g3ycl<<"\t"<<shi_g1xcl<<"\t"<<shi_g1ycl<<endl;
+	// Print the mean position of each Detector
+	fout<<shi_g1xcl<<"\t"<<shi_g1ycl<<"\t"<<shi_g2xcl<<"\t"<<shi_g2ycl<<"\t"<<shi_g3xcl<<"\t"<<shi_g3ycl<<"\t"<<endl;
 	if (verbose)
 	    cout<<"Some problem 5"<<endl;
 	
@@ -137,13 +136,14 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	    TF1* f2 = new TF1("line2","[0]+[1]*x",0,900);
 
 	    
+	    //cout<<"===========> "<<shi_g1xcl<<"\t"<<shi_g1ycl<<endl;
+	    vPos_g1xcl[i] = vPos_g1xcl[i] - shi_g1xcl; vPos_g1ycl[i] = vPos_g1ycl[i] - shi_g1ycl;
 	    vPos_g2xcl[i] = vPos_g2xcl[i] - shi_g2xcl; vPos_g2ycl[i] = vPos_g2ycl[i] - shi_g2ycl;      
 	    vPos_g3xcl[i] = vPos_g3xcl[i] - shi_g3xcl; vPos_g3ycl[i] = vPos_g3ycl[i] - shi_g3ycl;
-	    vPos_g1xcl[i] = vPos_g1xcl[i] - shi_g1xcl; vPos_g1ycl[i] = vPos_g1ycl[i] - shi_g1ycl;
 	    
+	    h_Pos_g1xcl->Fill(vPos_g1xcl[i]); h_Pos_g1ycl->Fill(vPos_g1ycl[i]);
 	    h_Pos_g2xcl->Fill(vPos_g2xcl[i]); h_Pos_g2ycl->Fill(vPos_g2ycl[i]);
 	    h_Pos_g3xcl->Fill(vPos_g3xcl[i]); h_Pos_g3ycl->Fill(vPos_g3ycl[i]);
-	    h_Pos_g1xcl->Fill(vPos_g1xcl[i]); h_Pos_g1ycl->Fill(vPos_g1ycl[i]);
 
 	    if (verbose)
 		cout<<"Some problem 7"<<endl;
@@ -160,7 +160,8 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	    
 	    double intercept1 = f1->GetParameter(0);
 	    double slope1     = f1->GetParameter(1);
-	    double Measured_g1xcl = intercept1 + slope1*Trk1Pos;
+	    //double Measured_g1xcl = intercept1 + slope1*Trk1Pos;
+	    double Measured_g1xcl = vPos_g1xcl[i];		// Reference Tracker position should not be changed.
 	    double Measured_g2xcl = intercept1 + slope1*Trk2Pos;
 	    double Measured_g3xcl = intercept1 + slope1*Trk3Pos;
 	    
@@ -168,9 +169,9 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 		cout<<"intercept1 = "<<intercept1<<"\tslope1 = "<<slope1 <<endl;
 	    
 	    
+	    h_residual_g1xcl->Fill(Measured_g1xcl-vPos_g1xcl[i]);
 	    h_residual_g2xcl->Fill(Measured_g2xcl-vPos_g2xcl[i]);
 	    h_residual_g3xcl->Fill(Measured_g3xcl-vPos_g3xcl[i]);
-	    h_residual_g1xcl->Fill(Measured_g1xcl-vPos_g1xcl[i]);
 
 	    if (verbose)
 		cout<<"Measured_g1xcl = "<<Measured_g1xcl<<"\t vPos_g2xcl = "<<vPos_g2xcl[i]<<"\tDifference = "<<Measured_g2xcl-vPos_g2xcl[i]<<endl;
@@ -188,15 +189,17 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	    g2->Fit("line2","Q");
 	    double intercept2 = f2->GetParameter(0);
 	    double slope2     = f2->GetParameter(1);
-	    double Measured_g1ycl = intercept2 + slope2*Trk1Pos;
+	    //double Measured_g1ycl = intercept2 + slope2*Trk1Pos;
+	    double Measured_g1ycl = vPos_g1ycl[i];	// Reference Tracker position should not be changed.
 	    double Measured_g2ycl = intercept2 + slope2*Trk2Pos;
 	    double Measured_g3ycl = intercept2 + slope2*Trk3Pos;
 	    
 	    if (verbose)
 		cout<<"Some problem 9"<<endl;
+
+	    h_residual_g1ycl->Fill(Measured_g1ycl-vPos_g1ycl[i]);
 	    h_residual_g2ycl->Fill(Measured_g2ycl-vPos_g2ycl[i]);
 	    h_residual_g3ycl->Fill(Measured_g3ycl-vPos_g3ycl[i]);
-	    h_residual_g1ycl->Fill(Measured_g1ycl-vPos_g1ycl[i]);
 	    
 	    delete f2; delete g2;
 	    
@@ -216,6 +219,7 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	if (verbose)
 	    cout<<"Some problem 13a"<<endl;
 	
+	/*
 	//===================== START:: Added this part to temporarily get the residual histo
 	//Actually when the histogram is going into the structure it is disturing the original histogram
 	//So, we could not able to open it from root file
@@ -228,53 +232,62 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	TH1F *h_residual_g3ycl_tmp = (TH1F*) h_residual_g3ycl->Clone("h_residual_g3ycl_tmp");
 	TH1F *h_residual_g1ycl_tmp = (TH1F*) h_residual_g1ycl->Clone("h_residual_g1ycl_tmp");
 	//===================== END::
-	
-	myValues = I2GFmainLoop(h_residual_g2xcl_tmp,1,10,1);
+	*/
+
+	myValues = I2GFmainLoop(h_residual_g2xcl,1,10,1);
 	if (verbose)
 	    cout<<"Some problem 13b"<<endl;
 	mean_g2xcl = myValues.mean; //sigmaEta5=myValues.sigma;
 	if (verbose)
 	    cout<<"Some problem 13c"<<endl;
-	myValues = I2GFmainLoop(h_residual_g2ycl_tmp,1,10,1);
+	myValues = I2GFmainLoop(h_residual_g2ycl,1,10,1);
 	if (verbose)
 	    cout<<"Some problem 14"<<endl;
 	mean_g2ycl = myValues.mean; //
-	myValues = I2GFmainLoop(h_residual_g3xcl_tmp,1,10,1);
+	myValues = I2GFmainLoop(h_residual_g3xcl,1,10,1);
 	if (verbose)
 	    cout<<"Some problem 15"<<endl;
 	mean_g3xcl = myValues.mean; //
-	myValues = I2GFmainLoop(h_residual_g3ycl_tmp,1,10,1);
+	myValues = I2GFmainLoop(h_residual_g3ycl,1,10,1);
 	if (verbose)
 	    cout<<"Some problem 16"<<endl;
 	mean_g3ycl = myValues.mean;
 	
-	myValues = I2GFmainLoop(h_residual_g1xcl_tmp,1,10,1);
+	myValues = I2GFmainLoop(h_residual_g1xcl,1,10,1);
 
 	if (verbose)
 	    cout<<"Some problem 17"<<endl;
 	mean_g1xcl = myValues.mean; //
-	myValues = I2GFmainLoop(h_residual_g1ycl_tmp,1,10,1);
+	myValues = I2GFmainLoop(h_residual_g1ycl,1,10,1);
 	if (verbose)
 	    cout<<"Some problem 18"<<endl;
 	mean_g1ycl = myValues.mean;
 	if (verbose)
 	    cout<<"Some problem 19"<<endl;
 	
-	cout<<"residual mean: "<<mean_g2xcl<<"\t"<<mean_g2ycl<<"\t"<<mean_g3xcl<<"\t"<<mean_g3ycl<<"\t"<<mean_g1xcl<<"\t"<<mean_g1ycl<<endl;
+	cout<<"residual mean: "<<mean_g1xcl<<"\t"<<mean_g1ycl<<"\t"<<mean_g2xcl<<"\t"<<mean_g2ycl<<"\t"<<mean_g3xcl<<"\t"<<mean_g3ycl<<endl;
 	
-	fout1<<"residual mean: "<<mean_g2xcl<<"\t"<<mean_g2ycl<<"\t"<<mean_g3xcl<<"\t"<<mean_g3ycl<<"\t"<<mean_g1xcl<<"\t"<<mean_g1ycl<<endl;
+	fout1<<"residual mean: "<<mean_g1xcl<<"\t"<<mean_g1ycl<<"\t"<<mean_g2xcl<<"\t"<<mean_g2ycl<<"\t"<<mean_g3xcl<<"\t"<<mean_g3ycl<<endl;
 	
 	f->Write();
 	f->Close();
 	
 	double factor = -0.1;
+	
 	shi_g2xcl = mean_g2xcl*factor; shi_g2ycl = mean_g2ycl*factor; 
 	shi_g3xcl = mean_g3xcl*factor; shi_g3ycl = mean_g3ycl*factor; 
-	shi_g1xcl = mean_g1xcl*factor; shi_g1ycl = mean_g1ycl*factor; 
+	//shi_g1xcl = mean_g1xcl*factor; shi_g1ycl = mean_g1ycl*factor; 
+	shi_g1xcl = 0.0; shi_g1ycl = 0.0; 
+        cout<<"shi_g2xcl = "<<shi_g2xcl <<"\tshi_g3xcl = "<<shi_g3xcl<<endl;	
+	Tot_Shift_2X +=shi_g2xcl;
+	Tot_Shift_2Y +=shi_g2ycl;
+	Tot_Shift_3X +=shi_g3xcl;
+	Tot_Shift_3Y +=shi_g3ycl;
 	
+	
+	//	if((mean_g1xcl>=-0.005 && mean_g1xcl<=0.005) && (mean_g1ycl>=-0.005 && mean_g1ycl<=0.005))
 	if((mean_g2xcl>=-0.005 && mean_g2xcl<=0.005) && (mean_g2ycl>=-0.005 && mean_g2ycl<=0.005))
 	    if((mean_g3xcl>=-0.005 && mean_g3xcl<=0.005) && (mean_g3ycl>=-0.005 && mean_g3ycl<=0.005))
-		if((mean_g1xcl>=-0.005 && mean_g1xcl<=0.005) && (mean_g1ycl>=-0.005 && mean_g1ycl<=0.005))
 		{
 		    cout<<"find it...iterating "<<iterNb<<" times."<<endl;
 		    break;
@@ -287,7 +300,11 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	
 	cout<<"iterating "<<iterNb<<" time done."<<endl;
     }//while(1)
-    
+
+    cout<<"Shift in 2X = "<<Tot_Shift_2X<<endl; 
+    cout<<"Shift in 2Y = "<<Tot_Shift_2Y<<endl; 
+    cout<<"Shift in 3X = "<<Tot_Shift_3X<<endl; 
+    cout<<"Shift in 3Y = "<<Tot_Shift_3Y<<endl; 
     fout.close();
     fout1.close();
     // return 0;

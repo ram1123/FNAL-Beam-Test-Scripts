@@ -1,8 +1,10 @@
 void draw_fixedXY_vs_rotation()
 {
-	double Xoffset = -1897.246972;
+	double Xoffset = 2580.00;
 	double Yoffset = 6.600484;
-	char filename[300]; sprintf(filename,"Iteration_Position_Cluster_run004_CMSScan_eta5_32GeV_20131017_0248am_inclusive_X_%.2f.txt",Xoffset);
+	//char filename[300]; sprintf(filename,"Iteration_Position_Cluster_run004_CMSScan_eta5_32GeV_20131017_0248am_inclusive_X_%.2f.txt",Xoffset);
+	char filename[300]; sprintf(filename,"Iteration_PostionLC1_inclusive_X_-%.2f.txt",Xoffset);
+	cout<<"File Name = "<<filename<<endl;
 	char rootfilename[300]; sprintf(rootfilename,"Iteration_Position_Cluster_run004_CMSScan_eta5_32GeV_20131017_0248am_inclusive_X_%.2f.root",Xoffset);
 	char outRootFile[300]; sprintf(outRootFile,"Iteration_Position_Cluster_run004_CMSScan_eta5_32GeV_20131017_0248am_inclusive_X_%.2f.root",Xoffset);
 	fstream fin(filename,ios::in);
