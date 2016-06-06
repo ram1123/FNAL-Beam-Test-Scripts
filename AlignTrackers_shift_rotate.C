@@ -58,6 +58,9 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 
 	Int_t nbLines=0;
 	
+    double Tot_Shift_2X = 0.0, Tot_Shift_2Y = 0.0;
+    double Tot_Shift_3X = 0.0, Tot_Shift_3Y = 0.0;
+
 	while(fin>>Pos_g1xcl>>Pos_g1ycl>>Pos_g2xcl>>Pos_g2ycl>>Pos_g3xcl>>Pos_g3ycl){	// Start of while loop
 		vPos_g1xcl.push_back(Pos_g1xcl); vPos_g1ycl.push_back(Pos_g1ycl);
 		vPos_g2xcl.push_back(Pos_g2xcl); vPos_g2ycl.push_back(Pos_g2ycl); 
@@ -96,12 +99,12 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		char name2X[15];sprintf(name2X,"posg2xcl_%i",iterNb); char name2Y[15];sprintf(name2Y,"posg2ycl_%i",iterNb);
 		char name3X[15];sprintf(name3X,"posg3xcl_%i",iterNb); char name3Y[15];sprintf(name3Y,"posg3ycl_%i",iterNb);
 		
-		TH1F *hPos_g1xcl = new TH1F(name1X,"",500,-60,60); hPos_g1xcl->SetXTitle("mm"); hPos_g1xcl->SetYTitle("Frequency");hPos_g1xcl->SetLabelSize(0.045,"XY");hPos_g1xcl->SetTitleSize(0.045,"XY");
-		TH1F *hPos_g1ycl = new TH1F(name1Y,"",500,-60,60); hPos_g1ycl->SetXTitle("mm"); hPos_g1ycl->SetYTitle("Frequency");hPos_g1ycl->SetLabelSize(0.045,"XY");hPos_g1ycl->SetTitleSize(0.045,"XY");  
-		TH1F* hPos_g2xcl = new TH1F(name2X,"",500,-60,60); hPos_g2xcl->SetXTitle("mm"); hPos_g2xcl->SetYTitle("Frequency");hPos_g2xcl->SetLabelSize(0.045,"XY");hPos_g2xcl->SetTitleSize(0.045,"XY");
-		TH1F* hPos_g2ycl = new TH1F(name2Y,"",500,-60,60); hPos_g2ycl->SetXTitle("mm"); hPos_g2ycl->SetYTitle("Frequency");hPos_g2ycl->SetLabelSize(0.045,"XY");hPos_g2ycl->SetTitleSize(0.045,"XY");  
-		TH1F* hPos_g3xcl = new TH1F(name3X,"",500,-60,60); hPos_g3xcl->SetXTitle("mm"); hPos_g3xcl->SetYTitle("Frequency");hPos_g3xcl->SetLabelSize(0.045,"XY");hPos_g3xcl->SetTitleSize(0.045,"XY");
-		TH1F* hPos_g3ycl = new TH1F(name3Y,"",500,-60,60); hPos_g3ycl->SetXTitle("mm"); hPos_g3ycl->SetYTitle("Frequency");hPos_g3ycl->SetLabelSize(0.045,"XY");hPos_g3ycl->SetTitleSize(0.045,"XY");  
+		TH1F *hPos_g1xcl = new TH1F(name1X,"",500,-60,100); hPos_g1xcl->SetXTitle("mm"); hPos_g1xcl->SetYTitle("Frequency");hPos_g1xcl->SetLabelSize(0.045,"XY");hPos_g1xcl->SetTitleSize(0.045,"XY");
+		TH1F *hPos_g1ycl = new TH1F(name1Y,"",500,-60,100); hPos_g1ycl->SetXTitle("mm"); hPos_g1ycl->SetYTitle("Frequency");hPos_g1ycl->SetLabelSize(0.045,"XY");hPos_g1ycl->SetTitleSize(0.045,"XY");  
+		TH1F* hPos_g2xcl = new TH1F(name2X,"",500,-60,100); hPos_g2xcl->SetXTitle("mm"); hPos_g2xcl->SetYTitle("Frequency");hPos_g2xcl->SetLabelSize(0.045,"XY");hPos_g2xcl->SetTitleSize(0.045,"XY");
+		TH1F* hPos_g2ycl = new TH1F(name2Y,"",500,-60,100); hPos_g2ycl->SetXTitle("mm"); hPos_g2ycl->SetYTitle("Frequency");hPos_g2ycl->SetLabelSize(0.045,"XY");hPos_g2ycl->SetTitleSize(0.045,"XY");  
+		TH1F* hPos_g3xcl = new TH1F(name3X,"",500,-60,100); hPos_g3xcl->SetXTitle("mm"); hPos_g3xcl->SetYTitle("Frequency");hPos_g3xcl->SetLabelSize(0.045,"XY");hPos_g3xcl->SetTitleSize(0.045,"XY");
+		TH1F* hPos_g3ycl = new TH1F(name3Y,"",500,-60,100); hPos_g3ycl->SetXTitle("mm"); hPos_g3ycl->SetYTitle("Frequency");hPos_g3ycl->SetLabelSize(0.045,"XY");hPos_g3ycl->SetTitleSize(0.045,"XY");  
 		
 		char nameRes1X[20];sprintf(nameRes1X,"residualg1xcl_%i",iterNb);char nameRes1Y[20];sprintf(nameRes1Y,"residualg1ycl_%i",iterNb);
 		char nameRes2X[20];sprintf(nameRes2X,"residualg2xcl_%i",iterNb);char nameRes2Y[20];sprintf(nameRes2Y,"residualg2ycl_%i",iterNb);
@@ -138,7 +141,7 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 			if (verbose)
 			cout<<"ERROR 2 "<<endl;
 			vPos_g1xcl[i] = vPos_g1xcl[i] - shiREF1X; vPos_g1ycl[i] = vPos_g1ycl[i] - shiREF1Y;
-			vPos_g2xcl[i] = vPos_g2xcl[i] - shiREF2X; vPos_g2ycl[i] = vPos_g2ycl[i] - shiREF2Y;      
+			vPos_g2xcl[i] = vPos_g2xcl[i] + shiREF2X; vPos_g2ycl[i] = vPos_g2ycl[i] + shiREF2Y;      
 			vPos_g3xcl[i] = vPos_g3xcl[i] - shiREF3X; vPos_g3ycl[i] = vPos_g3ycl[i] - shiREF3Y;
 
 			temPos_g1xcl=vPos_g1xcl[i]; temPos_g1ycl=vPos_g1ycl[i]; 
@@ -157,8 +160,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		
 			TGraph* g1 = new TGraph();
 			g1->SetPoint(0,Trk1Pos, vPos_g1xcl[i]);
-			g1->SetPoint(1,Trk2Pos, vPos_g2xcl[i]);
-			g1->SetPoint(2,Trk3Pos, vPos_g3xcl[i]);
+			g1->SetPoint(1,Trk2Pos, vPos_g2xcl[i] );
+			g1->SetPoint(2,Trk3Pos, vPos_g3xcl[i] );
 		
 			TF1* f1 = new TF1("line1","[0]+[1]*x",0,900);
 			g1->Fit("line1","Q");
@@ -171,8 +174,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 			if (verbose)
 				cout<<"measured = "<< Measuredg2xcl <<"\tvPos = "<< vPos_g2xcl[i] <<"\tresidualg2xcl = "<<Measuredg2xcl-vPos_g2xcl[i]<<endl;
 			residualg1xcl->Fill(Measuredg1xcl-vPos_g1xcl[i]);
-			residualg2xcl->Fill(Measuredg2xcl-vPos_g2xcl[i]);
-			residualg3xcl->Fill(Measuredg3xcl-vPos_g3xcl[i]);
+			residualg2xcl->Fill(Measuredg2xcl-vPos_g2xcl[i] );
+			residualg3xcl->Fill(Measuredg3xcl-vPos_g3xcl[i] );
 			xTrackChi2->Fill(f1->GetChisquare());
 			if (verbose)
 				cout<<f1->GetChisquare()<<"\t";
@@ -180,8 +183,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		
 			TGraph* g2 = new TGraph();
 			g2->SetPoint(0,Trk1Pos, vPos_g1ycl[i]);
-			g2->SetPoint(1,Trk2Pos, vPos_g2ycl[i]);
-			g2->SetPoint(2,Trk3Pos, vPos_g3ycl[i]);
+			g2->SetPoint(1,Trk2Pos, vPos_g2ycl[i] );
+			g2->SetPoint(2,Trk3Pos, vPos_g3ycl[i] );
 		
 			if (verbose)
 				cout<<"test"<<  endl;
@@ -196,8 +199,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 			double Measuredg3ycl = intercept2 + slope2*Trk3Pos;
 			
 			residualg1ycl->Fill(Measuredg1ycl-vPos_g1ycl[i]);
-			residualg2ycl->Fill(Measuredg2ycl-vPos_g2ycl[i]);
-			residualg3ycl->Fill(Measuredg3ycl-vPos_g3ycl[i]);
+			residualg2ycl->Fill(Measuredg2ycl-vPos_g2ycl[i] );
+			residualg3ycl->Fill(Measuredg3ycl-vPos_g3ycl[i] );
 		
 			yTrackChi2->Fill(f2->GetChisquare());
 		
@@ -285,17 +288,13 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		f->Close();
 		//delete funPosEta5; delete funPosg1ycl; delete funPosUVA3Y; delete funPosg3ycl; delete funPosg2ycl;
 		
-		double factor = -0.2;
-		shiREF1X = meanREF1X*factor; shiREF1Y = meanREF1Y*factor; 
+		double factor = 0.4;
+		shiREF1X = 0.0;				 shiREF1Y = 0.0; 
 		shiREF2X = meanREF2X*factor; shiREF2Y = meanREF2Y*factor; 
 		shiREF3X = meanREF3X*factor; shiREF3Y = meanREF3Y*factor; 
-		factor=0.2;
 		
 		aREF2REF1 = meanAngleREF2*factor;
 		aREF3REF1 = meanAngleREF3*factor;
-		// aEta5REF2 = meanAngleEta5*factor;
-		// if(iterNb>0) break; // only cylce once.
-		//if((meanREF1X>=-0.05 && meanREF1X<=0.05) && (meanREF1Y>=-0.05 && meanREF1Y<=0.05))
 		if((meanREF2X>=-0.005 && meanREF2X<=0.005) && (meanREF2Y>=-0.005 && meanREF2Y<=0.005))
 		if((meanREF3X>=-0.005 && meanREF3X<=0.005) && (meanREF3Y>=-0.005 && meanREF3Y<=0.005))
 		if(meanAngleREF3>=-0.005 && meanAngleREF3<=0.005 && meanAngleREF2>=-0.005 && meanAngleREF2<=0.005)
@@ -304,12 +303,33 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 			break;
 		}
   		// break;
-		if(iterNb==50) break;
+		if(iterNb==100) break;
+
+	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
+	cout<<"meanREF2X = "<<meanREF2X <<"\tmeanREF2Y = "<<meanREF2Y<<"\tmeanREF3X = "<<meanREF3X<<"\tmeanREF3Y = "<<meanREF3Y<<"\tmeanAngleREF3 = "<<meanAngleREF3<<"\tmeanAngleREF2 = "<<meanAngleREF2<<endl;
+	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
+    Tot_Shift_2X +=shiREF2X;
+    Tot_Shift_2Y +=shiREF2Y;
+    Tot_Shift_3X +=shiREF3X;
+    Tot_Shift_3Y +=shiREF3Y;
+
+		//if((meanREF2X>=-0.05 && meanREF2X<=0.05) && (meanREF2Y>=-0.05 && meanREF2Y<=0.05))
+		//if((meanREF3X>=-0.05 && meanREF3X<=0.05) && (meanREF3Y>=-0.05 && meanREF3Y<=0.05))
+		//if(meanAngleREF3>=-0.05 && meanAngleREF3<=0.05 && meanAngleREF2>=-0.05 && meanAngleREF2<=0.05)
+		// aEta5REF2 = meanAngleEta5*factor;
+		// if(iterNb>0) break; // only cylce once.
 		
 	}//while(1)
 	fout.close();
 	fout1.close();
 	fout2.close();
+
+
+    cout<<"Shift in 2X = "<<Tot_Shift_2X<<endl;
+    cout<<"Shift in 2Y = "<<Tot_Shift_2Y<<endl;
+    cout<<"Shift in 3X = "<<Tot_Shift_3X<<endl;
+    cout<<"Shift in 3Y = "<<Tot_Shift_3Y<<endl;
+
 } // entire script
 		
 int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2Y, double shiREF3X, double shiREF3Y, double Trk1Pos, double Trk2Pos, double Trk3Pos, double aREF2REF1, double aREF3REF1  )
@@ -318,6 +338,18 @@ int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, doub
 	cout<<"Name of input file = "<<name<<endl;
 	//  name={"Position"}; 
 	cout<<"Start of program"<<endl;
+    bool shiftOrigin = 1;
+
+	if(shiftOrigin)
+	{
+		shiREF1X = 0.0;
+		shiREF1Y = 0.0;
+		shiREF2X = 0.0;// - 0.399279;
+		shiREF2Y = 0.0;// - 0.602469;
+		shiREF3X = 0.0;// + 0.164389;
+		shiREF3Y = 0.0;// + 0.258206;
+	}
+
 	for(int i=0;i<1;i++) tracking(name, RunNumber, shiREF1X, shiREF1Y, shiREF2X, shiREF2Y, shiREF3X, shiREF3Y, Trk1Pos, Trk2Pos, Trk3Pos, aREF2REF1, aREF3REF1 );  
 	return 0;
 }
