@@ -279,6 +279,20 @@ watch.Start(); // or watch.Start(kTRUE) which is the same
 //  string name[1]={
 //  	"Position_Cluster_run017_HVScan_4150V_32GeV_20131017_1254pm_all"
 //  };
+
+    bool shiftOrigin = 1;
+
+    if(shiftOrigin)
+    {
+        shiREF1X = 0.0;
+        shiREF1Y = 0.0;
+        shiREF2X = 0.0;// - 0.399279;
+        shiREF2Y = 0.0;// - 0.602469;
+        shiREF3X = 0.0;// + 0.164389;
+        shiREF3Y = 0.0;// + 0.258206;
+    }
+
+
   for(int iterNbX=0;iterNbX<1;iterNbX+=1)
     for(int iterNbY=0;iterNbY<1;iterNbY+=1)
     {

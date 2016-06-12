@@ -141,12 +141,12 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 			if (verbose)
 			cout<<"ERROR 2 "<<endl;
 			vPos_g1xcl[i] = vPos_g1xcl[i] - shiREF1X; vPos_g1ycl[i] = vPos_g1ycl[i] - shiREF1Y;
-			vPos_g2xcl[i] = vPos_g2xcl[i] + shiREF2X; vPos_g2ycl[i] = vPos_g2ycl[i] + shiREF2Y;      
+			vPos_g2xcl[i] = vPos_g2xcl[i] - shiREF2X; vPos_g2ycl[i] = vPos_g2ycl[i] - shiREF2Y;      
 			vPos_g3xcl[i] = vPos_g3xcl[i] - shiREF3X; vPos_g3ycl[i] = vPos_g3ycl[i] - shiREF3Y;
 
-			temPos_g1xcl=vPos_g1xcl[i]; temPos_g1ycl=vPos_g1ycl[i]; 
-			temPos_g2xcl=vPos_g2xcl[i]; temPos_g2ycl=vPos_g2ycl[i]; 
-			temPos_g3xcl=vPos_g3xcl[i]; temPos_g3ycl=vPos_g3ycl[i]; 
+			temPos_g1xcl = vPos_g1xcl[i]; temPos_g1ycl = vPos_g1ycl[i]; 
+			temPos_g2xcl = vPos_g2xcl[i]; temPos_g2ycl = vPos_g2ycl[i]; 
+			temPos_g3xcl = vPos_g3xcl[i]; temPos_g3ycl = vPos_g3ycl[i]; 
 		
 			//rotate back
 			vPos_g2xcl[i]=temPos_g2xcl*cos(aREF2REF1)-temPos_g2ycl*sin(aREF2REF1);
@@ -160,8 +160,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		
 			TGraph* g1 = new TGraph();
 			g1->SetPoint(0,Trk1Pos, vPos_g1xcl[i]);
-			g1->SetPoint(1,Trk2Pos, vPos_g2xcl[i] );
-			g1->SetPoint(2,Trk3Pos, vPos_g3xcl[i] );
+			g1->SetPoint(1,Trk2Pos, vPos_g2xcl[i]);
+			g1->SetPoint(2,Trk3Pos, vPos_g3xcl[i]);
 		
 			TF1* f1 = new TF1("line1","[0]+[1]*x",0,900);
 			g1->Fit("line1","Q");
@@ -277,10 +277,17 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		//maximum=yTrackChi2->GetMean(); rms=yTrackChi2->GetRMS(1); lRange=maximum-rms*0.5; hRange=maximum+rms*0.5;
 		//TF1* funYTrackChi2=new TF1("funYTrackChi2","gaus",lRange,hRange); yTrackChi2->Fit("funYTrackChi2","RQ");
 		meanYChi2=yTrackChi2->GetMean();
-		
-		totalAngleREF2 += aREF2REF1;
-		// totalAngleUVA3 += aUVA3REF2;
-		totalAngleREF3 += aREF3REF1;
+		if (iterNb != 1)
+		{
+		   	Tot_Shift_2X +=shiREF2X;
+    		Tot_Shift_2Y +=shiREF2Y;
+    		Tot_Shift_3X +=shiREF3X;
+    		Tot_Shift_3Y +=shiREF3Y;
+		}
+			totalAngleREF2 += aREF2REF1;
+			// totalAngleUVA3 += aUVA3REF2;
+			totalAngleREF3 += aREF3REF1;
+
 		fout3<<sigmag1xcl<<"\t"<<sigmag1ycl<<"\t"<<sigmag2xcl<<"\t"<<sigmag2ycl<<"\t"<</*sigmaUVA3X<<"\t"<<sigmaUVA3Y<<*/"\t"<<sigmag3xcl<<"\t"<<sigmag3ycl<<"\t"<<totalAngleREF2<<"\t"<</*totalAngleUVA3<<*/"\t"<<totalAngleREF3<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<endl;
 		cout<<sigmag1xcl<<"\t"<<sigmag1ycl<<"\t"<<sigmag2xcl<<"\t"<<sigmag2ycl<<"\t"<</*sigmaUVA3X<<"\t"<<sigmaUVA3Y<<*/"\t"<<sigmag3xcl<<"\t"<<sigmag3ycl<<"\t"<<totalAngleREF2<<"\t"<</*totalAngleUVA3<<*/"\t"<<totalAngleREF3<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<endl;
 		
@@ -288,13 +295,6 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		f->Close();
 		//delete funPosEta5; delete funPosg1ycl; delete funPosUVA3Y; delete funPosg3ycl; delete funPosg2ycl;
 		
-		double factor = 0.4;
-		shiREF1X = 0.0;				 shiREF1Y = 0.0; 
-		shiREF2X = meanREF2X*factor; shiREF2Y = meanREF2Y*factor; 
-		shiREF3X = meanREF3X*factor; shiREF3Y = meanREF3Y*factor; 
-		
-		aREF2REF1 = meanAngleREF2*factor;
-		aREF3REF1 = meanAngleREF3*factor;
 		if((meanREF2X>=-0.005 && meanREF2X<=0.005) && (meanREF2Y>=-0.005 && meanREF2Y<=0.005))
 		if((meanREF3X>=-0.005 && meanREF3X<=0.005) && (meanREF3Y>=-0.005 && meanREF3Y<=0.005))
 		if(meanAngleREF3>=-0.005 && meanAngleREF3<=0.005 && meanAngleREF2>=-0.005 && meanAngleREF2<=0.005)
@@ -303,15 +303,22 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 			break;
 		}
   		// break;
-		if(iterNb==100) break;
+		if(iterNb==500) break;
+		cout<<"iterating "<<iterNb<<" time done."<<endl;
+
+		double factor = -0.1;
+		shiREF1X = 0.0;				 shiREF1Y = 0.0; 
+		shiREF2X = meanREF2X*factor; shiREF2Y = meanREF2Y*factor; 
+		shiREF3X = meanREF3X*factor; shiREF3Y = meanREF3Y*factor; 
+		aREF2REF1 = meanAngleREF2;
+		aREF3REF1 = meanAngleREF3;
+		
+		//aREF2REF1 = meanAngleREF2*factor;
+		//aREF3REF1 = meanAngleREF3*factor;
 
 	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
 	cout<<"meanREF2X = "<<meanREF2X <<"\tmeanREF2Y = "<<meanREF2Y<<"\tmeanREF3X = "<<meanREF3X<<"\tmeanREF3Y = "<<meanREF3Y<<"\tmeanAngleREF3 = "<<meanAngleREF3<<"\tmeanAngleREF2 = "<<meanAngleREF2<<endl;
 	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
-    Tot_Shift_2X +=shiREF2X;
-    Tot_Shift_2Y +=shiREF2Y;
-    Tot_Shift_3X +=shiREF3X;
-    Tot_Shift_3Y +=shiREF3Y;
 
 		//if((meanREF2X>=-0.05 && meanREF2X<=0.05) && (meanREF2Y>=-0.05 && meanREF2Y<=0.05))
 		//if((meanREF3X>=-0.05 && meanREF3X<=0.05) && (meanREF3Y>=-0.05 && meanREF3Y<=0.05))
@@ -329,6 +336,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
     cout<<"Shift in 2Y = "<<Tot_Shift_2Y<<endl;
     cout<<"Shift in 3X = "<<Tot_Shift_3X<<endl;
     cout<<"Shift in 3Y = "<<Tot_Shift_3Y<<endl;
+    cout<<"totalAngleREF2 = "<<totalAngleREF2<<endl;
+    cout<<"totalAngleREF3 = "<<totalAngleREF3<<endl;
 
 } // entire script
 		
@@ -338,17 +347,19 @@ int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, doub
 	cout<<"Name of input file = "<<name<<endl;
 	//  name={"Position"}; 
 	cout<<"Start of program"<<endl;
-    bool shiftOrigin = 1;
+    bool shiftOrigin = 0;
 
 	if(shiftOrigin)
 	{
-		shiREF1X = 0.0;
-		shiREF1Y = 0.0;
-		shiREF2X = 0.0;// - 0.399279;
-		shiREF2Y = 0.0;// - 0.602469;
-		shiREF3X = 0.0;// + 0.164389;
-		shiREF3Y = 0.0;// + 0.258206;
+		shiREF1X += 0.0;
+		shiREF1Y += 0.0;
+		shiREF2X += 0.0+0.336204;// - 0.399279;
+		shiREF2Y += 0.0+0.215308;// - 0.602469;
+		shiREF3X += 0.0-0.125640;// + 0.164389;
+		shiREF3Y += 0.0-0.0793286;// + 0.258206;
 	}
+
+cout<<"++++++++++++++++ = "<<shiREF1X<<endl;
 
 	for(int i=0;i<1;i++) tracking(name, RunNumber, shiREF1X, shiREF1Y, shiREF2X, shiREF2Y, shiREF3X, shiREF3Y, Trk1Pos, Trk2Pos, Trk3Pos, aREF2REF1, aREF3REF1 );  
 	return 0;
