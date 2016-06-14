@@ -283,13 +283,18 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
     		Tot_Shift_2Y +=shiREF2Y;
     		Tot_Shift_3X +=shiREF3X;
     		Tot_Shift_3Y +=shiREF3Y;
-		}
 			totalAngleREF2 += aREF2REF1;
 			// totalAngleUVA3 += aUVA3REF2;
 			totalAngleREF3 += aREF3REF1;
+		}
 
 		fout3<<sigmag1xcl<<"\t"<<sigmag1ycl<<"\t"<<sigmag2xcl<<"\t"<<sigmag2ycl<<"\t"<</*sigmaUVA3X<<"\t"<<sigmaUVA3Y<<*/"\t"<<sigmag3xcl<<"\t"<<sigmag3ycl<<"\t"<<totalAngleREF2<<"\t"<</*totalAngleUVA3<<*/"\t"<<totalAngleREF3<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<endl;
 		cout<<sigmag1xcl<<"\t"<<sigmag1ycl<<"\t"<<sigmag2xcl<<"\t"<<sigmag2ycl<<"\t"<</*sigmaUVA3X<<"\t"<<sigmaUVA3Y<<*/"\t"<<sigmag3xcl<<"\t"<<sigmag3ycl<<"\t"<<totalAngleREF2<<"\t"<</*totalAngleUVA3<<*/"\t"<<totalAngleREF3<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<endl;
+
+	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
+	cout<<"meanREF2X = "<<meanREF2X <<"\tmeanREF2Y = "<<meanREF2Y<<"\tmeanREF3X = "<<meanREF3X<<"\tmeanREF3Y = "<<meanREF3Y<<"\tmeanAngleREF3 = "<<meanAngleREF3<<"\tmeanAngleREF2 = "<<meanAngleREF2<<endl;
+	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
+
 		
 		f->Write();
 		f->Close();
@@ -315,11 +320,6 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		
 		//aREF2REF1 = meanAngleREF2*factor;
 		//aREF3REF1 = meanAngleREF3*factor;
-
-	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
-	cout<<"meanREF2X = "<<meanREF2X <<"\tmeanREF2Y = "<<meanREF2Y<<"\tmeanREF3X = "<<meanREF3X<<"\tmeanREF3Y = "<<meanREF3Y<<"\tmeanAngleREF3 = "<<meanAngleREF3<<"\tmeanAngleREF2 = "<<meanAngleREF2<<endl;
-	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
-
 		//if((meanREF2X>=-0.05 && meanREF2X<=0.05) && (meanREF2Y>=-0.05 && meanREF2Y<=0.05))
 		//if((meanREF3X>=-0.05 && meanREF3X<=0.05) && (meanREF3Y>=-0.05 && meanREF3Y<=0.05))
 		//if(meanAngleREF3>=-0.05 && meanAngleREF3<=0.05 && meanAngleREF2>=-0.05 && meanAngleREF2<=0.05)
@@ -347,16 +347,18 @@ int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, doub
 	cout<<"Name of input file = "<<name<<endl;
 	//  name={"Position"}; 
 	cout<<"Start of program"<<endl;
-    bool shiftOrigin = 0;
+    bool shiftOrigin = 1;
 
 	if(shiftOrigin)
 	{
 		shiREF1X += 0.0;
 		shiREF1Y += 0.0;
-		shiREF2X += 0.0+0.336204;// - 0.399279;
-		shiREF2Y += 0.0+0.215308;// - 0.602469;
-		shiREF3X += 0.0-0.125640;// + 0.164389;
-		shiREF3Y += 0.0-0.0793286;// + 0.258206;
+		shiREF2X += 0.0+0.336204;
+		shiREF2Y += 0.0+0.215308;
+		shiREF3X += 0.0-0.125640;
+		shiREF3Y += 0.0-0.0793286;
+		aREF2REF1+= 0.0+0.00869265;
+		aREF3REF1+= 0.0+0.018091;
 	}
 
 cout<<"++++++++++++++++ = "<<shiREF1X<<endl;
