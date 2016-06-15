@@ -110,12 +110,12 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		char nameRes2X[20];sprintf(nameRes2X,"residualg2xcl_%i",iterNb);char nameRes2Y[20];sprintf(nameRes2Y,"residualg2ycl_%i",iterNb);
 		char nameRes3X[20];sprintf(nameRes3X,"residualg3xcl_%i",iterNb);char nameRes3Y[20];sprintf(nameRes3Y,"residualg3ycl_%i",iterNb);
 		
-		TH1F* residualg1xcl = new TH1F(nameRes1X,"",200,-2,2); residualg1xcl->SetXTitle("mm"); residualg1xcl->SetYTitle("Frequency");residualg1xcl->SetLabelSize(0.045,"XY");residualg1xcl->SetTitleSize(0.045,"XY");
-		TH1F* residualg1ycl = new TH1F(nameRes1Y,"",200,-2,2); residualg1ycl->SetXTitle("mm"); residualg1ycl->SetYTitle("Frequency");residualg1ycl->SetLabelSize(0.045,"XY");residualg1ycl->SetTitleSize(0.045,"XY");
-		TH1F* residualg2xcl = new TH1F(nameRes2X,"",200,-2,2); residualg2xcl->SetXTitle("Residual [mm]"); residualg2xcl->SetYTitle("Frequency");residualg2xcl->SetLabelSize(0.045,"XY");residualg2xcl->SetTitleSize(0.045,"XY");
-		TH1F* residualg2ycl = new TH1F(nameRes2Y,"",200,-2,2); residualg2ycl->SetXTitle("Residual [mm]"); residualg2ycl->SetYTitle("Frequency");residualg2ycl->SetLabelSize(0.045,"XY");residualg2ycl->SetTitleSize(0.045,"XY");
-		TH1F* residualg3xcl = new TH1F(nameRes3X,"",200,-2,2); residualg3xcl->SetXTitle("Residual [mm]"); residualg3xcl->SetYTitle("Frequency");residualg3xcl->SetLabelSize(0.045,"XY");residualg3xcl->SetTitleSize(0.045,"XY");
-		TH1F* residualg3ycl = new TH1F(nameRes3Y,"",200,-2,2); residualg3ycl->SetXTitle("Residual [mm]"); residualg3ycl->SetYTitle("Frequency");residualg3ycl->SetLabelSize(0.045,"XY");residualg3ycl->SetTitleSize(0.045,"XY");
+		TH1F* residualg1xcl = new TH1F(nameRes1X,"",200,-0.5,0.5); residualg1xcl->SetXTitle("mm"); residualg1xcl->SetYTitle("Frequency");residualg1xcl->SetLabelSize(0.045,"XY");residualg1xcl->SetTitleSize(0.045,"XY");
+		TH1F* residualg1ycl = new TH1F(nameRes1Y,"",200,-0.5,0.5); residualg1ycl->SetXTitle("mm"); residualg1ycl->SetYTitle("Frequency");residualg1ycl->SetLabelSize(0.045,"XY");residualg1ycl->SetTitleSize(0.045,"XY");
+		TH1F* residualg2xcl = new TH1F(nameRes2X,"",200,-0.5,0.5); residualg2xcl->SetXTitle("Residual [mm]"); residualg2xcl->SetYTitle("Frequency");residualg2xcl->SetLabelSize(0.045,"XY");residualg2xcl->SetTitleSize(0.045,"XY");
+		TH1F* residualg2ycl = new TH1F(nameRes2Y,"",200,-0.5,0.5); residualg2ycl->SetXTitle("Residual [mm]"); residualg2ycl->SetYTitle("Frequency");residualg2ycl->SetLabelSize(0.045,"XY");residualg2ycl->SetTitleSize(0.045,"XY");
+		TH1F* residualg3xcl = new TH1F(nameRes3X,"",200,-0.5,0.5); residualg3xcl->SetXTitle("Residual [mm]"); residualg3xcl->SetYTitle("Frequency");residualg3xcl->SetLabelSize(0.045,"XY");residualg3xcl->SetTitleSize(0.045,"XY");
+		TH1F* residualg3ycl = new TH1F(nameRes3Y,"",200,-0.5,0.5); residualg3ycl->SetXTitle("Residual [mm]"); residualg3ycl->SetYTitle("Frequency");residualg3ycl->SetLabelSize(0.045,"XY");residualg3ycl->SetTitleSize(0.045,"XY");
 		
 		
 		TH1F* angleREF2 = new TH1F("angleREF2","Rotation angle distribution of REF1 and REF2",1000,-0.5,0.5); angleREF2->SetXTitle("Angle [radian]"); angleREF2->SetYTitle("Frequency");

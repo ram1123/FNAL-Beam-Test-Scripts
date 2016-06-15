@@ -24,6 +24,7 @@ FLat=30
 RunCounter=$IRunNo
 PathOfInputData=HitTxtFiles
 Detector=$3  # options: No, LC1 and LC2 and LC3
+IfTxtOnly=$4
 
 function make_dir
 {
@@ -69,7 +70,8 @@ do
     	echo ${dir}
 	echo $(basename $dir)
 	echo -e "\E[33mStarted Running the Python Code.\E[0m"
-    	python RunAiwuSoftware.py -RN ${RunCounter} -i ${dir} -det ${Detector} 
+    	echo "python RunAiwuSoftware.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}"
+    	python RunAiwuSoftware.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}
 	echo -e "\E[33mCompleted Running the Python Code.\E[0m"
     done	# END of dir for loop
     ((++RunCounter))	# increment counter for while loop

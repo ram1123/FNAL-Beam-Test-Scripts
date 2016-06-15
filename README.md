@@ -15,46 +15,9 @@ Lxplus setting for root 6.04:
     git clone git@github.com:ram1123/FNAL-Beam-Test-Scripts.git		(if working  on lxplus)
     git clone https://github.com/ram1123/FNAL-Beam-Test-Scripts.git	(if working on your pc or lpc)
     cd FNAL-Beam-Test-Scripts
+	git checkout Develop
  
-## To Get Input Text File For FNAL-Beam-Test-Script
-1. use RunAiwuTextFile.sh with two input arguments IRunNumber & FRunNumber, and then you will get the input text file. 
-
-2. You may have to modify the Path of Input Root File
-
-3. In the script there are two type of important variable named "EfficiencyType" & "TrkOnly". Read description about this in the script itself.
-
- 
-## To Align the Detector 
-
-1. Script RunAiwuSoftware.sh: It takes two input arguments. First is IRunNumber and second is FRunNumber. You should modify the path of input textfile.
-
-2. Script in 1st step run a python code named RunAiwuSoftware.py. It runs all the steps of FNAL automatically. You can comment some of them that you won't need.
-      
-
-note: doubleGausFit_withHistParameter.C contains the function to do double Gausian fit. The scritps that need it already have it included.
-
-# Few General Information about FNAL-Beam-Test-Scripts
-step 1: select events.
-
-  use SelectTrackerEvents.C, can be changed to include selecting GEM events
-
-step 2: alignment of trackers.
-
-  use AlignTrackers_Shift.C, AlignTrackers_shift_rotate.C, AlignTrackers_optimizeRotation.C
-
-  each script has iterations, for the third script, when optimizing rotation angles, optimize one detector one time,
-
-  in other words, the iteration quantity is the angle for one tracker, the other angles are fixed
-
-step 3: alignment GEM detector to trackers
-
-  use AlignGEM_XYoffsets.C,
-
-  after this script, will get some text files, then
-
-  draw_allX_vs_Y.C, draw_allY_vs_X.C, draw_XY_Offsets.C can be used for them
-
-  use AlignGEM_rotate.C, and draw_fixXY_vs_rotationAngle.C
-
-then resolution can be calculated with AlignGEM_rotate.C by setting all X,Y offsets and angle, and do not doing iteration.  
-
+## How to Run:
+	./RunAiwuSoftware.sh 411 411 No 1		# Will create text file with tracker info only
+	./RunAiwuSoftware.sh 411 411 LC1 1		# Will create text file with tracker & one GE11
+	./RunAiwuSoftware.sh 411 411 LC1 0		# Run the alignment code
