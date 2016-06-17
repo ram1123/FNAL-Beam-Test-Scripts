@@ -10,7 +10,6 @@
 
 void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2Y, double shiREF3X, double shiREF3Y, double Trk1Pos, double Trk2Pos, double Trk3Pos, double aREF2REF1, double aREF3REF1 )
 {
-
 	bool verbose = 0;
 
 	cout<<"aREF3REF1 = "<<aREF3REF1<<"\taREF2REF1 = "<<aREF2REF1<<endl;
@@ -99,12 +98,12 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		char name2X[15];sprintf(name2X,"posg2xcl_%i",iterNb); char name2Y[15];sprintf(name2Y,"posg2ycl_%i",iterNb);
 		char name3X[15];sprintf(name3X,"posg3xcl_%i",iterNb); char name3Y[15];sprintf(name3Y,"posg3ycl_%i",iterNb);
 		
-		TH1F *hPos_g1xcl = new TH1F(name1X,"",500,-60,100); hPos_g1xcl->SetXTitle("mm"); hPos_g1xcl->SetYTitle("Frequency");hPos_g1xcl->SetLabelSize(0.045,"XY");hPos_g1xcl->SetTitleSize(0.045,"XY");
-		TH1F *hPos_g1ycl = new TH1F(name1Y,"",500,-60,100); hPos_g1ycl->SetXTitle("mm"); hPos_g1ycl->SetYTitle("Frequency");hPos_g1ycl->SetLabelSize(0.045,"XY");hPos_g1ycl->SetTitleSize(0.045,"XY");  
-		TH1F* hPos_g2xcl = new TH1F(name2X,"",500,-60,100); hPos_g2xcl->SetXTitle("mm"); hPos_g2xcl->SetYTitle("Frequency");hPos_g2xcl->SetLabelSize(0.045,"XY");hPos_g2xcl->SetTitleSize(0.045,"XY");
-		TH1F* hPos_g2ycl = new TH1F(name2Y,"",500,-60,100); hPos_g2ycl->SetXTitle("mm"); hPos_g2ycl->SetYTitle("Frequency");hPos_g2ycl->SetLabelSize(0.045,"XY");hPos_g2ycl->SetTitleSize(0.045,"XY");  
-		TH1F* hPos_g3xcl = new TH1F(name3X,"",500,-60,100); hPos_g3xcl->SetXTitle("mm"); hPos_g3xcl->SetYTitle("Frequency");hPos_g3xcl->SetLabelSize(0.045,"XY");hPos_g3xcl->SetTitleSize(0.045,"XY");
-		TH1F* hPos_g3ycl = new TH1F(name3Y,"",500,-60,100); hPos_g3ycl->SetXTitle("mm"); hPos_g3ycl->SetYTitle("Frequency");hPos_g3ycl->SetLabelSize(0.045,"XY");hPos_g3ycl->SetTitleSize(0.045,"XY");  
+		TH1F *hPos_g1xcl = new TH1F(name1X,"",2000,-60,40); hPos_g1xcl->SetXTitle("mm"); hPos_g1xcl->SetYTitle("Frequency");hPos_g1xcl->SetLabelSize(0.045,"XY");hPos_g1xcl->SetTitleSize(0.045,"XY");
+		TH1F *hPos_g1ycl = new TH1F(name1Y,"",2000,-60,40); hPos_g1ycl->SetXTitle("mm"); hPos_g1ycl->SetYTitle("Frequency");hPos_g1ycl->SetLabelSize(0.045,"XY");hPos_g1ycl->SetTitleSize(0.045,"XY");  
+		TH1F* hPos_g2xcl = new TH1F(name2X,"",2000,-60,40); hPos_g2xcl->SetXTitle("mm"); hPos_g2xcl->SetYTitle("Frequency");hPos_g2xcl->SetLabelSize(0.045,"XY");hPos_g2xcl->SetTitleSize(0.045,"XY");
+		TH1F* hPos_g2ycl = new TH1F(name2Y,"",2000,-60,40); hPos_g2ycl->SetXTitle("mm"); hPos_g2ycl->SetYTitle("Frequency");hPos_g2ycl->SetLabelSize(0.045,"XY");hPos_g2ycl->SetTitleSize(0.045,"XY");  
+		TH1F* hPos_g3xcl = new TH1F(name3X,"",2000,-60,40); hPos_g3xcl->SetXTitle("mm"); hPos_g3xcl->SetYTitle("Frequency");hPos_g3xcl->SetLabelSize(0.045,"XY");hPos_g3xcl->SetTitleSize(0.045,"XY");
+		TH1F* hPos_g3ycl = new TH1F(name3Y,"",2000,-60,40); hPos_g3ycl->SetXTitle("mm"); hPos_g3ycl->SetYTitle("Frequency");hPos_g3ycl->SetLabelSize(0.045,"XY");hPos_g3ycl->SetTitleSize(0.045,"XY");  
 		
 		char nameRes1X[20];sprintf(nameRes1X,"residualg1xcl_%i",iterNb);char nameRes1Y[20];sprintf(nameRes1Y,"residualg1ycl_%i",iterNb);
 		char nameRes2X[20];sprintf(nameRes2X,"residualg2xcl_%i",iterNb);char nameRes2Y[20];sprintf(nameRes2Y,"residualg2ycl_%i",iterNb);
@@ -118,8 +117,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		TH1F* residualg3ycl = new TH1F(nameRes3Y,"",200,-0.5,0.5); residualg3ycl->SetXTitle("Residual [mm]"); residualg3ycl->SetYTitle("Frequency");residualg3ycl->SetLabelSize(0.045,"XY");residualg3ycl->SetTitleSize(0.045,"XY");
 		
 		
-		TH1F* angleREF2 = new TH1F("angleREF2","Rotation angle distribution of REF1 and REF2",1000,-0.5,0.5); angleREF2->SetXTitle("Angle [radian]"); angleREF2->SetYTitle("Frequency");
-		TH1F* angleREF3 = new TH1F("angleREF3","Rotation angle distribution of REF3 and REF2",1000,-0.5,0.5); angleREF3->SetXTitle("Angle [radian]"); angleREF3->SetYTitle("Frequency");
+		TH1F* angleREF2 = new TH1F("angleREF2","Rotation angle distribution of REF1 and REF2",1000,-1,1); angleREF2->SetXTitle("Angle [radian]"); angleREF2->SetYTitle("Frequency");
+		TH1F* angleREF3 = new TH1F("angleREF3","Rotation angle distribution of REF3 and REF2",1000,-1,1); angleREF3->SetXTitle("Angle [radian]"); angleREF3->SetYTitle("Frequency");
 		
 		TH1F* xTrackChi2 = new TH1F("XTrackChi2","Chi square of tracks in X projection",1000,0,10); xTrackChi2->SetXTitle("#chi^{2} of track in X"); xTrackChi2->SetYTitle("Frequency"); xTrackChi2->SetTitleSize(0.04,"XY"); xTrackChi2->SetLabelSize(0.04,"XY");
 		TH1F* yTrackChi2 = new TH1F("YTrackChi2","Chi square of tracks in Y projection",1000,0,10); yTrackChi2->SetXTitle("#chi^{2} of track in Y"); yTrackChi2->SetYTitle("Frequency"); yTrackChi2->SetTitleSize(0.04,"XY"); yTrackChi2->SetLabelSize(0.04,"XY");
@@ -167,8 +166,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 			g1->Fit("line1","Q");
 			double intercept1 = f1->GetParameter(0);
 			double slope1     = f1->GetParameter(1);
-			//double Measuredg1xcl = intercept1 + slope1*Trk1Pos;
-			double Measuredg1xcl = vPos_g1xcl[i];
+			double Measuredg1xcl = intercept1 + slope1*Trk1Pos;
+			//double Measuredg1xcl = vPos_g1xcl[i];
 			double Measuredg2xcl = intercept1 + slope1*Trk2Pos;
 			double Measuredg3xcl = intercept1 + slope1*Trk3Pos;
 			if (verbose)
@@ -193,8 +192,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 			g2->Fit("line2","Q");
 			double intercept2 = f2->GetParameter(0);
 			double slope2     = f2->GetParameter(1);
-			//double Measuredg1ycl = intercept2 + slope2*Trk1Pos;
-			double Measuredg1ycl = vPos_g1ycl[i];
+			double Measuredg1ycl = intercept2 + slope2*Trk1Pos;
+			//double Measuredg1ycl = vPos_g1ycl[i];
 			double Measuredg2ycl = intercept2 + slope2*Trk2Pos;
 			double Measuredg3ycl = intercept2 + slope2*Trk3Pos;
 			
@@ -284,7 +283,6 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
     		Tot_Shift_3X +=shiREF3X;
     		Tot_Shift_3Y +=shiREF3Y;
 			totalAngleREF2 += aREF2REF1;
-			// totalAngleUVA3 += aUVA3REF2;
 			totalAngleREF3 += aREF3REF1;
 		}
 
@@ -312,7 +310,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		cout<<"iterating "<<iterNb<<" time done."<<endl;
 
 		double factor = -0.1;
-		shiREF1X = 0.0;				 shiREF1Y = 0.0; 
+		//shiREF1X = 0.0;				 shiREF1Y = 0.0; 
+		shiREF1X = meanREF1X*factor; shiREF1Y = meanREF1Y*factor; 
 		shiREF2X = meanREF2X*factor; shiREF2Y = meanREF2Y*factor; 
 		shiREF3X = meanREF3X*factor; shiREF3Y = meanREF3Y*factor; 
 		aREF2REF1 = meanAngleREF2;

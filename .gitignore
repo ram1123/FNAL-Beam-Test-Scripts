@@ -3,3 +3,5 @@ callgrind.out.*
 *.root
 *.pyc
 *R*R*.txt
+*.pdf
+*.swp

@@ -82,39 +82,40 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 
     fout<<"# shi_g1xcl"<<"\t"<<"shi_g1ycl"<<"\t"<<"shi_g2xcl"<<"\t"<<"shi_g2ycl"<<"\t"<<"shi_g3xcl"<<"\t"<<"shi_g3ycl"<<endl;
     while(1){
+	iterNb++;
 	if (verbose)
 	    cout<<"Some problem 2"<<endl;
 	char rootfile[50]; sprintf(rootfile,"_iter_%i_R%i.root",iterNb,RunNumber);
 	string outputrootname=DirName+ResidualRHead+thestring+rootfile;
+    cout<<"outputroot file name :  "<< outputrootname <<endl;
 	TFile* f = new TFile(outputrootname.c_str(),"recreate");  
-	iterNb++;
 	cout <<"++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+	char name1X[15];sprintf(name1X,"Pos_g1xcl_%i",iterNb); char name1Y[15];sprintf(name1Y,"Pos_g1xcl_%i",iterNb);
 	char name2X[15];sprintf(name2X,"Pos_g2xcl_%i",iterNb); char name2Y[15];sprintf(name2Y,"Pos_g2ycl_%i",iterNb);
 	char name3X[15];sprintf(name3X,"Pos_g3xcl_%i",iterNb); char name3Y[15];sprintf(name3Y,"Pos_g3ycl_%i",iterNb);
-	char name1X[15];sprintf(name1X,"Pos_g1xcl_%i",iterNb); char name1Y[15];sprintf(name1Y,"Pos_g1xcl_%i",iterNb);
 	
 	if (verbose)
 	    cout<<"Some problem 3"<<endl;
-	TH1F* h_Pos_g2xcl = new TH1F(name2X,"",100,-110,110); h_Pos_g2xcl->SetXTitle("Cluster position [mm]"); h_Pos_g2xcl->SetYTitle("Frequency");h_Pos_g2xcl->SetLabelSize(0.045,"XY");h_Pos_g2xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_Pos_g2ycl = new TH1F(name2Y,"",100,-110,110); h_Pos_g2ycl->SetXTitle(" Cluster position [mm]"); h_Pos_g2ycl->SetYTitle("Frequency");h_Pos_g2ycl->SetLabelSize(0.045,"XY");h_Pos_g2ycl->SetTitleSize(0.045,"XY");  
-        TH1F* h_Pos_g1xcl = new TH1F(name3X,"",100,-110,110); h_Pos_g1xcl->SetXTitle("Cluster position [mm]"); h_Pos_g1xcl->SetYTitle("Frequency");h_Pos_g1xcl->SetLabelSize(0.045,"XY");h_Pos_g1xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_Pos_g1ycl = new TH1F(name3Y,"",100,-110,110); h_Pos_g1ycl->SetXTitle("Cluster position [mm]"); h_Pos_g1ycl->SetYTitle("Frequency");h_Pos_g1ycl->SetLabelSize(0.045,"XY");h_Pos_g1ycl->SetTitleSize(0.045,"XY");  
-        TH1F* h_Pos_g3xcl = new TH1F(name1X,"",100,-110,110); h_Pos_g3xcl->SetXTitle("Cluster position [mm]"); h_Pos_g3xcl->SetYTitle("Frequency");h_Pos_g3xcl->SetLabelSize(0.045,"XY");h_Pos_g3xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_Pos_g3ycl = new TH1F(name1Y,"",100,-110,110); h_Pos_g3ycl->SetXTitle(" Cluster position [mm]"); h_Pos_g3ycl->SetYTitle("Frequency");h_Pos_g3ycl->SetLabelSize(0.045,"XY");h_Pos_g3ycl->SetTitleSize(0.045,"XY");  
+	TH1F* h_Pos_g1xcl = new TH1F(name1X,"",300,-60,60); h_Pos_g1xcl->SetXTitle("Cluster position [mm]"); h_Pos_g1xcl->SetYTitle("Frequency");h_Pos_g1xcl->SetLabelSize(0.045,"XY");h_Pos_g1xcl->SetTitleSize(0.045,"XY");
+	TH1F* h_Pos_g1ycl = new TH1F(name1Y,"",300,-60,60); h_Pos_g1ycl->SetXTitle("Cluster position [mm]"); h_Pos_g1ycl->SetYTitle("Frequency");h_Pos_g1ycl->SetLabelSize(0.045,"XY");h_Pos_g1ycl->SetTitleSize(0.045,"XY");  
+	TH1F* h_Pos_g2xcl = new TH1F(name2X,"",300,-60,60); h_Pos_g2xcl->SetXTitle("Cluster position [mm]"); h_Pos_g2xcl->SetYTitle("Frequency");h_Pos_g2xcl->SetLabelSize(0.045,"XY");h_Pos_g2xcl->SetTitleSize(0.045,"XY");
+	TH1F* h_Pos_g2ycl = new TH1F(name2Y,"",300,-60,60); h_Pos_g2ycl->SetXTitle("Cluster position [mm]"); h_Pos_g2ycl->SetYTitle("Frequency");h_Pos_g2ycl->SetLabelSize(0.045,"XY");h_Pos_g2ycl->SetTitleSize(0.045,"XY");  
+	TH1F* h_Pos_g3xcl = new TH1F(name3X,"",300,-60,60); h_Pos_g3xcl->SetXTitle("Cluster position [mm]"); h_Pos_g3xcl->SetYTitle("Frequency");h_Pos_g3xcl->SetLabelSize(0.045,"XY");h_Pos_g3xcl->SetTitleSize(0.045,"XY");
+	TH1F* h_Pos_g3ycl = new TH1F(name3Y,"",300,-60,60); h_Pos_g3ycl->SetXTitle("Cluster position [mm]"); h_Pos_g3ycl->SetYTitle("Frequency");h_Pos_g3ycl->SetLabelSize(0.045,"XY");h_Pos_g3ycl->SetTitleSize(0.045,"XY");  
 
 	
 	if (verbose)
 	    cout<<"Some problem 4"<<endl;
+	char nameRes1X[30];sprintf(nameRes1X,"residual_g1xcl_%i",iterNb);char nameRes1Y[30];sprintf(nameRes1Y,"residual_g1ycl_%i",iterNb);
 	char nameRes2X[30];sprintf(nameRes2X,"residual_g2xcl_%i",iterNb);char nameRes2Y[30];sprintf(nameRes2Y,"residual_g2ycl_%i",iterNb);
 	char nameRes3X[30];sprintf(nameRes3X,"residual_g3xcl_%i",iterNb);char nameRes3Y[30];sprintf(nameRes3Y,"residual_g3ycl_%i",iterNb);
-	char nameRes1X[30];sprintf(nameRes1X,"residual_g1xcl_%i",iterNb);char nameRes1Y[30];sprintf(nameRes1Y,"residual_g1ycl_%i",iterNb);
 	
-        TH1F* h_residual_g2xcl = new TH1F(nameRes2X,"",100,-4,4); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g2ycl = new TH1F(nameRes2Y,"",100,-4,4); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g3xcl = new TH1F(nameRes3X,"",100,-4,4); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g3ycl = new TH1F(nameRes3Y,"",100,-4,4); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g1xcl = new TH1F(nameRes1X,"",100,-4,4); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g1ycl = new TH1F(nameRes1Y,"",100,-4,4); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
+	TH1F* h_residual_g1xcl = new TH1F(nameRes1X,"",100,-2,2); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
+	TH1F* h_residual_g1ycl = new TH1F(nameRes1Y,"",100,-2,2); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
+	TH1F* h_residual_g2xcl = new TH1F(nameRes2X,"",100,-2,2); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
+	TH1F* h_residual_g2ycl = new TH1F(nameRes2Y,"",100,-2,2); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
+	TH1F* h_residual_g3xcl = new TH1F(nameRes3X,"",100,-2,2); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
+	TH1F* h_residual_g3ycl = new TH1F(nameRes3Y,"",100,-2,2); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
 
 	// Print the mean position of each Detector
 	fout<<shi_g1xcl<<"\t"<<shi_g1ycl<<"\t"<<shi_g2xcl<<"\t"<<shi_g2ycl<<"\t"<<shi_g3xcl<<"\t"<<shi_g3ycl<<"\t"<<endl;
@@ -128,7 +129,7 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	if (verbose)
 	    cout<<"Some problem 6"<<endl;
 	
-	for(unsigned int i=0;i<vPos_g2xcl.size();i++){
+	for(unsigned int i=0;i<vPos_g1xcl.size();i++){
 
 	    TGraph* g1 = new TGraph();
 	    TF1* f1 = new TF1("line1","[0]+[1]*x",0,900);
@@ -160,8 +161,8 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	    
 	    double intercept1 = f1->GetParameter(0);
 	    double slope1     = f1->GetParameter(1);
-	    //double Measured_g1xcl = intercept1 + slope1*Trk1Pos;
-	    double Measured_g1xcl = vPos_g1xcl[i];		// Reference Tracker position should not be changed.
+	    double Measured_g1xcl = intercept1 + slope1*Trk1Pos;
+	    //double Measured_g1xcl = vPos_g1xcl[i];		// Reference Tracker position should not be changed.
 	    double Measured_g2xcl = intercept1 + slope1*Trk2Pos;
 	    double Measured_g3xcl = intercept1 + slope1*Trk3Pos;
 	    
@@ -189,8 +190,8 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	    g2->Fit("line2","Q");
 	    double intercept2 = f2->GetParameter(0);
 	    double slope2     = f2->GetParameter(1);
-	    //double Measured_g1ycl = intercept2 + slope2*Trk1Pos;
-	    double Measured_g1ycl = vPos_g1ycl[i];	// Reference Tracker position should not be changed.
+	    double Measured_g1ycl = intercept2 + slope2*Trk1Pos;
+	    //double Measured_g1ycl = vPos_g1ycl[i];	// Reference Tracker position should not be changed.
 	    double Measured_g2ycl = intercept2 + slope2*Trk2Pos;
 	    double Measured_g3ycl = intercept2 + slope2*Trk3Pos;
 	    
@@ -216,54 +217,25 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	    cout<<"Some problem 13"<<endl;
 	
 	I2GFvalues myValues;
-	if (verbose)
-	    cout<<"Some problem 13a"<<endl;
-	
-	/*
-	//===================== START:: Added this part to temporarily get the residual histo
-	//Actually when the histogram is going into the structure it is disturing the original histogram
-	//So, we could not able to open it from root file
-	//Thats why we make clone so that we can open the original one.
-	
-	TH1F *h_residual_g2xcl_tmp = (TH1F*) h_residual_g2xcl->Clone("h_residual_g2xcl_tmp");
-	TH1F *h_residual_g3xcl_tmp = (TH1F*) h_residual_g3xcl->Clone("h_residual_g3xcl_tmp");
-	TH1F *h_residual_g1xcl_tmp = (TH1F*) h_residual_g1xcl->Clone("h_residual_g1xcl_tmp");
-	TH1F *h_residual_g2ycl_tmp = (TH1F*) h_residual_g2ycl->Clone("h_residual_g2ycl_tmp");
-	TH1F *h_residual_g3ycl_tmp = (TH1F*) h_residual_g3ycl->Clone("h_residual_g3ycl_tmp");
-	TH1F *h_residual_g1ycl_tmp = (TH1F*) h_residual_g1ycl->Clone("h_residual_g1ycl_tmp");
-	//===================== END::
-	*/
+
+	myValues = I2GFmainLoop(h_residual_g1xcl,1,10,1);
+	mean_g1xcl = myValues.mean; //
+
+	myValues = I2GFmainLoop(h_residual_g1ycl,1,10,1);
+	mean_g1ycl = myValues.mean;
 
 	myValues = I2GFmainLoop(h_residual_g2xcl,1,10,1);
-	if (verbose)
-	    cout<<"Some problem 13b"<<endl;
 	mean_g2xcl = myValues.mean; //sigmaEta5=myValues.sigma;
-	if (verbose)
-	    cout<<"Some problem 13c"<<endl;
+
 	myValues = I2GFmainLoop(h_residual_g2ycl,1,10,1);
-	if (verbose)
-	    cout<<"Some problem 14"<<endl;
 	mean_g2ycl = myValues.mean; //
+
 	myValues = I2GFmainLoop(h_residual_g3xcl,1,10,1);
-	if (verbose)
-	    cout<<"Some problem 15"<<endl;
 	mean_g3xcl = myValues.mean; //
+
 	myValues = I2GFmainLoop(h_residual_g3ycl,1,10,1);
-	if (verbose)
-	    cout<<"Some problem 16"<<endl;
 	mean_g3ycl = myValues.mean;
 	
-	myValues = I2GFmainLoop(h_residual_g1xcl,1,10,1);
-
-	if (verbose)
-	    cout<<"Some problem 17"<<endl;
-	mean_g1xcl = myValues.mean; //
-	myValues = I2GFmainLoop(h_residual_g1ycl,1,10,1);
-	if (verbose)
-	    cout<<"Some problem 18"<<endl;
-	mean_g1ycl = myValues.mean;
-	if (verbose)
-	    cout<<"Some problem 19"<<endl;
 	
 	cout<<"residual mean: "<<mean_g1xcl<<"\t"<<mean_g1ycl<<"\t"<<mean_g2xcl<<"\t"<<mean_g2ycl<<"\t"<<mean_g3xcl<<"\t"<<mean_g3ycl<<endl;
 	
@@ -274,11 +246,12 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	
 	double factor = -0.1;
 	
-	shi_g2xcl = mean_g2xcl*factor; shi_g2ycl = mean_g2ycl*factor; 
-	shi_g3xcl = mean_g3xcl*factor; shi_g3ycl = mean_g3ycl*factor; 
 	//shi_g1xcl = mean_g1xcl*factor; shi_g1ycl = mean_g1ycl*factor; 
 	shi_g1xcl = 0.0; shi_g1ycl = 0.0; 
-        cout<<"shi_g2xcl = "<<shi_g2xcl <<"\tshi_g3xcl = "<<shi_g3xcl<<endl;	
+	shi_g2xcl = mean_g2xcl*factor; shi_g2ycl = mean_g2ycl*factor; 
+	shi_g3xcl = mean_g3xcl*factor; shi_g3ycl = mean_g3ycl*factor; 
+    cout<<"shi_g2xcl = "<<shi_g2xcl <<"\tshi_g3xcl = "<<shi_g3xcl<<endl;	
+
 	Tot_Shift_2X +=shi_g2xcl;
 	Tot_Shift_2Y +=shi_g2ycl;
 	Tot_Shift_3X +=shi_g3xcl;
