@@ -21,12 +21,8 @@ echo  "Final Run Number = $FRunNo"
 ILat=15
 FLat=30
 RunCounter=$IRunNo
-if [[ $IRunNo -le 1587 ]]; then
-	PathOfInputData=/afs/cern.ch/user/r/rasharma/work/public/GEMTestBeam/Ntuples/H2TestBeam/R306_R407	# PATH FOR H2 TEST BEAM
-else
-	PathOfInputData=/afs/cern.ch/user/r/rasharma/work/public/GEMTestBeam/Ntuples/H4TestBeam			# PATH FOR H4 TEST BEAM
-fi	
-PathOfInputData=/home/ramkrishna/cernbox/LaptopBackup/AllAnalysis/TBA/FNAL-Beam-Test-Scripts/
+
+PathOfInputData=/afs/cern.ch/user/r/rasharma/public/TurboSoftware/EventBuilder/OutPutData/
 
     #/*
     # * EfficiencyType : If want to calculate efficiency of each GE11's independently
@@ -82,6 +78,7 @@ function make_dir
 rm GE11s_Effeciency_Info.txt
 
 make_dir HitTxtFiles
+make_dir RootFile_ClusterInfo
 make_dir RootFiles
 make_dir ResidualFiles
 make_dir ShiftParameterFiles
@@ -104,7 +101,9 @@ do
         fi
     fi
     for dir in $PathOfInputData/Run$file*/; do	    # Start of dir for loop
-	echo "===============================================:"
+	echo -e "\n\n\E[33m======================================================\E[0m\n"
+	echo -e "\E[34mStarted Running: \E[0m" "\E[31m$(basename $dir)\E[0m"
+	echo -e "\n\E[33m======================================================\E[0m\n"
 	echo "Directory name : "$dir
 	echo "Base name : "$(basename $dir)
 	RunName=$(basename $dir)
@@ -130,7 +129,7 @@ echo "GE11s_Effeciency_${info}_R${IRunNo}_R$FRunNo.txt" >> EfficiencyTxtFiles/Fi
 
 while [ $ILat -le $FLat ]
 do
-	rm EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
+	rm -f EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
 	grep "Lat$ILat" EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R$FRunNo.txt >> EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
 	outputFile=EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
 	outputFile_short=EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt

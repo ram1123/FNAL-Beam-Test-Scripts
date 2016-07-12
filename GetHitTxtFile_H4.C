@@ -83,7 +83,7 @@ void GetHitTxtFile_H4(const char* inputfile, string RunName , int EfficiencyType
     int LC3_Hit_count = 0 ;
     int Trk_count = 0;
 
-	string rootfile = RunName+"_ClusterInfo.root";
+	string rootfile = "RootFile_ClusterInfo/"+RunName+"_ClusterInfo.root";
 	TFile* f = new TFile(rootfile.c_str(),"recreate");
 
 	TH1F* h_ClusterSize_LC1 = new TH1F("h_ClusterSize_LC1","",10,0,10); h_ClusterSize_LC1->SetXTitle("Cluster Size"); h_ClusterSize_LC1->SetYTitle("Frequency");h_ClusterSize_LC1->SetLabelSize(0.045,"XY");h_ClusterSize_LC1->SetTitleSize(0.045,"XY");
