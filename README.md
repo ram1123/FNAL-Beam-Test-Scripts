@@ -18,13 +18,14 @@ Lxplus setting for root 6.04:
 	git checkout Develop
  
 ## How to Run:
+First you need to run the **TurboSoftware** to get the root file from EventBuilder step (root file should be of type CRC\*.root). Then there are two steps in the alignment framework. First step is to get the text file with hit information. Then, in next step takes this text file with hit info and tries to align the detector.
 
 ### Step 1: Get the text file to process in step 2.
 	./RunAiwuTextFile.sh <Initial Run Number>  <Final Run Number>
 
 You may need to modify the path of input root files. Also, there are two variables named **EfficiencyType** and **TrkOnly**. Need to choose the values of this variable in code. Description of these variables given in code itself.
 
-### Step 2:
+### Step 2: Alignment part
 	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> No 1		# Will create text file with tracker info only
 	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> LC1 1		# Will create text file with tracker & one GE11
 	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> LC1 0		# Run the alignment code
