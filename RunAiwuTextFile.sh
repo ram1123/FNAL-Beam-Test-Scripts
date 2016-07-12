@@ -16,6 +16,8 @@ source /afs/cern.ch/sw/lcg/external/gcc/4.8/x86_64-slc6/setup.sh
 source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh
 IRunNo=$1
 FRunNo=$2
+echo  "Initial Run Number = $IRunNo"
+echo  "Final Run Number = $FRunNo"
 ILat=15
 FLat=30
 RunCounter=$IRunNo
@@ -109,6 +111,7 @@ do
 	for rootfile in $dir/CRC*.root;do	# Start of rootfile for loop
 	    echo "Root file name : "$rootfile
 	    ./CreateHeader.sh $rootfile rd51tbgeo
+		echo "=====>   MakeClass Run Successfully.... :)"
 	    if [[ $RunCounter -le 1587 ]]; then
 	    	root -l -b -q GetHitTxtFile_H2.C\(\"${rootfile}\",\"${RunName}\",${EfficiencyType},${TrkOnly}\)
 	    else
