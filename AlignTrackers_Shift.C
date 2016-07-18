@@ -22,20 +22,24 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
     string shiftHead	= "shiftParameters_";
     string residualHead	= "residuals_";
     string ResidualRHead= "Residual_";
+    string FinalShiftParameters = "ShiftPar_LinearShiftTrkOnly";
 
     string DirName = "Residual_XY_Trk_RootFile/";
+    string DirName_FinalShiftPar_LinShiftTrk = "FinalShiftPar_LinShiftTrk/";
     string DirNameShiftPar = "shiftParameters/";
     string DirNameResidual = "residual_txtFile/";
 
     char runname[50]; sprintf(runname,"_alignTrackers_R%i.txt",RunNumber);
     string foutname	= DirNameShiftPar+shiftHead+thestring+runname;	// Shift parameter will go in this text file
     string fout1name	= DirNameResidual+residualHead+thestring+runname;	// Residual will go into this
+    string foutFinalShiftPar = DirName_FinalShiftPar_LinShiftTrk+FinalShiftParameters+runname;	// Final shift parameter will go this this file
 
     fstream fin(txtfilename.c_str(),ios::in);
     if(!fin)	{cout<<"file not read"<<endl;}
 
     fstream fout(foutname.c_str(),ios::out);
     fstream fout1(fout1name.c_str(),ios::out);
+    fstream foutFshiPar(foutFinalShiftPar.c_str(),ios::out);
 
     double Pos_g2xcl=0.0, Pos_g2ycl=0.0;
     double Pos_g3xcl=0.0, Pos_g3ycl=0.0;
@@ -305,7 +309,13 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
     cout<<"Shift in 2Y = "<<Tot_Shift_2Y<<endl; 
     cout<<"Shift in 3X = "<<Tot_Shift_3X<<endl; 
     cout<<"Shift in 3Y = "<<Tot_Shift_3Y<<endl; 
+
+    foutFshiPar<<"Shift_2X = "<<Tot_Shift_2X<<endl; 
+    foutFshiPar<<"Shift_2Y = "<<Tot_Shift_2Y<<endl; 
+    foutFshiPar<<"Shift_3X = "<<Tot_Shift_3X<<endl; 
+    foutFshiPar<<"Shift_3Y = "<<Tot_Shift_3Y<<endl; 
     fout.close();
     fout1.close();
+    foutFshiPar.close();
     // return 0;
 } // entire script

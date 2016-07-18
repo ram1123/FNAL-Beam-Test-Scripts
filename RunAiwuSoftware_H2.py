@@ -27,8 +27,12 @@ print '=========================================================================
 print 'args.TextOnly = ',args.TextOnly
 if args.TextOnly=="1":
     print 'Start Running SelectTrackerEvents.C...'
-    print('root -l -b -q SelectTrackerEvents.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
-    os.system('root -l -b -q SelectTrackerEvents.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    if args.RunNumber < 1587:
+    	print('root -l -b -q SelectTrackerEvents_H2.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    	os.system('root -l -b -q SelectTrackerEvents_H2.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    else:
+    	print('root -l -b -q SelectTrackerEvents_H4.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    	os.system('root -l -b -q SelectTrackerEvents_H4.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
     print '\n\nSelectTrackerEvents.C DONE...\n\n'
 else:
     print "Don't re-run SelectTrackerEvents.C macro......"

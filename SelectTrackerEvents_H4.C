@@ -12,7 +12,7 @@
 //#include "CMS_lumi.C"
 
 
-void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string LargeGEM)
+void SelectTrackerEvents_H4(const char * InputTextFile, const int RunNumber, string LargeGEM)
 {
 /*	setTDRStyle();
 
@@ -38,19 +38,19 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
 
     //number of hits
     vector <int> NHits_g2xcl, NHits_g2ycl, NHits_g3xcl, NHits_g3ycl, NHits_g1xcl, NHits_g1ycl;
-    vector <int> NHits_sCMSNS2LC1, NHits_sCMSNS2LC2, NHits_sCMSNS2LC3;
+    vector <int> NHits_GE11_IV_GIF, NHits_GE11_IV, NHits_sCMSNS2LC3;
     
     //positions on detectors
     vector <double> Pos_g2xcl, Pos_g2ycl, Pos_g3xcl, Pos_g3ycl, Pos_g1xcl, Pos_g1ycl;
-    vector <double> Pos_sCMSNS2LC1, Pos_sCMSNS2LC2, Pos_sCMSNS2LC3;
+    vector <double> Pos_GE11_IV_GIF, Pos_GE11_IV, Pos_sCMSNS2LC3;
 
     //charges in detectors
     vector <double> Chrg_g2xcl, Chrg_g2ycl, Chrg_g3xcl, Chrg_g3ycl, Chrg_g1xcl, Chrg_g1ycl;
-    vector <double> Chrg_sCMSNS2LC1, Chrg_sCMSNS2LC2, Chrg_sCMSNS2LC3;
+    vector <double> Chrg_GE11_IV_GIF, Chrg_GE11_IV, Chrg_sCMSNS2LC3;
    
     //strips in detectors
     vector <double> Strip_g2xcl, Strip_g2ycl, Strip_g3xcl, Strip_g3ycl, Strip_g1xcl, Strip_g1ycl;
-    vector <double> Strip_sCMSNS2LC1, Strip_sCMSNS2LC2, Strip_sCMSNS2LC3;
+    vector <double> Strip_GE11_IV_GIF, Strip_GE11_IV, Strip_sCMSNS2LC3;
 
     //initialize all the variables
     NHits_g2xcl.clear();
@@ -59,8 +59,8 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
     NHits_g3ycl.clear();
     NHits_g1xcl.clear();
     NHits_g1ycl.clear();
-    NHits_sCMSNS2LC1.clear();
-    NHits_sCMSNS2LC2.clear();
+    NHits_GE11_IV_GIF.clear();
+    NHits_GE11_IV.clear();
     NHits_sCMSNS2LC3.clear();
     Pos_g2xcl.clear();
     Pos_g2ycl.clear();
@@ -68,8 +68,8 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
     Pos_g3ycl.clear();
     Pos_g1xcl.clear();
     Pos_g1ycl.clear();
-    Pos_sCMSNS2LC1.clear();
-    Pos_sCMSNS2LC2.clear();
+    Pos_GE11_IV_GIF.clear();
+    Pos_GE11_IV.clear();
     Pos_sCMSNS2LC3.clear();
     Chrg_g2xcl.clear();
     Chrg_g2ycl.clear();
@@ -77,8 +77,8 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
     Chrg_g3ycl.clear();
     Chrg_g1xcl.clear();
     Chrg_g1ycl.clear();
-    Chrg_sCMSNS2LC1.clear();
-    Chrg_sCMSNS2LC2.clear();
+    Chrg_GE11_IV_GIF.clear();
+    Chrg_GE11_IV.clear();
     Chrg_sCMSNS2LC3.clear();
     Strip_g2xcl.clear();
     Strip_g2ycl.clear();
@@ -86,8 +86,8 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
     Strip_g3ycl.clear();
     Strip_g1xcl.clear();
     Strip_g1ycl.clear();
-    Strip_sCMSNS2LC1.clear();
-    Strip_sCMSNS2LC2.clear();
+    Strip_GE11_IV_GIF.clear();
+    Strip_GE11_IV.clear();
     Strip_sCMSNS2LC3.clear();
     //read the file, write values to array
     
@@ -101,12 +101,13 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
     while(fin.good()) 
     {
 	fin>>firstString;
+	if (firstString == "") continue;
 	if(firstString.EqualTo("EventNb"))
 	{
 	    fin>>count;
 	    evtNb++;
 	    if (verbose)
-		cout<<"evnt nb = "<<evtNb<< "\t firstString = "<< firstString << "\t count = "<< count <<endl;	    
+		cout<<"==================================================================\nevnt nb = "<<evtNb<< "\t firstString = "<< firstString << "\t count = "<< count <<endl;	    
 	    if(evtNb%5000==0) 
 	      cout<<"event number "<<evtNb<<endl;
 	    continue;
@@ -114,27 +115,24 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
 	//if (evtNb++ > 1) continue;	// Just added this line to read only one event
 	fin>>nbHits>>charge>>position>>strip;
 	if (verbose)
-	    cout<<"nbHits = "<<nbHits << "\t charge = "<< charge << "\t position = "<< position << "\t strip = "<<strip<<endl;
-	    //cout<<"det name = "<<firstString<<"\tnbHits = "<<nbHits << "\t charge = "<< charge << "\t position = "<< position << "\t strip = "<<strip<<endl;
-		for(int i=0;i<nbHits;i++)
-	//	for(int i=0;i<100;i++)
-
+	    cout<<"det name = "<<firstString<<"\tnbHits = "<<nbHits << "\t charge = "<< charge << "\t position = "<< position << "\t strip = "<<strip<<endl;
+	for(int i=0;i<nbHits;i++)
 	{
 	    fin>>aSingleStrip>>aSingleCharge;
 	}
-	    if(firstString.EqualTo("sCMSNS2LC1"))
+	    if(firstString.EqualTo("GE11_IV_GIF"))
 	      {
-		NHits_sCMSNS2LC1.push_back(nbHits);
-		Pos_sCMSNS2LC1.push_back(position);
-		Chrg_sCMSNS2LC1.push_back(charge);
-		Strip_sCMSNS2LC1.push_back(strip);
+		NHits_GE11_IV_GIF.push_back(nbHits);
+		Pos_GE11_IV_GIF.push_back(position);
+		Chrg_GE11_IV_GIF.push_back(charge);
+		Strip_GE11_IV_GIF.push_back(strip);
 	      }
-	    if(firstString.EqualTo("sCMSNS2LC2"))
+	    if(firstString.EqualTo("GE11_IV"))
               {
-                NHits_sCMSNS2LC2.push_back(nbHits);
-                Pos_sCMSNS2LC2.push_back(position);
-                Chrg_sCMSNS2LC2.push_back(charge);
-                Strip_sCMSNS2LC2.push_back(strip);
+                NHits_GE11_IV.push_back(nbHits);
+                Pos_GE11_IV.push_back(position);
+                Chrg_GE11_IV.push_back(charge);
+                Strip_GE11_IV.push_back(strip);
               }
 	    if(firstString.EqualTo("sCMSNS2LC3"))
               {
@@ -191,10 +189,11 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
 		cout<< aSingleStrip << "\t" << aSingleCharge << "\t";
 		//cout<<"aSingleStrip = " << aSingleStrip << "\taSingleCharge = "<< aSingleCharge ;
 	    }
-	//}
 	    if (verbose)
 	      cout<<endl;
     }
+if (verbose)
+    cout<<"=========================\n\n\t\tWhile Loop ends\n\n===========================================\n\n"<<endl;
 
     TString outputfile;
     if ( LargeGEM == "No")
@@ -220,8 +219,8 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
     TH1F* h_Pos_g3ycl=new TH1F("h_Pos_g3ycl","",100, -10, 110);h_Pos_g3ycl->SetXTitle("Cluster position [mm]");h_Pos_g3ycl->SetYTitle("Frequency");h_Pos_g3ycl->SetTitleSize(0.04,"XY");h_Pos_g3ycl->SetLabelSize(0.04,"XY");
     TH1F* h_Pos_g1xcl=new TH1F("h_Pos_g1xcl","",100, -10, 110);h_Pos_g1xcl->SetXTitle("Cluster position [mm]");h_Pos_g1xcl->SetYTitle("Frequency");h_Pos_g1xcl->SetTitleSize(0.04,"XY");h_Pos_g1xcl->SetLabelSize(0.04,"XY");
     TH1F* h_Pos_g1ycl=new TH1F("h_Pos_g1ycl","",100, -10, 110);h_Pos_g1ycl->SetXTitle("Cluster position [mm]");h_Pos_g1ycl->SetYTitle("Frequency");h_Pos_g1ycl->SetTitleSize(0.04,"XY");h_Pos_g1ycl->SetLabelSize(0.04,"XY");
-    TH1F* h_Pos_sCMSNS2LC1=new TH1F("h_Pos_sCMSNS2LC1","",100, 0, 100);h_Pos_sCMSNS2LC1->SetXTitle("Cluster position [mm]");h_Pos_sCMSNS2LC1->SetYTitle("Frequency");h_Pos_sCMSNS2LC1->SetTitleSize(0.04,"XY");h_Pos_sCMSNS2LC1->SetLabelSize(0.04,"XY");
-    TH1F* h_Pos_sCMSNS2LC2=new TH1F("h_Pos_sCMSNS2LC2","",100, 0, 100);h_Pos_sCMSNS2LC2->SetXTitle("Cluster position [mm]");h_Pos_sCMSNS2LC2->SetYTitle("Frequency");h_Pos_sCMSNS2LC2->SetTitleSize(0.04,"XY");h_Pos_sCMSNS2LC2->SetLabelSize(0.04,"XY");
+    TH1F* h_Pos_GE11_IV_GIF=new TH1F("h_Pos_GE11_IV_GIF","",100, 0, 100);h_Pos_GE11_IV_GIF->SetXTitle("Cluster position [mm]");h_Pos_GE11_IV_GIF->SetYTitle("Frequency");h_Pos_GE11_IV_GIF->SetTitleSize(0.04,"XY");h_Pos_GE11_IV_GIF->SetLabelSize(0.04,"XY");
+    TH1F* h_Pos_GE11_IV=new TH1F("h_Pos_GE11_IV","",100, 0, 100);h_Pos_GE11_IV->SetXTitle("Cluster position [mm]");h_Pos_GE11_IV->SetYTitle("Frequency");h_Pos_GE11_IV->SetTitleSize(0.04,"XY");h_Pos_GE11_IV->SetLabelSize(0.04,"XY");
     TH1F* h_Pos_sCMSNS2LC3=new TH1F("h_Pos_sCMSNS2LC3","",100, 0, 100);h_Pos_sCMSNS2LC3->SetXTitle("Cluster position [mm]");h_Pos_sCMSNS2LC3->SetYTitle("Frequency");h_Pos_sCMSNS2LC3->SetTitleSize(0.04,"XY");h_Pos_sCMSNS2LC3->SetLabelSize(0.04,"XY");
     TH1F* h_Strip_g2xcl=new TH1F("h_Strip_g2xcl","",100, -10, 275);h_Strip_g2xcl->SetXTitle("Cluster position in terms of strip");h_Strip_g2xcl->SetYTitle("Frequency");h_Strip_g2xcl->SetTitleSize(0.04,"XY");h_Strip_g2xcl->SetLabelSize(0.04,"XY");
     TH1F* h_Strip_g2ycl=new TH1F("h_Strip_g2ycl","",100, -10, 275);h_Strip_g2ycl->SetXTitle("Cluster position in terms of strip");h_Strip_g2ycl->SetYTitle("Frequency");h_Strip_g2ycl->SetTitleSize(0.04,"XY");h_Strip_g2ycl->SetLabelSize(0.04,"XY");
@@ -229,8 +228,8 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
     TH1F* h_Strip_g3ycl=new TH1F("h_Strip_g3ycl","",100, -10, 275);h_Strip_g3ycl->SetXTitle("Cluster position in terms of strip");h_Strip_g3ycl->SetYTitle("Frequency");h_Strip_g3ycl->SetTitleSize(0.04,"XY");h_Strip_g3ycl->SetLabelSize(0.04,"XY");
     TH1F* h_Strip_g1xcl=new TH1F("h_Strip_g1xcl","",100, -10, 275);h_Strip_g1xcl->SetXTitle("Cluster position in terms of strip");h_Strip_g1xcl->SetYTitle("Frequency");h_Strip_g1xcl->SetTitleSize(0.04,"XY");h_Strip_g1xcl->SetLabelSize(0.04,"XY");
     TH1F* h_Strip_g1ycl=new TH1F("h_Strip_g1ycl","",100, -10, 275);h_Strip_g1ycl->SetXTitle("Cluster position in terms of strip");h_Strip_g1ycl->SetYTitle("Frequency");h_Strip_g1ycl->SetTitleSize(0.04,"XY");h_Strip_g1ycl->SetLabelSize(0.04,"XY");
-    TH1F* h_Strip_sCMSNS2LC1=new TH1F("h_Strip_sCMSNS2LC1","",100, -10, 275);h_Strip_sCMSNS2LC1->SetXTitle("Cluster position in terms of strip");h_Strip_sCMSNS2LC1->SetYTitle("Frequency");h_Strip_sCMSNS2LC1->SetTitleSize(0.04,"XY");h_Strip_sCMSNS2LC1->SetLabelSize(0.04,"XY");
-    TH1F* h_Strip_sCMSNS2LC2=new TH1F("h_Strip_sCMSNS2LC2","",100, -10, 275);h_Strip_sCMSNS2LC2->SetXTitle("Cluster position in terms of strip");h_Strip_sCMSNS2LC2->SetYTitle("Frequency");h_Strip_sCMSNS2LC2->SetTitleSize(0.04,"XY");h_Strip_sCMSNS2LC2->SetLabelSize(0.04,"XY");
+    TH1F* h_Strip_GE11_IV_GIF=new TH1F("h_Strip_GE11_IV_GIF","",100, -10, 275);h_Strip_GE11_IV_GIF->SetXTitle("Cluster position in terms of strip");h_Strip_GE11_IV_GIF->SetYTitle("Frequency");h_Strip_GE11_IV_GIF->SetTitleSize(0.04,"XY");h_Strip_GE11_IV_GIF->SetLabelSize(0.04,"XY");
+    TH1F* h_Strip_GE11_IV=new TH1F("h_Strip_GE11_IV","",100, -10, 275);h_Strip_GE11_IV->SetXTitle("Cluster position in terms of strip");h_Strip_GE11_IV->SetYTitle("Frequency");h_Strip_GE11_IV->SetTitleSize(0.04,"XY");h_Strip_GE11_IV->SetLabelSize(0.04,"XY");
     TH1F* h_Strip_sCMSNS2LC3=new TH1F("h_Strip_sCMSNS2LC3","",100, -10, 275);h_Strip_sCMSNS2LC3->SetXTitle("Cluster position in terms of strip");h_Strip_sCMSNS2LC3->SetYTitle("Frequency");h_Strip_sCMSNS2LC3->SetTitleSize(0.04,"XY");h_Strip_sCMSNS2LC3->SetLabelSize(0.04,"XY");
     TH1F* h_NHits_g1xcl=new TH1F("h_NHits_g1xcl","",500, -1, 10);h_NHits_g1xcl->SetXTitle("Number of Hits");h_NHits_g1xcl->SetYTitle("Frequency");h_NHits_g1xcl->SetTitleSize(0.04,"XY");h_NHits_g1xcl->SetLabelSize(0.04,"XY");
     TH1F* h_NHits_g1ycl=new TH1F("h_NHits_g1ycl","",500, -1, 10);h_NHits_g1ycl->SetXTitle("Number of Hits");h_NHits_g1ycl->SetYTitle("Frequency");h_NHits_g1ycl->SetTitleSize(0.04,"XY");h_NHits_g1ycl->SetLabelSize(0.04,"XY");
@@ -238,8 +237,8 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
     TH1F* h_NHits_g2ycl=new TH1F("h_NHits_g2ycl","",500, -1, 10);h_NHits_g2ycl->SetXTitle("Number of Hits");h_NHits_g2ycl->SetYTitle("Frequency");h_NHits_g2ycl->SetTitleSize(0.04,"XY");h_NHits_g2ycl->SetLabelSize(0.04,"XY");
     TH1F* h_NHits_g3xcl=new TH1F("h_NHits_g3xcl","",500, -1, 10);h_NHits_g3xcl->SetXTitle("Number of Hits");h_NHits_g3xcl->SetYTitle("Frequency");h_NHits_g3xcl->SetTitleSize(0.04,"XY");h_NHits_g3xcl->SetLabelSize(0.04,"XY");
     TH1F* h_NHits_g3ycl=new TH1F("h_NHits_g3ycl","",500, -1, 10);h_NHits_g3ycl->SetXTitle("Number of Hits");h_NHits_g3ycl->SetYTitle("Frequency");h_NHits_g3ycl->SetTitleSize(0.04,"XY");h_NHits_g3ycl->SetLabelSize(0.04,"XY");
-    TH1F* h_NHits_sCMSNS2LC1=new TH1F("h_NHits_sCMSNS2LC1","",500, -1, 10);h_NHits_sCMSNS2LC1->SetXTitle("Number of Hits");h_NHits_sCMSNS2LC1->SetYTitle("Frequency");h_NHits_sCMSNS2LC1->SetTitleSize(0.04,"XY");h_NHits_sCMSNS2LC1->SetLabelSize(0.04,"XY");
-    TH1F* h_NHits_sCMSNS2LC2=new TH1F("h_NHits_sCMSNS2LC2","",500, -1, 10);h_NHits_sCMSNS2LC2->SetXTitle("Number of Hits");h_NHits_sCMSNS2LC2->SetYTitle("Frequency");h_NHits_sCMSNS2LC2->SetTitleSize(0.04,"XY");h_NHits_sCMSNS2LC2->SetLabelSize(0.04,"XY");
+    TH1F* h_NHits_GE11_IV_GIF=new TH1F("h_NHits_GE11_IV_GIF","",500, -1, 10);h_NHits_GE11_IV_GIF->SetXTitle("Number of Hits");h_NHits_GE11_IV_GIF->SetYTitle("Frequency");h_NHits_GE11_IV_GIF->SetTitleSize(0.04,"XY");h_NHits_GE11_IV_GIF->SetLabelSize(0.04,"XY");
+    TH1F* h_NHits_GE11_IV=new TH1F("h_NHits_GE11_IV","",500, -1, 10);h_NHits_GE11_IV->SetXTitle("Number of Hits");h_NHits_GE11_IV->SetYTitle("Frequency");h_NHits_GE11_IV->SetTitleSize(0.04,"XY");h_NHits_GE11_IV->SetLabelSize(0.04,"XY");
     TH1F* h_NHits_sCMSNS2LC3=new TH1F("h_NHits_sCMSNS2LC3","",500, -1, 10);h_NHits_sCMSNS2LC3->SetXTitle("Number of Hits");h_NHits_sCMSNS2LC3->SetYTitle("Freqency");h_NHits_sCMSNS2LC3->SetTitleSize(0.04,"XY");h_NHits_sCMSNS2LC3->SetLabelSize(0.04,"XY");
     //    cout << " ####################" <<endl;
     //////////////////////////////////////////////////////////////////////////////
@@ -256,6 +255,11 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
     //    cout<<"entries : "<<Pos_g1xcl.size()<<endl;
     // int icut1 =0; int icut2=0; int icut3=0; int icut4=0; int icut5=0; int icut6 =0; int icut7=0; int icut8=0; int icut9=0; int icut10=0; int icut11=0;
 	int totalEvents = 0;
+
+if (verbose){
+    cout<<"=========================\n\n\t\tEvent Loop Starts\n\n===========================================\n\n"<<endl;
+    cout<<"Total number of events = "<<evtNb<<endl;
+    }
 	for(int i=0; i<evtNb; i++){
 	//set number of hits cut conditions    
 	  //	  cout<<"entries after: "<<Pos_g1xcl.size()<<endl;                                                                                                 
@@ -280,14 +284,14 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
 	  }
 	
 	Bool_t cutNHits_LC1 = false;
-	if(NHits_sCMSNS2LC1.at(i) > 0) 
+	if(NHits_GE11_IV_GIF.at(i) > 0) 
 	  {
 	    cutNHits_LC1 = true;
 	    NHits_LC1++;
 	  }
 	
 	Bool_t cutNHits_LC2 = false;
-        if(NHits_sCMSNS2LC2.at(i) > 0) 
+        if(NHits_GE11_IV.at(i) > 0) 
 	  {
 	    cutNHits_LC2 = true;
 	    NHits_LC2++;
@@ -361,9 +365,9 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
 	if ( LargeGEM == "No")
 	    fout<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<<endl;
 	if ( LargeGEM == "LC1")
-	    fout<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<< "\t"<< Pos_sCMSNS2LC1.at(i)<<endl;
+	    fout<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<< "\t"<< Pos_GE11_IV_GIF.at(i)<<endl;
 	if ( LargeGEM == "LC2")
-	    fout<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<< "\t"<< Pos_sCMSNS2LC2.at(i)<<endl;
+	    fout<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<< "\t"<< Pos_GE11_IV.at(i)<<endl;
 	if ( LargeGEM == "LC3")
 	    fout<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<< "\t"<< Pos_sCMSNS2LC3.at(i)<<endl;
 
@@ -373,10 +377,10 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
 	  h_Pos_g3ycl->Fill(Pos_g3ycl.at(i));
 	  h_Pos_g1xcl->Fill(Pos_g1xcl.at(i));
 	  h_Pos_g1ycl->Fill(Pos_g1ycl.at(i));
-	  if(NHits_sCMSNS2LC1.at(i) > 0){
-	    h_Pos_sCMSNS2LC1->Fill(Pos_sCMSNS2LC1.at(i));}
-	  if(NHits_sCMSNS2LC2.at(i) > 0){
-	    h_Pos_sCMSNS2LC2->Fill(Pos_sCMSNS2LC2.at(i));}
+	  if(NHits_GE11_IV_GIF.at(i) > 0){
+	    h_Pos_GE11_IV_GIF->Fill(Pos_GE11_IV_GIF.at(i));}
+	  if(NHits_GE11_IV.at(i) > 0){
+	    h_Pos_GE11_IV->Fill(Pos_GE11_IV.at(i));}
 	  if(NHits_sCMSNS2LC3.at(i) > 0){
 	    h_Pos_sCMSNS2LC3->Fill(Pos_sCMSNS2LC3.at(i));}
 	  h_Strip_g2xcl->Fill(Strip_g2xcl.at(i));
@@ -385,10 +389,10 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
 	  h_Strip_g3ycl->Fill(Strip_g3ycl.at(i));
 	  h_Strip_g1xcl->Fill(Strip_g1xcl.at(i));
 	  h_Strip_g1ycl->Fill(Strip_g1ycl.at(i));
-	  if(NHits_sCMSNS2LC1.at(i) > 0){
-	    h_Strip_sCMSNS2LC1->Fill(Strip_sCMSNS2LC1.at(i));}
-	  if(NHits_sCMSNS2LC2.at(i) > 0){
-	    h_Strip_sCMSNS2LC2->Fill(Strip_sCMSNS2LC2.at(i));}
+	  if(NHits_GE11_IV_GIF.at(i) > 0){
+	    h_Strip_GE11_IV_GIF->Fill(Strip_GE11_IV_GIF.at(i));}
+	  if(NHits_GE11_IV.at(i) > 0){
+	    h_Strip_GE11_IV->Fill(Strip_GE11_IV.at(i));}
 	  if(NHits_sCMSNS2LC3.at(i) > 0){
 	    h_Strip_sCMSNS2LC3->Fill(Strip_sCMSNS2LC3.at(i));}
 	  h_NHits_g2xcl->Fill(NHits_g2xcl.at(i));
@@ -397,8 +401,8 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
 	  h_NHits_g3ycl->Fill(NHits_g3ycl.at(i));
 	  h_NHits_g1xcl->Fill(NHits_g1xcl.at(i));
 	  h_NHits_g1ycl->Fill(NHits_g1ycl.at(i));
-	  h_NHits_sCMSNS2LC1->Fill(NHits_sCMSNS2LC1.at(i));
-	  h_NHits_sCMSNS2LC2->Fill(NHits_sCMSNS2LC2.at(i));
+	  h_NHits_GE11_IV_GIF->Fill(NHits_GE11_IV_GIF.at(i));
+	  h_NHits_GE11_IV->Fill(NHits_GE11_IV.at(i));
 	  h_NHits_sCMSNS2LC3->Fill(NHits_sCMSNS2LC3.at(i));
 	 
 	  //       	  cout<<"totalEvents = "<<totalEvents<<endl;
@@ -413,7 +417,9 @@ void SelectTrackerEvents(const char * InputTextFile, const int RunNumber, string
 	  
 	  
 	}// trigger loop
-	}
+	}	    
+if (verbose)	
+    cout<<"=========================\n\n\t\tEvent Loop ends\n\n===========================================\n\n"<<endl;
 	  //BeamProfile_Tracker_1->Draw("COLZ");
 	  //BeamProfile_Tracker_2->Draw("COLZ");
 	  //BeamProfile_Tracker_3->Draw("COLZ");  

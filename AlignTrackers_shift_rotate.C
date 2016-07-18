@@ -23,6 +23,7 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 	string DirResidual = "residual_txtFile/";
 	string DirShiftPar = "shiftParameters/";
 	string DirRootFile = "Residual_Rot_Trk_RootFile/";
+    	string DirName_FinalShiftPar_RotShiftTrk = "FinalShiftPar_RotShiftTrk/";
 
 	string shiftHead = "RotationBack_shiftParameters_";
 	string rotateHead = "RotationBack_angles_";
@@ -34,6 +35,7 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 	string fout1name = DirResidual+residualHead+thestring+"_exclusive_"+std::to_string(RunNumber)+".txt";
 	string foutchi2name = DirResidual+chi2Head + thestring + "_exclusive_"+std::to_string(RunNumber)+".txt";
 	string foutRotationName = DirResidual+rotateHead + thestring + "_exclusive_"+std::to_string(RunNumber)+".txt";
+    	string foutFinalShiftPar = DirName_FinalShiftPar_RotShiftTrk+"Shift_Rotate_Parameter_R"+std::to_string(RunNumber)+".txt";
 
 	fstream fin(txtfilename.c_str(),ios::in);
 		if(!fin){cout<<"file not read"<<endl; return;}
@@ -43,6 +45,7 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 	fstream fout1(fout1name.c_str(),ios::out);
 	fstream fout2(foutRotationName.c_str(),ios::out);
 	fstream fout3(foutchi2name.c_str(),ios::out|ios::app);
+    	fstream foutFshiPar(foutFinalShiftPar.c_str(),ios::out);
 
 	// Define the variable for hit position
 	double Pos_g1xcl=0.0, Pos_g1ycl=0.0;
@@ -339,12 +342,36 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
     cout<<"totalAngleREF2 = "<<totalAngleREF2<<endl;
     cout<<"totalAngleREF3 = "<<totalAngleREF3<<endl;
 
+    foutFshiPar<<"Shift_2X = "<<Tot_Shift_2X<<endl;
+    foutFshiPar<<"Shift_2Y = "<<Tot_Shift_2Y<<endl;
+    foutFshiPar<<"Shift_3X = "<<Tot_Shift_3X<<endl;
+    foutFshiPar<<"Shift_3Y = "<<Tot_Shift_3Y<<endl;
+    foutFshiPar<<"TotalAngleREF2 = "<<totalAngleREF2<<endl;
+    foutFshiPar<<"TotalAngleREF3 = "<<totalAngleREF3<<endl;
+
 } // entire script
 		
-int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2Y, double shiREF3X, double shiREF3Y, double Trk1Pos, double Trk2Pos, double Trk3Pos, double aREF2REF1, double aREF3REF1  )
+int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2X_TrkAlign, double shiREF2Y, double shiREF2Y_TrkAlign, double shiREF3X, double shiREF3X_TrkAlign, double shiREF3Y, double shiREF3Y_TrkAlign, double Trk1Pos, double Trk2Pos, double Trk3Pos, double aREF2REF1, double aREF3REF1  )
 {
 	//  string name={"Position"}; 
+	cout<<"\n=================================================\n"<<endl;
+	cout<<"\tPrint Input Parameters:"<<endl;
+	cout<<"\n================================================="<<endl;
 	cout<<"Name of input file = "<<name<<endl;
+	cout<<"Run Number = "<<RunNumber<<endl;
+	cout<<"Shift Parameters:"<<endl;
+	cout<<"\tTrk 1X: Mean = "<<shiREF1X<<endl;
+	cout<<"\tTrk 1Y: Mean = "<<shiREF1Y<<endl;
+	cout<<"\tTrk 2X: Mean = "<<shiREF2X<<"\tDetector Shift = "<<shiREF2X_TrkAlign<<endl;
+	cout<<"\tTrk 2Y: Mean = "<<shiREF2Y<<"\tDetector Shift = "<<shiREF2Y_TrkAlign<<endl;
+	cout<<"\tTrk 3X: Mean = "<<shiREF3X<<"\tDetector Shift = "<<shiREF3X_TrkAlign<<endl;
+	cout<<"\tTrk 3Y: Mean = "<<shiREF3Y<<"\tDetector Shift = "<<shiREF3Y_TrkAlign<<endl;
+	cout<<"\tTracker 1 Position = "<<Trk1Pos<<endl;
+	cout<<"\tTracker 2 Position = "<<Trk2Pos<<endl;
+	cout<<"\tTracker 3 Position = "<<Trk3Pos<<endl;
+	cout<<"\tAngle between Trk 2 and 1 = "<<aREF2REF1<<endl;
+	cout<<"\tAngle between Trk 3 and 1 = "<<aREF3REF1<<endl;
+	cout<<"\n================================================="<<endl;
 	//  name={"Position"}; 
 	cout<<"Start of program"<<endl;
     bool shiftOrigin = 1;
@@ -353,12 +380,12 @@ int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, doub
 	{
 		shiREF1X += 0.0;
 		shiREF1Y += 0.0;
-		shiREF2X += 0.0+0.336204;
-		shiREF2Y += 0.0+0.215308;
-		shiREF3X += 0.0-0.125640;
-		shiREF3Y += 0.0-0.0793286;
-		aREF2REF1+= 0.0+0.00869265;
-		aREF3REF1+= 0.0+0.018091;
+		shiREF2X += 0.0+shiREF2X_TrkAlign;
+		shiREF2Y += 0.0+shiREF2Y_TrkAlign;
+		shiREF3X += 0.0+shiREF3X_TrkAlign;
+		shiREF3Y += 0.0+shiREF3Y_TrkAlign;
+		aREF2REF1+= 0.0;
+		aREF3REF1+= 0.0;
 	}
 
 cout<<"++++++++++++++++ = "<<shiREF1X<<endl;

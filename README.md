@@ -29,3 +29,9 @@ You may need to modify the path of input root files. Also, there are two variabl
 	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> No 1		# Will create text file with tracker info only
 	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> LC1 1		# Will create text file with tracker & one GE11
 	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> LC1 0		# Run the alignment code
+
+**Some time you may get error**, stating following error
+	Warning in <Fit>: Fit data is empty 
+	*** Break *** segmentation violation
+
+This is because while aligning the detector it is going outside the range of defined histogram. So, you need to see carefully and set range or initial parameter carefully.

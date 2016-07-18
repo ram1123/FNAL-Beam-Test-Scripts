@@ -326,12 +326,12 @@ void AlignGEM_XYoffsets(string InputTextFile, double shiREF1X, double shiREF1Y, 
 	{
 		shiREF1X  += 0.0;
 		shiREF1Y  += 0.0;
-		shiREF2X  += 0.0+0.356204;
-		shiREF2Y  += 0.0+0.219308;
-		shiREF3X  += 0.0-0.125640;
-		shiREF3Y  += 0.0-0.0793286;
-		aREF2REF1 += 0.0+0.00869265;
-		aREF3REF1 += 0.0+0.018091;
+		shiREF2X  += 0.0-0.0332832+4.90551;
+		shiREF2Y  += 0.0-0.13285-1.10563;
+		shiREF3X  += 0.0+0.0168636-1.88162;
+		shiREF3Y  += 0.0+0.0324298+0.426226;
+		aREF2REF1 += 0.0+0.0917291;
+		aREF3REF1 += 0.0+0.0657359;
 	}
   for(int iterNbX=0;iterNbX<10;iterNbX++)
     for(int iterNbY=0;iterNbY<1;iterNbY++)

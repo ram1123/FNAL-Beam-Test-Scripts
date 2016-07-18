@@ -49,6 +49,8 @@ make_dir Residual_XY_Trk_RootFile
 make_dir shiftParameters
 make_dir residual_txtFile
 make_dir Residual_Rot_Trk_RootFile
+make_dir FinalShiftPar_LinShiftTrk
+make_dir FinalShiftPar_RotShiftTrk
 echo -e "\E[33mcreate dir ends:\E[0m"
 
 while [ $RunCounter -le $FRunNo ]
@@ -70,8 +72,13 @@ do
     	echo ${dir}
 	echo $(basename $dir)
 	echo -e "\E[33mStarted Running the Python Code.\E[0m"
-    	echo "python RunAiwuSoftware.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}"
-    	python RunAiwuSoftware.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}
+	if [[ $RunCounter -le 1587 ]]; then
+    		echo "python RunAiwuSoftware_H2.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}"
+    		python RunAiwuSoftware_H2.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}
+	else
+    		echo "python RunAiwuSoftware_H4.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}"
+    		python RunAiwuSoftware_H4.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}
+	fi
 	echo -e "\E[33mCompleted Running the Python Code.\E[0m"
     done	# END of dir for loop
     ((++RunCounter))	# increment counter for while loop

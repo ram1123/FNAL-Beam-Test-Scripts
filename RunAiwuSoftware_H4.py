@@ -1,0 +1,130 @@
+import sys
+import os
+import datetime
+import argparse
+import string
+
+from DetectorPosition import *	## Import variables from  DetectorPosition.txt 
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser (description = 'Run the Aiwu software')
+    parser.add_argument ('-det', '--Det'      , default = 'LC1'                    , help='No or LC1 or LC2 or LC3')
+    parser.add_argument ('-RN' , '--RunNumber', default = '411'                   , help='Enter Run Number')
+    parser.add_argument ('-i'  , '--InputFile', default = 'Hit_Position_Info.txt' , help='Name of Input File')
+    parser.add_argument ('-l'  , '--Lxplus'   , default = '0'			  , help='if not working on lxplus then put 0')
+    parser.add_argument ('-t'  , '--TextOnly' , default = '0'			  , help='if not working on lxplus then put 0')
+    args = parser.parse_args ()
+
+if args.Lxplus=="1":
+	print('source /afs/cern.ch/sw/lcg/external/gcc/4.8/x86_64-slc6/setup.sh')
+	os.system('source /afs/cern.ch/sw/lcg/external/gcc/4.8/x86_64-slc6/setup.sh')
+	print('source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh')
+	os.system('source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh')
+
+RunWhichPart=1
+
+
+Dir_Shift_Par="FinalShiftPar_LinShiftTrk/ShiftPar_LinearShiftTrkOnly_alignTrackers_R"+args.RunNumber+".txt"
+Dir_Shift_Rot_Par="FinalShiftPar_RotShiftTrk/Shift_Rotate_Parameter_R"+args.RunNumber+".txt"
+
+#def getVarFromFile(filename):
+#    import imp
+#    f = open(filename)
+#    global data
+#    data = imp.load_source('data', '', f)
+#    f.close()
+#
+#getVarFromFile(Dir_Shift_Par)
+
+print '========================================================================='
+print 'args.TextOnly = ',args.TextOnly
+if args.TextOnly=="1":
+    print 'Start Running SelectTrackerEvents.C...'
+    if args.RunNumber < 1587:
+    	print('root -l -b -q SelectTrackerEvents_H2.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    	os.system('root -l -b -q SelectTrackerEvents_H2.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    else:
+    	print('root -l -b -q SelectTrackerEvents_H4.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    	os.system('root -l -b -q SelectTrackerEvents_H4.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    print '\n\nSelectTrackerEvents.C DONE...\n\n'
+else:
+    print "Don't re-run SelectTrackerEvents.C macro......"
+    print '\n\n======== Start::CALCULATING SHIFT PARAMETERS    =================================\n\n'
+    import ROOT
+    import math
+    from ROOT import TFile, TH1F, TObject
+    ROOT.gROOT.SetBatch(True)  # This will prevent histogram to show
+    RootFile = 'CoarseAligned_'+args.RunNumber+'.root'
+    print 'Input Root File : ',RootFile
+    f = TFile(RootFile)
+    g1x = f.Get("h_Pos_g1xcl")  
+    g1y = f.Get("h_Pos_g1ycl")  
+    g2x = f.Get("h_Pos_g2xcl")  
+    g2y = f.Get("h_Pos_g2ycl")  
+    g3x = f.Get("h_Pos_g3xcl")  
+    g3y = f.Get("h_Pos_g3ycl")  
+
+print '========================================================================='
+print 'args.TextOnly = ',args.TextOnly
+if args.TextOnly=="1":
+    print 'Start Running SelectTrackerEvents.C...'
+    if args.RunNumber < 1587:
+    	print('root -l -b -q SelectTrackerEvents_H2.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    	os.system('root -l -b -q SelectTrackerEvents_H2.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    else:
+    	print('root -l -b -q SelectTrackerEvents_H4.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    	os.system('root -l -b -q SelectTrackerEvents_H4.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
+    print '\n\nSelectTrackerEvents.C DONE...\n\n'
+else:
+    print "Don't re-run SelectTrackerEvents.C macro......"
+    print '\n\n======== Start::CALCULATING SHIFT PARAMETERS    =================================\n\n'
+    import ROOT
+    import math
+    from ROOT import TFile, TH1F, TObject
+    ROOT.gROOT.SetBatch(True)  # This will prevent histogram to show
+    RootFile = 'CoarseAligned_'+args.RunNumber+'.root'
+    print 'Input Root File : ',RootFile
+    f = TFile(RootFile)
+    g1x = f.Get("h_Pos_g1xcl")  
+    g1y = f.Get("h_Pos_g1ycl")  
+    g2x = f.Get("h_Pos_g2xcl")  
+    g2y = f.Get("h_Pos_g2ycl")  
+    g3x = f.Get("h_Pos_g3xcl")  
+    g3y = f.Get("h_Pos_g3ycl")  
+    LC1 = f.Get("h_Pos_GE11_IV_GIF")  
+    LC2 = f.Get("h_Pos_GE11_IV")  
+    LC3 = f.Get("h_Pos_sCMSNS2LC3")  
+    Mean_g1x = g1x.GetMean()
+    Mean_g1y = g1y.GetMean()
+    Mean_g2x = g2x.GetMean()
+    Mean_g2y = g2y.GetMean()
+    Mean_g3x = g3x.GetMean()
+    Mean_g3y = g3y.GetMean()
+    Mean_LC1 = LC1.GetMean()
+    Mean_LC2 = LC2.GetMean()
+    Mean_LC3 = LC3.GetMean()
+    print "Mean values : ",Mean_g1x,"\t",Mean_g1y,"\t",Mean_g2x,"\t",Mean_g2y,"\t",Mean_g3x,"\t",Mean_g3y
+    Mean_angle_g1g2 = math.asin((Mean_g2x*Mean_g1y-Mean_g1x*Mean_g2y)/(Mean_g1x*Mean_g1x+Mean_g1y*Mean_g1y))
+    Mean_angle_g1g3 = math.asin((Mean_g3x*Mean_g1y-Mean_g1x*Mean_g3y)/(Mean_g1x*Mean_g1x+Mean_g1y*Mean_g1y))
+    print "Angles : ",Mean_angle_g1g2,"\t",Mean_angle_g1g3
+    print '\n\n======== END::CALCULATING SHIFT PARAMETERS    =================================\n\n'
+    #=====================  START:: Running AlignTrackers_Shift.C	=================================
+    if (RunWhichPart==1 or RunWhichPart>3):
+        print '\n\n============ START:: Running AlignTrackers_Shift.C...    ================================\n\n'
+        print 'This code will align trackers only\n\n'
+        print('root -l -b -q AlignTrackers_Shift.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+'\)')
+        os.system('root -l -b -q AlignTrackers_Shift.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+'\)')
+        print '\n\nAlignTrackers_Shift.C...  DONE'
+    #=====================  END:: Running AlignTrackers_Shift.C	=================================
+    #=====================  START:: Running AlignTrackers_shift_rotate.C	=================================
+    if (RunWhichPart==2 or RunWhichPart>3) :
+        print('root -l -b -q AlignTrackers_shift_rotate.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x)+ ','+str(data.Shift_2X)+ ','+str(Mean_g2y)+','+str(data.Shift_2Y)+',' +str(Mean_g3x)+','+str(data.Shift_3X)+','+str(Mean_g3y)+','+str(data.Shift_3Y)+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
+        os.system('root -l -b -q AlignTrackers_shift_rotate.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x)+ ','+str(data.Shift_2X)+ ','+str(Mean_g2y)+','+str(data.Shift_2Y)+',' +str(Mean_g3x)+','+str(data.Shift_3X)+','+str(Mean_g3y)+','+str(data.Shift_3Y)+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
+        #os.system('root -l -b -q AlignTrackers_shift_rotate.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
+    ##=====================  END:: Running AlignTrackers_shift_rotate.C	=================================
+    ##=====================  START:: Running AlignGEM_XYoffsets.C	=================================
+    if (RunWhichPart==3 or RunWhichPart>3) :
+        print '\n\n============		START:: Running AlignGEM_XYoffsets.C	================\n\n'
+        print('root -l -b -q AlignGEM_XYoffsets.C\(\\"TrackerAndLC1_Position_RunNumber'+args.RunNumber+'.txt\\",'+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(LC1.GetMean())+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+','+str(H2_GE11_IV_GIF_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
+        os.system('root -l -b -q  AlignGEM_XYoffsets.C\(\\"TrackerAndLC1_Position_RunNumber'+args.RunNumber+'.txt\\",'+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(LC1.GetMean())+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+','+str(H2_GE11_IV_GIF_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
+        print '\n\n=============	END:: Running AlignGEM_XYoffsets.C	=================\n\n'

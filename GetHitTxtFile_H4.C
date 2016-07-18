@@ -509,7 +509,7 @@ int g1x = jentry ;
                   break;
               for (int chfird=0;chfird<CRC.g2xcl_ngeoch[nch];chfird++)
               {
-                  if((CRC.g2xcl_geoch)[count_ngeoch_occ][chfird] == 0)
+                  if((CRC.g2xcl_geoch)[count_ngeoch_occ][chfird] < 0)
                       break;
                   if (verbose)
                       std::cout<<(CRC.g2xcl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
