@@ -33,6 +33,7 @@ void SelectTrackerEvents_H4(const char * InputTextFile, const int RunNumber, str
     fstream fout_1("Eff.txt",ios::out);
       
     bool verbose = 0;
+    bool verbose_forLoop = 1;
 
    float NHits_g2 =0; float NHits_g3 =0; float NHits_g1 =0; float NHits_LC1=0; float NHits_LC2=0; float NHits_LC3 =0; float Pos_g2X=0; float Pos_g2Y=0; float Pos_g3X=0; float Pos_g1X=0; float Pos_g1Y=0;
 
@@ -263,19 +264,25 @@ if (verbose){
 	for(int i=0; i<evtNb; i++){
 	//set number of hits cut conditions    
 	  //	  cout<<"entries after: "<<Pos_g1xcl.size()<<endl;                                                                                                 
+	if (verbose_forLoop)
+		cout<<i<<"\tStart Reading Hit Info..."<<endl;
 	Bool_t cutNHits_g2 = false;
 	if(NHits_g2xcl.at(i)>0 && NHits_g2ycl.at(i)>0)
 	  {	
 	    cutNHits_g2 = true;
 	    NHits_g2++;
 	  }
+
+	cout<<"DEBUG 1"<<endl;	
 	Bool_t cutNHits_g3 = false;
+	cout<<"g3x = "<<NHits_g3xcl.at(i)<<"\tg3y = "<<NHits_g3ycl.at(i)<<endl;
         if(NHits_g3xcl.at(i)>0 && NHits_g3ycl.at(i)>0)
           {
             cutNHits_g3 = true;
 	    NHits_g3++;
 	  }
 	
+	cout<<"DEBUG 2"<<endl;	
 	Bool_t cutNHits_g1 = false;
         if(NHits_g1xcl.at(i)>0 && NHits_g1ycl.at(i)>0)
           {
@@ -296,14 +303,14 @@ if (verbose){
 	    cutNHits_LC2 = true;
 	    NHits_LC2++;
 	  }
-	
 	Bool_t cutNHits_LC3 = false;
         if(NHits_sCMSNS2LC3.at(i) > 0)
 	  {
 	    cutNHits_LC3 = true;
 	    NHits_LC3++;
 	  }
-	
+	if (verbose_forLoop)
+		cout<<i<<"\tHits read, now reading positons..."<<endl;
 	//set position cut consitions
 	Bool_t cutPos_g2X = false;
         if(Pos_g2xcl.at(i)>=0. && Pos_g2xcl.at(i)<=120.)
@@ -339,6 +346,8 @@ if (verbose){
             cutPos_g1Y = true;
 	    Pos_g1Y++;
 	  }
+	if (verbose_forLoop)
+		cout<<i<<"\tEnd reading position info.."<<endl;
 	
 	//	cout << "######################"<<endl;
 	

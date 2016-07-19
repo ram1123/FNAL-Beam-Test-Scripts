@@ -13,8 +13,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 
 	bool verbose = 0;
 
-	cout<<"aREF3REF1 = "<<aREF3REF1<<"\taREF2REF1 = "<<aREF2REF1<<endl;
-	cout<<"Program Start"<<endl;
+	//cout<<"aREF3REF1 = "<<aREF3REF1<<"\taREF2REF1 = "<<aREF2REF1<<endl;
+	//cout<<"Program Start"<<endl;
 
 	string thestring = {"Position"};
 	
@@ -292,10 +292,14 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		}
 
 		fout3<<sigmag1xcl<<"\t"<<sigmag1ycl<<"\t"<<sigmag2xcl<<"\t"<<sigmag2ycl<<"\t"<</*sigmaUVA3X<<"\t"<<sigmaUVA3Y<<*/"\t"<<sigmag3xcl<<"\t"<<sigmag3ycl<<"\t"<<totalAngleREF2<<"\t"<</*totalAngleUVA3<<*/"\t"<<totalAngleREF3<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<endl;
+		 if (verbose) 
 		cout<<sigmag1xcl<<"\t"<<sigmag1ycl<<"\t"<<sigmag2xcl<<"\t"<<sigmag2ycl<<"\t"<</*sigmaUVA3X<<"\t"<<sigmaUVA3Y<<*/"\t"<<sigmag3xcl<<"\t"<<sigmag3ycl<<"\t"<<totalAngleREF2<<"\t"<</*totalAngleUVA3<<*/"\t"<<totalAngleREF3<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<endl;
 
+		 if (verbose) 
 	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
+		 if (verbose) 
 	cout<<"meanREF2X = "<<meanREF2X <<"\tmeanREF2Y = "<<meanREF2Y<<"\tmeanREF3X = "<<meanREF3X<<"\tmeanREF3Y = "<<meanREF3Y<<"\tmeanAngleREF3 = "<<meanAngleREF3<<"\tmeanAngleREF2 = "<<meanAngleREF2<<endl;
+		 if (verbose) 
 	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
 
 		
@@ -373,7 +377,7 @@ int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, doub
 	cout<<"\tAngle between Trk 3 and 1 = "<<aREF3REF1<<endl;
 	cout<<"\n================================================="<<endl;
 	//  name={"Position"}; 
-	cout<<"Start of program"<<endl;
+	// cout<<"Start of program"<<endl;
     bool shiftOrigin = 1;
 
 	if(shiftOrigin)
@@ -388,7 +392,7 @@ int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, doub
 		aREF3REF1+= 0.0;
 	}
 
-cout<<"++++++++++++++++ = "<<shiREF1X<<endl;
+//cout<<"++++++++++++++++ = "<<shiREF1X<<endl;
 
 	for(int i=0;i<1;i++) tracking(name, RunNumber, shiREF1X, shiREF1Y, shiREF2X, shiREF2Y, shiREF3X, shiREF3Y, Trk1Pos, Trk2Pos, Trk3Pos, aREF2REF1, aREF3REF1 );  
 	return 0;
