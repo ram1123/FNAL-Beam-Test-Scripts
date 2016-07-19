@@ -8,7 +8,7 @@
 #include "doubleGausFit_withHistParameter.C"
 
 //vector<double> DefaultVector; // just used to free memory from vectors.
-int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2Y, double shiREF3X, double shiREF3Y, double shiEta5Y, double Trk1Pos, double Trk2Pos, double Trk3Pos, double GEMPos , double aREF2REF1, double aREF3REF1 ){
+int tracking(string thestring, int RunNumber, double iterNbX, double iterNbY, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2Y, double shiREF3X, double shiREF3Y, double shiEta5Y, double Trk1Pos, double Trk2Pos, double Trk3Pos, double GEMPos , double aREF2REF1, double aREF3REF1 ){
   double PI=TMath::Pi();
   bool verbose = 0;
 
@@ -197,7 +197,7 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
       fin.close();
       //end of reading file
 
-      char rootfile[50]; sprintf(rootfile,"_X_%.2f_Y_%.2f_inclusive_doubleGaussian.root",preshiREF2X,preshiREF2Y);
+      char rootfile[50]; sprintf(rootfile,"_X_%.2f_Y_%.2f_R%i_inclusive_doubleGaussian.root",preshiREF2X,preshiREF2Y,RunNumber);
       string newhead = "./RootFiles/";
       string outputrootname=newhead+residualHead+thestring+rootfile;
       cout<<"\n\n\toutputroot file name :  "<< outputrootname <<"\n\n"<<endl;
@@ -364,13 +364,13 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
  return 0;
 } // entire script
 
-void AlignGEM_XYoffsets(string InputTextFile, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2X_TrkAlign, double shiREF2Y, double shiREF2Y_TrkAlign, double shiREF3X, double shiREF3X_TrkAlign, double shiREF3Y , double shiREF3Y_TrkAlign,double shiEta5Y, double Trk1Pos, double Trk2Pos, double Trk3Pos, double GEMPos, double aREF2REF1, double aREF2REF1_TrkAlign, double aREF3REF1, double aREF3REF1_TrkAlign)
+void AlignGEM_XYoffsets(string InputTextFile, int RunNumber, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2X_TrkAlign, double shiREF2Y, double shiREF2Y_TrkAlign, double shiREF3X, double shiREF3X_TrkAlign, double shiREF3Y , double shiREF3Y_TrkAlign,double shiEta5Y, double Trk1Pos, double Trk2Pos, double Trk3Pos, double GEMPos, double aREF2REF1, double aREF2REF1_TrkAlign, double aREF3REF1, double aREF3REF1_TrkAlign)
 {
 	cout<<"\n=================================================\n"<<endl;
 	cout<<"\tPrint Input Parameters:"<<endl;
 	cout<<"\n================================================="<<endl;
 	cout<<"Name of input file = "<<InputTextFile<<endl;
-	//cout<<"Run Number = "<<RunNumber<<endl;
+	cout<<"Run Number = "<<RunNumber<<endl;
 	cout<<"Detector Positions (in mm):"<<endl;
 	cout<<"\tTracker 1 position = "<<Trk1Pos<<endl;
 	cout<<"\tTracker 2 position = "<<Trk2Pos<<endl;
@@ -405,7 +405,7 @@ void AlignGEM_XYoffsets(string InputTextFile, double shiREF1X, double shiREF1Y, 
   for(int iterNbX=0;iterNbX<10;iterNbX++)
     for(int iterNbY=0;iterNbY<1;iterNbY++)
     {
-     tracking(InputTextFile, iterNbX, iterNbY, shiREF1X, shiREF1Y, shiREF2X, shiREF2Y, shiREF3X, shiREF3Y, shiEta5Y, Trk1Pos, Trk2Pos, Trk3Pos, GEMPos , aREF2REF1, aREF3REF1);
+     tracking(InputTextFile, RunNumber, iterNbX, iterNbY, shiREF1X, shiREF1Y, shiREF2X, shiREF2Y, shiREF3X, shiREF3Y, shiEta5Y, Trk1Pos, Trk2Pos, Trk3Pos, GEMPos , aREF2REF1, aREF3REF1);
     }
 }
 
