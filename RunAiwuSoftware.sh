@@ -43,7 +43,6 @@ function make_dir
 	fi
 }	# end of make_dir
 
-clear   	# Clear the screen
 echo -e "\E[33mcreate dir starts:\E[0m"
 make_dir Residual_XY_Trk_RootFile
 make_dir shiftParameters

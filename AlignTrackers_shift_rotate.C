@@ -346,10 +346,10 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
     cout<<"totalAngleREF2 = "<<totalAngleREF2<<endl;
     cout<<"totalAngleREF3 = "<<totalAngleREF3<<endl;
 
-    foutFshiPar<<"Shift_2X = "<<Tot_Shift_2X<<endl;
-    foutFshiPar<<"Shift_2Y = "<<Tot_Shift_2Y<<endl;
-    foutFshiPar<<"Shift_3X = "<<Tot_Shift_3X<<endl;
-    foutFshiPar<<"Shift_3Y = "<<Tot_Shift_3Y<<endl;
+    foutFshiPar<<"Shift_2X_Rot = "<<Tot_Shift_2X<<endl;
+    foutFshiPar<<"Shift_2Y_Rot = "<<Tot_Shift_2Y<<endl;
+    foutFshiPar<<"Shift_3X_Rot = "<<Tot_Shift_3X<<endl;
+    foutFshiPar<<"Shift_3Y_Rot = "<<Tot_Shift_3Y<<endl;
     foutFshiPar<<"TotalAngleREF2 = "<<totalAngleREF2<<endl;
     foutFshiPar<<"TotalAngleREF3 = "<<totalAngleREF3<<endl;
 
@@ -363,7 +363,11 @@ int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, doub
 	cout<<"\n================================================="<<endl;
 	cout<<"Name of input file = "<<name<<endl;
 	cout<<"Run Number = "<<RunNumber<<endl;
-	cout<<"Shift Parameters:"<<endl;
+	cout<<"Detector Positions (in mm):"<<endl;
+	cout<<"\tTracker 1 position = "<<Trk1Pos<<endl;
+	cout<<"\tTracker 2 position = "<<Trk2Pos<<endl;
+	cout<<"\tTracker 3 position = "<<Trk3Pos<<endl<<endl;
+	cout<<"Shift Parameters (in mm):"<<endl;
 	cout<<"\tTrk 1X: Mean = "<<shiREF1X<<endl;
 	cout<<"\tTrk 1Y: Mean = "<<shiREF1Y<<endl;
 	cout<<"\tTrk 2X: Mean = "<<shiREF2X<<"\tDetector Shift = "<<shiREF2X_TrkAlign<<endl;

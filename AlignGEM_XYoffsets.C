@@ -12,7 +12,7 @@ int tracking(string thestring, double iterNbX, double iterNbY, double shiREF1X, 
   double PI=TMath::Pi();
   bool verbose = 0;
 
-gStyle->SetOptFit(0);
+  gStyle->SetOptFit(0);
 
   string txtfilename = thestring ;
   thestring = "PostionLC1";
@@ -48,7 +48,8 @@ gStyle->SetOptFit(0);
     
     //double aEta5REF1=1.115-0.0010*iterNbX;//0.008098;
     //cout<<"aEta5REF1 = "<< aEta5REF1<<endl;
-    double aEta5REF1 = 1.0630000;//(with GE11)//-2.713;//(Only tracker)//-2.3198500;//56.849;
+    double aEta5REF1 = 0.0;//(with GE11)//-2.713;//(Only tracker)//-2.3198500;//56.849;
+    //double aEta5REF1 = 1.0630000;//(with GE11)//-2.713;//(Only tracker)//-2.3198500;//56.849;
 
     double tempREF2X, tempREF2Y, tempREF3X, tempREF3Y, tempREF1X, tempREF1Y, tempEta5Y;
     double meanREF2X=0.0, meanREF2Y=0.0, meanREF3X=0.0, meanREF3Y=0.0, meanREF1X=0.0, meanREF1Y=0.0, meanEta5Y=0.0;
@@ -182,18 +183,24 @@ gStyle->SetOptFit(0);
 	if(verbose)
 {
 	cout<<"====== "<<d.vpREF1X<<"\t"<<d.vpREF1Y<<"\t"<<d.vpREF2X<<"\t"<<d.vpREF2Y<<"\t"<<d.vpREF3X<<"\t"<<d.vpREF3Y<<"\t"<<d.vpEta5Y<<"\t"<<d.vpEta5X<<endl;
-	cin.get();
+	//cin.get();
  }      
         v->push_back(d);
     }
-    
+    if (verbose)
+    {
+    	cout<<"=============================================\n"<<endl;
+    	cout<<"While loop ends"<<endl;
+    	cout<<"\n=============================================\n"<<endl;
+    }
+
       fin.close();
       //end of reading file
 
       char rootfile[50]; sprintf(rootfile,"_X_%.2f_Y_%.2f_inclusive_doubleGaussian.root",preshiREF2X,preshiREF2Y);
       string newhead = "./RootFiles/";
       string outputrootname=newhead+residualHead+thestring+rootfile;
-      cout<<"\n\n\t####outputroot file name :  "<< outputrootname <<"\n\n"<<endl;
+      cout<<"\n\n\toutputroot file name :  "<< outputrootname <<"\n\n"<<endl;
       TFile* f = new TFile(outputrootname.c_str(),"recreate");
 
       char nameRes1X[50];sprintf(nameRes1X,"residualREF1_r_X_%.1f_Y_%.1f",preshiREF2X, preshiREF2Y);char nameRes1Y[50];sprintf(nameRes1Y,"residualREF1_phi_X_%.1f_Y_%.1f",preshiREF2X, preshiREF2Y);
@@ -201,13 +208,13 @@ gStyle->SetOptFit(0);
       char nameRes3X[50];sprintf(nameRes3X,"residualREF3_r_X_%.1f_Y_%.1f",preshiREF2X, preshiREF2Y);char nameRes3Y[50];sprintf(nameRes3Y,"residualREF3_phi_X_%.1f_Y_%.1f",preshiREF2X, preshiREF2Y);
       char nameResEta5[50];sprintf(nameResEta5,"residualEta5_phi_X_%.1f_Y_%.1f",preshiREF1X, preshiREF1Y);
 
-      residualREF1X = new TH1F(nameRes1X,"",30,-0.5,0.5); residualREF1X->SetXTitle("Residual in r [mm]"); residualREF1X->SetYTitle("Frequency");residualREF1X->SetLabelSize(0.05,"XY");residualREF1X->SetTitleSize(0.05,"XY");
-      residualREF1Y = new TH1F(nameRes1Y,"",100,-0.0004,0.0004); residualREF1Y->SetXTitle("Residual in #phi [rad]"); residualREF1Y->SetYTitle("Frequency");residualREF1Y->SetLabelSize(0.05,"XY");residualREF1Y->SetTitleSize(0.05,"XY");
-      residualREF2X = new TH1F(nameRes2X,"",10,-0.5,0.5); residualREF2X->SetXTitle("Residual in r [mm]"); residualREF2X->SetYTitle("Frequency");residualREF2X->SetLabelSize(0.05,"XY");residualREF2X->SetTitleSize(0.05,"XY");
-      residualREF2Y = new TH1F(nameRes2Y,"",100,-0.0004,0.0004); residualREF2Y->SetXTitle("Residual in #phi [rad]"); residualREF2Y->SetYTitle("Frequency");residualREF2Y->SetLabelSize(0.05,"XY");residualREF2Y->SetTitleSize(0.05,"XY");
-      residualREF3X = new TH1F(nameRes3X,"",30,-0.5,0.5); residualREF3X->SetXTitle("Residual in r [mm]"); residualREF3X->SetYTitle("Frequency");residualREF3X->SetLabelSize(0.05,"XY");residualREF3X->SetTitleSize(0.05,"XY");
-      residualREF3Y = new TH1F(nameRes3Y,"",100,-0.0004,0.0004); residualREF3Y->SetXTitle("Residual in #phi [rad]"); residualREF3Y->SetYTitle("Frequency");residualREF3Y->SetLabelSize(0.05,"XY");residualREF3Y->SetTitleSize(0.05,"XY");
-      residualEta5 = new TH1F(nameResEta5,"",100,-0.0004,0.0004); residualEta5->SetXTitle("Residual in #phi [rad]"); residualEta5->SetYTitle("Frequency");residualEta5->SetLabelSize(0.05,"XY");residualEta5->SetTitleSize(0.05,"XY");
+      residualREF1X = new TH1F(nameRes1X,"",30,-0.9,0.9); residualREF1X->SetXTitle("Residual in r [mm]"); residualREF1X->SetYTitle("Frequency");residualREF1X->SetLabelSize(0.05,"XY");residualREF1X->SetTitleSize(0.05,"XY");
+      residualREF1Y = new TH1F(nameRes1Y,"",100,-0.008,0.008); residualREF1Y->SetXTitle("Residual in #phi [rad]"); residualREF1Y->SetYTitle("Frequency");residualREF1Y->SetLabelSize(0.05,"XY");residualREF1Y->SetTitleSize(0.05,"XY");
+      residualREF2X = new TH1F(nameRes2X,"",10,-0.9,0.9); residualREF2X->SetXTitle("Residual in r [mm]"); residualREF2X->SetYTitle("Frequency");residualREF2X->SetLabelSize(0.05,"XY");residualREF2X->SetTitleSize(0.05,"XY");
+      residualREF2Y = new TH1F(nameRes2Y,"",100,-0.008,0.008); residualREF2Y->SetXTitle("Residual in #phi [rad]"); residualREF2Y->SetYTitle("Frequency");residualREF2Y->SetLabelSize(0.05,"XY");residualREF2Y->SetTitleSize(0.05,"XY");
+      residualREF3X = new TH1F(nameRes3X,"",30,-0.9,0.9); residualREF3X->SetXTitle("Residual in r [mm]"); residualREF3X->SetYTitle("Frequency");residualREF3X->SetLabelSize(0.05,"XY");residualREF3X->SetTitleSize(0.05,"XY");
+      residualREF3Y = new TH1F(nameRes3Y,"",100,-0.008,0.008); residualREF3Y->SetXTitle("Residual in #phi [rad]"); residualREF3Y->SetYTitle("Frequency");residualREF3Y->SetLabelSize(0.05,"XY");residualREF3Y->SetTitleSize(0.05,"XY");
+      residualEta5 = new TH1F(nameResEta5,"",100,-0.008,0.008); residualEta5->SetXTitle("Residual in #phi [rad]"); residualEta5->SetYTitle("Frequency");residualEta5->SetLabelSize(0.05,"XY");residualEta5->SetTitleSize(0.05,"XY");
 
 
       char nameChi2X[50]; sprintf(nameChi2X,"XTrackChi2_X_%.1f_Y_%.1f",preshiREF2X, preshiREF2Y);
@@ -217,6 +224,12 @@ gStyle->SetOptFit(0);
        yTrackChi2 = new TH1F(nameChi2Y,"Chi square of tracks in Y projection",200,0,0.00002); yTrackChi2->SetXTitle("#chi^{2} of track in #phi"); yTrackChi2->SetYTitle("Frequency");
        yTrackChi2->SetTitleSize(0.04,"XY"); yTrackChi2->SetLabelSize(0.04,"XY");
     
+    if (verbose)
+    {
+    	cout<<"=============================================\n"<<endl;
+    	cout<<"Defined all histograms"<<endl;
+    	cout<<"\n=============================================\n"<<endl;
+    }
       //fill histograms first
     
     for(unsigned int i=0; i < v->size(); i++)
@@ -272,26 +285,59 @@ gStyle->SetOptFit(0);
         delete f2; delete g2;
   
       } //end for loop of filling histograms and fitting tracks
+    if (verbose)
+    {
+    	cout<<"=============================================\n"<<endl;
+    	cout<<"Fitted all tracks with linear line and filled the residual histogram"<<endl;
+    	cout<<"\n=============================================\n"<<endl;
+    }
       //going to fit residual histograms
       gStyle->SetOptFit(1111);
     
       I2GFvalues myValues;
 
+    if (verbose)
+    {
+    	cout<<"=============================================\n"<<endl;
+    	cout<<"Fitting for all residual histogram starting....."<<endl;
+    	cout<<"\n=============================================\n"<<endl;
+    }
       myValues = I2GFmainLoop(residualREF1X,1,10,1);  meanREF1X = myValues.mean; sigmaREF1X=myValues.sigma;
+      if (verbose) 
+      		cout<<"Fitting for first tracker along X done."<<endl;
+      
       myValues = I2GFmainLoop(residualREF1Y,1,10,1);  meanREF1Y = myValues.mean; sigmaREF1Y=myValues.sigma;
+      if (verbose) 
+      		cout<<"Fitting for first tracker alone Y done."<<endl;
       myValues = I2GFmainLoop(residualREF2X,1,10,1);  meanREF2X = myValues.mean; sigmaREF2X=myValues.sigma;
+      if (verbose) 
+      		cout<<"Fitting for second tracker alone X done."<<endl;
       myValues = I2GFmainLoop(residualREF2Y,1,10,1);  meanREF2Y = myValues.mean; sigmaREF2Y=myValues.sigma;
+      if (verbose) 
+      		cout<<"Fitting for second tracker along Y done."<<endl;
       myValues = I2GFmainLoop(residualREF3X,1,10,1);  meanREF3X = myValues.mean; sigmaREF3X=myValues.sigma;
+      if (verbose) 
+      		cout<<"Fitting for third tracker along X done."<<endl;
       myValues = I2GFmainLoop(residualREF3Y,1,10,1);  meanREF3Y = myValues.mean; sigmaREF3Y=myValues.sigma;
+      if (verbose) 
+      		cout<<"Fitting for third tracker along Y done."<<endl;
       
       fout2<<iterNbX<<"\t"<<iterNbY<<"\t"<<"meanREF1X = "<<meanREF1X<<"\tmeanREF1Y = "<<meanREF1Y<<"\tmeanREF2X = "<<meanREF2X<<"\tmeanREF2Y = "<<meanREF2Y<<"\tmeanREF3X = "<<meanREF3X<<"\tmeanREF3Y = "<<meanREF3Y<<endl;
 
-	if((meanREF2X>=-0.005 && meanREF2X<=0.005) && (meanREF2Y>=-0.005 && meanREF2Y<=0.005))
-	if((meanREF3X>=-0.005 && meanREF3X<=0.005) && (meanREF3Y>=-0.005 && meanREF3Y<=0.005))
-	{
-		cout<<"\n\n###########################\n\n############################"<<endl;
-	}
+	//if((meanREF2X>=-0.005 && meanREF2X<=0.005) && (meanREF2Y>=-0.005 && meanREF2Y<=0.005))
+	//if((meanREF3X>=-0.005 && meanREF3X<=0.005) && (meanREF3Y>=-0.005 && meanREF3Y<=0.005))
+	//{
+	//	cout<<"\n\n###########################\n\n############################"<<endl;
+	//}
       myValues = I2GFmainLoop(residualEta5,1,10,1);   meanEta5Y = myValues.mean; sigmaEta5Y=myValues.sigma;
+      if (verbose) 
+      		cout<<"Fitting for GE11 done."<<endl;
+    if (verbose)
+    {
+    	cout<<"=============================================\n"<<endl;
+    	cout<<"Fitting for all residual histogram Done."<<endl;
+    	cout<<"\n=============================================\n"<<endl;
+    }
 /*
       maximum = residualEta5->GetXaxis()->GetBinCenter(residualEta5->GetMaximumBin());
       rms = residualEta5->GetRMS(1);
@@ -318,20 +364,43 @@ gStyle->SetOptFit(0);
  return 0;
 } // entire script
 
-void AlignGEM_XYoffsets(string InputTextFile, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2Y, double shiREF3X, double shiREF3Y , double shiEta5Y, double Trk1Pos, double Trk2Pos, double Trk3Pos, double GEMPos, double aREF2REF1, double aREF3REF1)
+void AlignGEM_XYoffsets(string InputTextFile, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2X_TrkAlign, double shiREF2Y, double shiREF2Y_TrkAlign, double shiREF3X, double shiREF3X_TrkAlign, double shiREF3Y , double shiREF3Y_TrkAlign,double shiEta5Y, double Trk1Pos, double Trk2Pos, double Trk3Pos, double GEMPos, double aREF2REF1, double aREF2REF1_TrkAlign, double aREF3REF1, double aREF3REF1_TrkAlign)
 {
+	cout<<"\n=================================================\n"<<endl;
+	cout<<"\tPrint Input Parameters:"<<endl;
+	cout<<"\n================================================="<<endl;
+	cout<<"Name of input file = "<<InputTextFile<<endl;
+	//cout<<"Run Number = "<<RunNumber<<endl;
+	cout<<"Detector Positions (in mm):"<<endl;
+	cout<<"\tTracker 1 position = "<<Trk1Pos<<endl;
+	cout<<"\tTracker 2 position = "<<Trk2Pos<<endl;
+	cout<<"\tTracker 3 position = "<<Trk3Pos<<endl;
+	cout<<"\tGE1/1's   position = "<<GEMPos<<endl<<endl;
+	cout<<"Shift Parameters (in mm):"<<endl;
+	cout<<"\tTrk 1X: Mean = "<<shiREF1X<<endl;
+	cout<<"\tTrk 1Y: Mean = "<<shiREF1Y<<endl;
+	cout<<"\tTrk 2X: Mean = "<<shiREF2X<<"\tDetector Shift = "<<shiREF2X_TrkAlign<<endl;
+	cout<<"\tTrk 2Y: Mean = "<<shiREF2Y<<"\tDetector Shift = "<<shiREF2Y_TrkAlign<<endl;
+	cout<<"\tTrk 3X: Mean = "<<shiREF3X<<"\tDetector Shift = "<<shiREF3X_TrkAlign<<endl;
+	cout<<"\tTrk 3Y: Mean = "<<shiREF3Y<<"\tDetector Shift = "<<shiREF3Y_TrkAlign<<endl;
+	cout<<"\tTracker 1 Position = "<<Trk1Pos<<endl;
+	cout<<"\tTracker 2 Position = "<<Trk2Pos<<endl;
+	cout<<"\tTracker 3 Position = "<<Trk3Pos<<endl;
+	cout<<"\tAngle between Trk 2 and 1 = "<<aREF2REF1<<"\t Detector Rot = "<<aREF2REF1_TrkAlign<<endl;
+	cout<<"\tAngle between Trk 3 and 1 = "<<aREF3REF1<<"\t Detector Rot = "<<aREF3REF1_TrkAlign<<endl;
+	cout<<"\n================================================="<<endl;
     bool shiftOrigin = 1;
 
 	if(shiftOrigin)
 	{
 		shiREF1X  += 0.0;
 		shiREF1Y  += 0.0;
-		shiREF2X  += 0.0-0.0332832+4.90551;
-		shiREF2Y  += 0.0-0.13285-1.10563;
-		shiREF3X  += 0.0+0.0168636-1.88162;
-		shiREF3Y  += 0.0+0.0324298+0.426226;
-		aREF2REF1 += 0.0+0.0917291;
-		aREF3REF1 += 0.0+0.0657359;
+		shiREF2X  += 0.0+shiREF2X_TrkAlign;
+		shiREF2Y  += 0.0+shiREF2Y_TrkAlign;
+		shiREF3X  += 0.0+shiREF3X_TrkAlign;
+		shiREF3Y  += 0.0+shiREF3Y_TrkAlign;
+		aREF2REF1 += 0.0+aREF2REF1_TrkAlign;
+		aREF3REF1 += 0.0+aREF3REF1_TrkAlign;
 	}
   for(int iterNbX=0;iterNbX<10;iterNbX++)
     for(int iterNbY=0;iterNbY<1;iterNbY++)

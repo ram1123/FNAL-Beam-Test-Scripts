@@ -21,20 +21,21 @@ if args.Lxplus=="1":
 	print('source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh')
 	os.system('source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh')
 
-RunWhichPart=2
+RunWhichPart=3
 
 
 Dir_Shift_Par="FinalShiftPar_LinShiftTrk/ShiftPar_LinearShiftTrkOnly_alignTrackers_R"+args.RunNumber+".txt"
 Dir_Shift_Rot_Par="FinalShiftPar_RotShiftTrk/Shift_Rotate_Parameter_R"+args.RunNumber+".txt"
 
-#def getVarFromFile(filename):
-#    import imp
-#    f = open(filename)
-#    global data
-#    data = imp.load_source('data', '', f)
-#    f.close()
-#
-#getVarFromFile(Dir_Shift_Par)
+def getVarFromFile(filename):
+    import imp
+    f = open(filename)
+    global data
+    data = imp.load_source('data', '', f)
+    f.close()
+
+getVarFromFile(Dir_Shift_Par)
+getVarFromFile(Dir_Shift_Rot_Par)
 
 print '========================================================================='
 print 'args.TextOnly = ',args.TextOnly
@@ -112,20 +113,19 @@ else:
     if (RunWhichPart==1 or RunWhichPart>3):
         print '\n\n============ START:: Running AlignTrackers_Shift.C...    ================================\n\n'
         print 'This code will align trackers only\n\n'
-        print('root -l -b -q AlignTrackers_Shift.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+'\)')
-        os.system('root -l -b -q AlignTrackers_Shift.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+'\)')
+        print('root -l -b -q AlignTrackers_Shift.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+'\)')
+        os.system('root -l -b -q AlignTrackers_Shift.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+'\)')
         print '\n\nAlignTrackers_Shift.C...  DONE'
     #=====================  END:: Running AlignTrackers_Shift.C	=================================
     #=====================  START:: Running AlignTrackers_shift_rotate.C	=================================
     if (RunWhichPart==2 or RunWhichPart>3) :
-        print('root -l -b -q AlignTrackers_shift_rotate.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x)+ ','+str(data.Shift_2X)+ ','+str(Mean_g2y)+','+str(data.Shift_2Y)+',' +str(Mean_g3x)+','+str(data.Shift_3X)+','+str(Mean_g3y)+','+str(data.Shift_3Y)+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
-        os.system('root -l -b -q AlignTrackers_shift_rotate.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x)+ ','+str(data.Shift_2X)+ ','+str(Mean_g2y)+','+str(data.Shift_2Y)+',' +str(Mean_g3x)+','+str(data.Shift_3X)+','+str(Mean_g3y)+','+str(data.Shift_3Y)+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
-        #os.system('root -l -b -q AlignTrackers_shift_rotate.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
+        print('root -l -b -q AlignTrackers_shift_rotate.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x)+ ','+str(data.Shift_2X)+ ','+str(Mean_g2y)+','+str(data.Shift_2Y)+',' +str(Mean_g3x)+','+str(data.Shift_3X)+','+str(Mean_g3y)+','+str(data.Shift_3Y)+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
+        os.system('root -l -b -q AlignTrackers_shift_rotate.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x)+ ','+str(data.Shift_2X)+ ','+str(Mean_g2y)+','+str(data.Shift_2Y)+',' +str(Mean_g3x)+','+str(data.Shift_3X)+','+str(Mean_g3y)+','+str(data.Shift_3Y)+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
+        #os.system('root -l -b -q AlignTrackers_shift_rotate.C\(\\"TrackerOnly_Position_RunNumber'+args.RunNumber+'.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
     ##=====================  END:: Running AlignTrackers_shift_rotate.C	=================================
     ##=====================  START:: Running AlignGEM_XYoffsets.C	=================================
     if (RunWhichPart==3 or RunWhichPart>3) :
         print '\n\n============		START:: Running AlignGEM_XYoffsets.C	================\n\n'
-        print('root -l -b -q AlignGEM_XYoffsets.C\(\\"TrackerAndLC1_Position_RunNumber'+args.RunNumber+'.txt\\",'+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(data.Shift_2X) + ','+str(Mean_g2y) +','+str(data.Shift_2Y) +','+str(Mean_g3x) +','+str(data.Shift_3X) +','+str(Mean_g3y) +','+str(data.Shift_3Y) +','+str(LC2.GetMean())+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+','+str(H2_GE11_IV_GIF_Pos)+','+str(Mean_angle_g1g2) +','+ str(data.TotalAngleREF2)+','+str(Mean_angle_g1g3)+','+str(data.TotalAngleREF3)+'\)')
-        print('root -l -b -q AlignGEM_XYoffsets.C\(\\"TrackerAndLC1_Position_RunNumber'+args.RunNumber+'.txt\\",'+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(data.Shift_2X) + ','+str(Mean_g2y) +','+str(data.Shift_2Y) +','+str(Mean_g3x) +','+str(data.Shift_3X) +','+str(Mean_g3y) +','+str(data.Shift_3Y) +','+str(LC2.GetMean())+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+','+str(H2_GE11_IV_GIF_Pos)+','+str(Mean_angle_g1g2) +','+ str(data.TotalAngleREF2)+','+str(Mean_angle_g1g3)+','+str(data.TotalAngleREF3)+'\)')
-        #os.system('root -l -b -q  AlignGEM_XYoffsets.C\(\\"TrackerAndLC1_Position_RunNumber'+args.RunNumber+'.txt\\",'+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(Mean_g2y) +','+str(Mean_g3x) +','+str(Mean_g3y)+','+str(LC1.GetMean())+','+str(H2_Trk1_Pos)+','+str(H2_Trk2_Pos)+','+str(H2_Trk3_Pos)+','+str(H2_GE11_IV_GIF_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
+        print('root -l -b -q AlignGEM_XYoffsets.C\(\\"TrackerAnd'+args.Det+'_Position_RunNumber'+args.RunNumber+'.txt\\",'+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(data.Shift_2X+data.Shift_2X_Rot) + ','+str(Mean_g2y) +','+str(data.Shift_2Y+data.Shift_2Y_Rot) +','+str(Mean_g3x) +','+str(data.Shift_3X+data.Shift_3X_Rot) +','+str(Mean_g3y) +','+str(data.Shift_3Y+data.Shift_3Y_Rot) +','+str(LC2.GetMean())+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+','+str(H4_GE11_IV_GIF_Pos)+','+str(Mean_angle_g1g2) +','+ str(data.TotalAngleREF2)+','+str(Mean_angle_g1g3)+','+str(data.TotalAngleREF3)+'\)')
+	os.system('root -l -b -q AlignGEM_XYoffsets.C\(\\"TrackerAnd'+args.Det+'_Position_RunNumber'+args.RunNumber+'.txt\\",'+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(data.Shift_2X+data.Shift_2X_Rot) + ','+str(Mean_g2y) +','+str(data.Shift_2Y+data.Shift_2Y_Rot) +','+str(Mean_g3x) +','+str(data.Shift_3X+data.Shift_3X_Rot) +','+str(Mean_g3y) +','+str(data.Shift_3Y+data.Shift_3Y_Rot) +','+str(LC2.GetMean())+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+','+str(H4_GE11_IV_Pos)+','+str(Mean_angle_g1g2) +','+ str(data.TotalAngleREF2)+','+str(Mean_angle_g1g3)+','+str(data.TotalAngleREF3)+'\)')
         print '\n\n=============	END:: Running AlignGEM_XYoffsets.C	=================\n\n'
