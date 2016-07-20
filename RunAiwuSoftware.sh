@@ -25,6 +25,10 @@ RunCounter=$IRunNo
 PathOfInputData=HitTxtFiles
 Detector=$3  # options: No, LC1 and LC2 and LC3
 IfTxtOnly=$4
+WhatToRun=$5 	# if 0 : Run SelectTrackerEvent
+			 	# if 1 : Run AlignTracker_XY
+				# if 2 : Run AlignTracker_Rot
+				# if 3 : Run AlignGEM
 
 function make_dir
 {
@@ -75,8 +79,8 @@ do
     		echo "python RunAiwuSoftware_H2.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}"
     		python RunAiwuSoftware_H2.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}
 	else
-    		echo "python RunAiwuSoftware_H4.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}"
-    		python RunAiwuSoftware_H4.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}
+    		echo "python RunAiwuSoftware_H4.py -RNum ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}"
+    		python RunAiwuSoftware_H4.py -RNum ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly} 
 	fi
 	echo -e "\E[33mCompleted Running the Python Code.\E[0m"
     done	# END of dir for loop

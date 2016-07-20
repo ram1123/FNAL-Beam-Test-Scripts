@@ -9,10 +9,11 @@ from DetectorPosition import *	## Import variables from  DetectorPosition.txt
 if __name__ == '__main__':
     parser = argparse.ArgumentParser (description = 'Run the Aiwu software')
     parser.add_argument ('-det', '--Det'      , default = 'LC1'                    , help='No or LC1 or LC2 or LC3')
-    parser.add_argument ('-RN' , '--RunNumber', default = '411'                   , help='Enter Run Number')
+    parser.add_argument ('-RNum' , '--RunNumber', default = '411'                   , help='Enter Run Number')
     parser.add_argument ('-i'  , '--InputFile', default = 'Hit_Position_Info.txt' , help='Name of Input File')
     parser.add_argument ('-l'  , '--Lxplus'   , default = '0'			  , help='if not working on lxplus then put 0')
     parser.add_argument ('-t'  , '--TextOnly' , default = '0'			  , help='if not working on lxplus then put 0')
+    parser.add_argument ('-Run'  , '--RunWhichPart' , default = '0'			  , help='if not working on lxplus then put 0')
     args = parser.parse_args ()
 
 if args.Lxplus=="1":
@@ -21,7 +22,7 @@ if args.Lxplus=="1":
 	print('source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh')
 	os.system('source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh')
 
-RunWhichPart=3
+RunWhichPart=1
 
 
 Dir_Shift_Par="FinalShiftPar_LinShiftTrk/ShiftPar_LinearShiftTrkOnly_alignTrackers_R"+args.RunNumber+".txt"
@@ -57,13 +58,17 @@ else:
     ROOT.gROOT.SetBatch(True)  # This will prevent histogram to show
     RootFile = 'CoarseAligned_'+args.RunNumber+'.root'
     print 'Input Root File : ',RootFile
-    f = TFile(RootFile)
-    g1x = f.Get("h_Pos_g1xcl")  
-    g1y = f.Get("h_Pos_g1ycl")  
-    g2x = f.Get("h_Pos_g2xcl")  
-    g2y = f.Get("h_Pos_g2ycl")  
-    g3x = f.Get("h_Pos_g3xcl")  
-    g3y = f.Get("h_Pos_g3ycl")  
+    if os.path.isfile(RootFile):
+        f = TFile(RootFile)
+        g1x = f.Get("h_Pos_g1xcl")  
+        g1y = f.Get("h_Pos_g1ycl")  
+        g2x = f.Get("h_Pos_g2xcl")  
+        g2y = f.Get("h_Pos_g2ycl")  
+        g3x = f.Get("h_Pos_g3xcl")  
+        g3y = f.Get("h_Pos_g3ycl")  
+    else:
+        print '\n================\n\n\tInput Root File ',RootFile,' does not exits\n\n=====================\n\n'
+        sys.exit(0)
 
 print '========================================================================='
 print 'args.TextOnly = ',args.TextOnly

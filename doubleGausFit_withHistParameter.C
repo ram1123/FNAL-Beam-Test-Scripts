@@ -322,8 +322,8 @@ I2GFvalues I2GFmainLoop(TH1F *htemp, int N_iter, float N_sigma_range, bool ShowF
 
   if (verbose)
       cout<<"f_mean = "<<f_mean<<"\tf_mean_err = "<<f_mean_err<<endl;
-  //for (int j=0; j< (N_iter - 1); j++)
-  for (int j=0; j<4; j++)
+  for (int j=0; j< (N_iter - 1); j++)
+  //for (int j=0; j<4; j++)
     {
       func3->SetParameters(f_const, f_mean, f_sigma, f_const2, f_mean2, f_sigma2);
       //htemp->Fit("func3", "Q", "", "",(f_mean - (N_sigma_range*f_sigma)), (f_mean + (N_sigma_range*f_sigma) ) ); 

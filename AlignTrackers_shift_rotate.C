@@ -113,19 +113,19 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		char nameRes2X[20];sprintf(nameRes2X,"residualg2xcl_%i",iterNb);char nameRes2Y[20];sprintf(nameRes2Y,"residualg2ycl_%i",iterNb);
 		char nameRes3X[20];sprintf(nameRes3X,"residualg3xcl_%i",iterNb);char nameRes3Y[20];sprintf(nameRes3Y,"residualg3ycl_%i",iterNb);
 		
-		TH1F* residualg1xcl = new TH1F(nameRes1X,"",200,-0.5,0.5); residualg1xcl->SetXTitle("mm"); residualg1xcl->SetYTitle("Frequency");residualg1xcl->SetLabelSize(0.045,"XY");residualg1xcl->SetTitleSize(0.045,"XY");
-		TH1F* residualg1ycl = new TH1F(nameRes1Y,"",200,-0.5,0.5); residualg1ycl->SetXTitle("mm"); residualg1ycl->SetYTitle("Frequency");residualg1ycl->SetLabelSize(0.045,"XY");residualg1ycl->SetTitleSize(0.045,"XY");
-		TH1F* residualg2xcl = new TH1F(nameRes2X,"",200,-0.5,0.5); residualg2xcl->SetXTitle("Residual [mm]"); residualg2xcl->SetYTitle("Frequency");residualg2xcl->SetLabelSize(0.045,"XY");residualg2xcl->SetTitleSize(0.045,"XY");
-		TH1F* residualg2ycl = new TH1F(nameRes2Y,"",200,-0.5,0.5); residualg2ycl->SetXTitle("Residual [mm]"); residualg2ycl->SetYTitle("Frequency");residualg2ycl->SetLabelSize(0.045,"XY");residualg2ycl->SetTitleSize(0.045,"XY");
-		TH1F* residualg3xcl = new TH1F(nameRes3X,"",200,-0.5,0.5); residualg3xcl->SetXTitle("Residual [mm]"); residualg3xcl->SetYTitle("Frequency");residualg3xcl->SetLabelSize(0.045,"XY");residualg3xcl->SetTitleSize(0.045,"XY");
-		TH1F* residualg3ycl = new TH1F(nameRes3Y,"",200,-0.5,0.5); residualg3ycl->SetXTitle("Residual [mm]"); residualg3ycl->SetYTitle("Frequency");residualg3ycl->SetLabelSize(0.045,"XY");residualg3ycl->SetTitleSize(0.045,"XY");
+		TH1F* residualg1xcl = new TH1F(nameRes1X,"",200,-2.0,2.0); residualg1xcl->SetXTitle("mm"); residualg1xcl->SetYTitle("Frequency");residualg1xcl->SetLabelSize(0.045,"XY");residualg1xcl->SetTitleSize(0.045,"XY");
+		TH1F* residualg1ycl = new TH1F(nameRes1Y,"",200,-2.0,2.0); residualg1ycl->SetXTitle("mm"); residualg1ycl->SetYTitle("Frequency");residualg1ycl->SetLabelSize(0.045,"XY");residualg1ycl->SetTitleSize(0.045,"XY");
+		TH1F* residualg2xcl = new TH1F(nameRes2X,"",200,-2.0,2.0); residualg2xcl->SetXTitle("Residual [mm]"); residualg2xcl->SetYTitle("Frequency");residualg2xcl->SetLabelSize(0.045,"XY");residualg2xcl->SetTitleSize(0.045,"XY");
+		TH1F* residualg2ycl = new TH1F(nameRes2Y,"",200,-2.0,2.0); residualg2ycl->SetXTitle("Residual [mm]"); residualg2ycl->SetYTitle("Frequency");residualg2ycl->SetLabelSize(0.045,"XY");residualg2ycl->SetTitleSize(0.045,"XY");
+		TH1F* residualg3xcl = new TH1F(nameRes3X,"",200,-2.0,2.0); residualg3xcl->SetXTitle("Residual [mm]"); residualg3xcl->SetYTitle("Frequency");residualg3xcl->SetLabelSize(0.045,"XY");residualg3xcl->SetTitleSize(0.045,"XY");
+		TH1F* residualg3ycl = new TH1F(nameRes3Y,"",200,-2.0,2.0); residualg3ycl->SetXTitle("Residual [mm]"); residualg3ycl->SetYTitle("Frequency");residualg3ycl->SetLabelSize(0.045,"XY");residualg3ycl->SetTitleSize(0.045,"XY");
 		
 		
-		TH1F* angleREF2 = new TH1F("angleREF2","Rotation angle distribution of REF1 and REF2",1000,-0.5,0.5); angleREF2->SetXTitle("Angle [radian]"); angleREF2->SetYTitle("Frequency");
-		TH1F* angleREF3 = new TH1F("angleREF3","Rotation angle distribution of REF3 and REF2",1000,-0.5,0.5); angleREF3->SetXTitle("Angle [radian]"); angleREF3->SetYTitle("Frequency");
+		TH1F* angleREF2 = new TH1F("angleREF2","Rotation angle distribution of REF1 and REF2",200,-2.0,2.0); angleREF2->SetXTitle("Angle [radian]"); angleREF2->SetYTitle("Frequency");
+		TH1F* angleREF3 = new TH1F("angleREF3","Rotation angle distribution of REF3 and REF2",200,-2.0,2.0); angleREF3->SetXTitle("Angle [radian]"); angleREF3->SetYTitle("Frequency");
 		
-		TH1F* xTrackChi2 = new TH1F("XTrackChi2","Chi square of tracks in X projection",1000,0,10); xTrackChi2->SetXTitle("#chi^{2} of track in X"); xTrackChi2->SetYTitle("Frequency"); xTrackChi2->SetTitleSize(0.04,"XY"); xTrackChi2->SetLabelSize(0.04,"XY");
-		TH1F* yTrackChi2 = new TH1F("YTrackChi2","Chi square of tracks in Y projection",1000,0,10); yTrackChi2->SetXTitle("#chi^{2} of track in Y"); yTrackChi2->SetYTitle("Frequency"); yTrackChi2->SetTitleSize(0.04,"XY"); yTrackChi2->SetLabelSize(0.04,"XY");
+		TH1F* xTrackChi2 = new TH1F("XTrackChi2","Chi square of tracks in X projection",200,0,10); xTrackChi2->SetXTitle("#chi^{2} of track in X"); xTrackChi2->SetYTitle("Frequency"); xTrackChi2->SetTitleSize(0.04,"XY"); xTrackChi2->SetLabelSize(0.04,"XY");
+		TH1F* yTrackChi2 = new TH1F("YTrackChi2","Chi square of tracks in Y projection",200,0,10); yTrackChi2->SetXTitle("#chi^{2} of track in Y"); yTrackChi2->SetYTitle("Frequency"); yTrackChi2->SetTitleSize(0.04,"XY"); yTrackChi2->SetLabelSize(0.04,"XY");
 		
 		if (verbose)
 			cout<<"Successfully Defined all histogram"<<endl;
@@ -229,28 +229,28 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		
 		I2GFvalues myValues;
 		
-		myValues = I2GFmainLoop(residualg1xcl, 1, 10 , 1);
+		myValues = I2GFmainLoop(residualg1xcl, 1, 3, 1);
 		meanREF1X = myValues.mean; sigmag1xcl=myValues.sigma;
 		if (verbose) cout<<"=========================>Passed 1 "<<endl;
 		
-		myValues = I2GFmainLoop(residualg1ycl, 1, 10 , 1);
+		myValues = I2GFmainLoop(residualg1ycl, 1, 3, 1);
 		meanREF1Y = myValues.mean; sigmag1ycl=myValues.sigma;
 		if (verbose) cout<<"=========================>Passed 2 "<<endl;
 		
 		
-		myValues = I2GFmainLoop(residualg2xcl, 1, 10 , 1);
+		myValues = I2GFmainLoop(residualg2xcl, 8, 3, 1);
 		meanREF2X = myValues.mean; sigmag2xcl=myValues.sigma;
 		if (verbose) cout<<"=========================>Passed 3 "<<endl;
 		
-		myValues = I2GFmainLoop(residualg2ycl, 1, 10 , 1);
+		myValues = I2GFmainLoop(residualg2ycl, 8, 3, 1);
 		meanREF2Y = myValues.mean; sigmag2ycl=myValues.sigma;
 		if (verbose) cout<<"=========================>Passed 4 "<<endl;
 		
-		myValues = I2GFmainLoop(residualg3xcl, 1, 10 , 1);
+		myValues = I2GFmainLoop(residualg3xcl, 8, 3, 1);
 		meanREF3X = myValues.mean; sigmag3xcl=myValues.sigma;
 		if (verbose) cout<<"=========================>Passed 5 "<<endl;
 		
-		myValues = I2GFmainLoop(residualg3ycl, 1, 10 , 1);
+		myValues = I2GFmainLoop(residualg3ycl, 8, 3, 1);
 		meanREF3Y = myValues.mean; sigmag3ycl=myValues.sigma;
 		if (verbose) cout<<"=========================>Passed 6 "<<endl;
 		
@@ -259,11 +259,11 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 			cout<<"residual mean: "<<meanREF1X<<"\t"<<meanREF1Y<<"\t"<<meanREF2X<<"\t"<<meanREF2Y<<"\t"<<meanREF3X<<"\t"<<meanREF3Y<<endl;
 		fout1<<"residual mean: "<<meanREF1X<<"\t"<<meanREF1Y<<"\t"<<meanREF2X<<"\t"<<meanREF2Y<<"\t"<<meanREF3X<<"\t"<<meanREF3Y<<endl;
 		
-		myValues = I2GFmainLoop(angleREF2, 1, 10 , 1);
+		myValues = I2GFmainLoop(angleREF2, 8, 3, 1);
 		if (verbose) cout<<"=========================>Passed 8 "<<endl;
 
 		meanAngleREF2=myValues.mean;
-		myValues = I2GFmainLoop(angleREF3, 1, 10 , 1);
+		myValues = I2GFmainLoop(angleREF3, 8, 3, 1);
 		if (verbose) cout<<"=========================>Passed 9 "<<endl;
 
 		meanAngleREF3=myValues.mean;
@@ -307,6 +307,7 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		f->Close();
 		//delete funPosEta5; delete funPosg1ycl; delete funPosUVA3Y; delete funPosg3ycl; delete funPosg2ycl;
 		
+		//if((meanREF1X>=-0.005 && meanREF1X<=0.005) && (meanREF1Y>=-0.005 && meanREF1Y<=0.005))
 		if((meanREF2X>=-0.005 && meanREF2X<=0.005) && (meanREF2Y>=-0.005 && meanREF2Y<=0.005))
 		if((meanREF3X>=-0.005 && meanREF3X<=0.005) && (meanREF3Y>=-0.005 && meanREF3Y<=0.005))
 		if(meanAngleREF3>=-0.005 && meanAngleREF3<=0.005 && meanAngleREF2>=-0.005 && meanAngleREF2<=0.005)
@@ -320,6 +321,7 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 
 		double factor = -0.1;
 		shiREF1X = 0.0;				 shiREF1Y = 0.0; 
+		//shiREF1X = meanREF1X*factor; shiREF1Y = meanREF1Y*factor; 
 		shiREF2X = meanREF2X*factor; shiREF2Y = meanREF2Y*factor; 
 		shiREF3X = meanREF3X*factor; shiREF3Y = meanREF3Y*factor; 
 		aREF2REF1 = meanAngleREF2;
