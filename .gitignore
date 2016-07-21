@@ -1,4 +1,5 @@
 *.swp
+*.pdf
 callgrind.out.*
 *.txt
 *.root
