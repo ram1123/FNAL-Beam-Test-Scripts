@@ -1,3 +1,6 @@
+*~
+*.png
+*.__afs*
 *.swp
 *.pdf
 callgrind.out.*
