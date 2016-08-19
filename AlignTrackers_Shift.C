@@ -137,10 +137,10 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	
         TH1F* h_residual_g1xcl = new TH1F(nameRes1X,"",100,-4,4); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
         TH1F* h_residual_g1ycl = new TH1F(nameRes1Y,"",100,-4,4); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g2xcl = new TH1F(nameRes2X,"",100,-4,4); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g2ycl = new TH1F(nameRes2Y,"",100,-4,4); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g3xcl = new TH1F(nameRes3X,"",100,-4,4); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g3ycl = new TH1F(nameRes3Y,"",100,-4,4); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
+        TH1F* h_residual_g2xcl = new TH1F(nameRes2X,"",15,-2,2); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
+        TH1F* h_residual_g2ycl = new TH1F(nameRes2Y,"",15,-2,2); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
+        TH1F* h_residual_g3xcl = new TH1F(nameRes3X,"",10,-1,1); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
+        TH1F* h_residual_g3ycl = new TH1F(nameRes3Y,"",10,-1,1); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
 
 	// Print the mean position of each Detector
 	fout<<shi_g1xcl<<"\t"<<shi_g1ycl<<"\t"<<shi_g2xcl<<"\t"<<shi_g2ycl<<"\t"<<shi_g3xcl<<"\t"<<shi_g3ycl<<"\t"<<endl;

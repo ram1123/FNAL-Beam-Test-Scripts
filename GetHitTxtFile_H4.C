@@ -387,8 +387,8 @@ if (NumCluster_g3x !=0 )
               cout<<"EventNb "<<EventNb<<endl;
               //cout<<"EventNb "<<EventNb<<"\tActual EvtNumber = "<< jentry <<endl;
               //cout<<"EventNb "<<jentry<<endl;
-          file_out<<"EventNb "<<EventNb<<endl;
-//file_out<<"EventNb "<<EventNb<<"\tActual EvtNumber = "<< jentry <<endl;
+	  file_out<<"EventNb "<<EventNb<<endl;
+	  //	  file_out<<"EventNb "<<EventNb<<"\tActual EvtNumber = "<< jentry <<endl;
       
 }
 
@@ -420,6 +420,7 @@ if (NumCluster_g3x !=0 )
                   break;
               for (int chfird=0;chfird<CRC.g1xcl_ngeoch[nch];chfird++)
               {
+		if ( chfird > 0)
                   if((CRC.g1xcl_geoch)[count_ngeoch_occ][chfird] == 0)
                       break;
                   if (verbose)
@@ -463,6 +464,7 @@ int g1x = jentry ;
                   break;
               for (int chfird=0;chfird<CRC.g1ycl_ngeoch[nch];chfird++)
               {
+		if ( chfird > 0)
                   if((CRC.g1ycl_geoch)[count_ngeoch_occ][chfird] == 0)
                       break;
                   if (verbose)
@@ -509,6 +511,7 @@ int g1x = jentry ;
                   break;
               for (int chfird=0;chfird<CRC.g2xcl_ngeoch[nch];chfird++)
               {
+		if ( chfird > 0)
                   if((CRC.g2xcl_geoch)[count_ngeoch_occ][chfird] < 0)
                       break;
                   if (verbose)
@@ -536,6 +539,8 @@ int g1x = jentry ;
           channelFired = 0;
           for(Int_t nch=0;nch<CRC.kMaxg2ycl;nch++)
           {
+	      //if(EventNb == 2318)cout<<"chk this\t"<<nch<<"nggeo\t"<<CRC.g2ycl_ngeoch[nch]<<endl;
+	     // if (nch > 0)
               if (CRC.g2ycl_ngeoch[nch]==0)
                   break;
               channelFired +=CRC.g2ycl_ngeoch[nch];
@@ -547,10 +552,12 @@ int g1x = jentry ;
           count_ngeoch_occ = 0;
           for(Int_t nch=0;nch<CRC.kMaxg2ycl;nch++)
           {
+	    //	      if(EventNb == 2318)cout<<"chk this\t"<<nch<<"nggeo\t"<<CRC.g2ycl_ngeoch[nch]<<endl;
               if (CRC.g2ycl_ngeoch[nch]==0)
                   break;
               for (int chfird=0;chfird<CRC.g2ycl_ngeoch[nch];chfird++)
               {
+	      if ( chfird > 0)
                   if((CRC.g2ycl_geoch)[count_ngeoch_occ][chfird] == 0)
                       break;
                   if (verbose)
@@ -930,7 +937,7 @@ int g1x = jentry ;
     count_ngeoch_occ = 0;
     for(Int_t nch=0;nch<CRC.kMaxGE11_IV_GIF;nch++)
     {
-	if (CRC.GE11_IV_GIF_ngeoch[nch]==0)
+	if (CRC.GE11_IV_GIF_ngeoch[nch]== 0)
 	break;
     for (int chfird=0;chfird<CRC.GE11_IV_GIF_ngeoch[nch];chfird++)
     {
