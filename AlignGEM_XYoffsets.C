@@ -403,7 +403,7 @@ void AlignGEM_XYoffsets(string InputTextFile, int RunNumber, double shiREF1X, do
 		aREF2REF1 += 0.0+aREF2REF1_TrkAlign;
 		aREF3REF1 += 0.0+aREF3REF1_TrkAlign;
 	}
-  for(int iterNbX=0;iterNbX<10;iterNbX++)
+  for(int iterNbX=0;iterNbX<1;iterNbX++)
     for(int iterNbY=0;iterNbY<1;iterNbY++)
     {
      tracking(InputTextFile, RunNumber, iterNbX, iterNbY, shiREF1X, shiREF1Y, shiREF2X, shiREF2Y, shiREF3X, shiREF3Y, shiEta5Y, Trk1Pos, Trk2Pos, Trk3Pos, GEMPos , aREF2REF1, aREF3REF1);

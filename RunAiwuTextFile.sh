@@ -22,8 +22,8 @@ ILat=15
 FLat=30
 RunCounter=$IRunNo
 
-#PathOfInputData=/afs/cern.ch/user/r/rasharma/public/TurboSoftware/EventBuilder/OutPutData/
-PathOfInputData=/home/ramkrishna/cernbox/LaptopBackup/AllAnalysis/TBA/FNAL-Beam-Test-Scripts/
+PathOfInputData=/afs/cern.ch/user/r/rasharma/public/TurboSoftware/EventBuilder/OutPutData/
+#PathOfInputData=/home/ramkrishna/cernbox/LaptopBackup/AllAnalysis/TBA/FNAL-Beam-Test-Scripts/
 
     #/*
     # * EfficiencyType : If want to calculate efficiency of each GE11's independently

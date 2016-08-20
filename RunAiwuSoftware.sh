@@ -71,7 +71,7 @@ do
             fi
         fi
     fi
-    for dir in ${PathOfInputData}/Run$file*; do	    # Start of dir for loop
+    for dir in ${PathOfInputData}/Run$file*.txt; do	    # Start of dir for loop
     	echo ${dir}
 	echo $(basename $dir)
 	echo -e "\E[33mStarted Running the Python Code.\E[0m"
@@ -81,6 +81,7 @@ do
 	else
     		echo "python RunAiwuSoftware_H4.py -RNum ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}"
     		python RunAiwuSoftware_H4.py -RNum ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly} 
+		echo "done RunAiwuSoftware_H4.py...."
 	fi
 	echo -e "\E[33mCompleted Running the Python Code.\E[0m"
     done	# END of dir for loop
