@@ -26,6 +26,9 @@ First you need to run the **TurboSoftware** to get the root file from EventBuild
 You may need to modify the path of input root files. Also, there are two variables named **EfficiencyType** and **TrkOnly**. Need to choose the values of this variable in code. Description of these variables given in code itself.
 
 ### Step 2: Alignment part
+Few things to keep in mind:
+1. s
+
 	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> No 1		# Will create text file with tracker info only
 	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> LC1 1		# Will create text file with tracker & one GE11
 	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> LC1 0		# Run the alignment code
@@ -35,3 +38,11 @@ You may need to modify the path of input root files. Also, there are two variabl
 	*** Break *** segmentation violation
 
 This is because while aligning the detector it is going outside the range of defined histogram. So, you need to see carefully and set range or initial parameter carefully.
+
+## Some Additional Codes
+These codes are in dierctory named **FewPlottingCodes**.
+
+1. **EfficiencyTxtFileSplitBOLat.sh**: This splits text file w.r.t. the latency.
+2. **Plot_GEMXY_Output.C**: Plotting code from output of GEM align code.
+3. **Plot_Trk_Linear.C**: Plotting code from out of Linear shift tracker.
+4. **CoarseAnalyze.py**: This is to analyze the root file named CoarseAligned\_\*.root

@@ -28,15 +28,15 @@ RunWhichPart=1
 Dir_Shift_Par="FinalShiftPar_LinShiftTrk/ShiftPar_LinearShiftTrkOnly_alignTrackers_R"+args.RunNumber+".txt"
 Dir_Shift_Rot_Par="FinalShiftPar_RotShiftTrk/Shift_Rotate_Parameter_R"+args.RunNumber+".txt"
 
-def getVarFromFile(filename):
-    import imp
-    f = open(filename)
-    global data
-    data = imp.load_source('data', '', f)
-    f.close()
-
-getVarFromFile(Dir_Shift_Par)
-getVarFromFile(Dir_Shift_Rot_Par)
+#def getVarFromFile(filename):
+#    import imp
+#    f = open(filename)
+#    global data
+#    data = imp.load_source('data', '', f)
+#    f.close()
+#
+#getVarFromFile(Dir_Shift_Par)
+#getVarFromFile(Dir_Shift_Rot_Par)
 
 print '========================================================================='
 print 'args.TextOnly = ',args.TextOnly
@@ -59,60 +59,32 @@ else:
     RootFile = 'CoarseAligned_'+args.RunNumber+'.root'
     print 'Input Root File : ',RootFile
     if os.path.isfile(RootFile):
-        f = TFile(RootFile)
-        g1x = f.Get("h_Pos_g1xcl")  
-        g1y = f.Get("h_Pos_g1ycl")  
-        g2x = f.Get("h_Pos_g2xcl")  
-        g2y = f.Get("h_Pos_g2ycl")  
-        g3x = f.Get("h_Pos_g3xcl")  
-        g3y = f.Get("h_Pos_g3ycl")  
+    	f = TFile(RootFile)
+    	g1x = f.Get("h_Pos_g1xcl")  
+    	g1y = f.Get("h_Pos_g1ycl")  
+    	g2x = f.Get("h_Pos_g2xcl")  
+    	g2y = f.Get("h_Pos_g2ycl")  
+    	g3x = f.Get("h_Pos_g3xcl")  
+    	g3y = f.Get("h_Pos_g3ycl")  
+    	LC1 = f.Get("h_Pos_GE11_IV_GIF")  
+    	LC2 = f.Get("h_Pos_GE11_IV")  
+    	LC3 = f.Get("h_Pos_sCMSNS2LC3")  
+    	Mean_g1x = g1x.GetMean()
+    	Mean_g1y = g1y.GetMean()
+    	Mean_g2x = g2x.GetMean()
+    	Mean_g2y = g2y.GetMean()
+    	Mean_g3x = g3x.GetMean()
+    	Mean_g3y = g3y.GetMean()
+    	Mean_LC1 = LC1.GetMean()
+    	Mean_LC2 = LC2.GetMean()
+    	Mean_LC3 = LC3.GetMean()
+    	print "Mean values : ",Mean_g1x,"\t",Mean_g1y,"\t",Mean_g2x,"\t",Mean_g2y,"\t",Mean_g3x,"\t",Mean_g3y
+    	Mean_angle_g1g2 = math.asin((Mean_g2x*Mean_g1y-Mean_g1x*Mean_g2y)/(Mean_g1x*Mean_g1x+Mean_g1y*Mean_g1y))
+    	Mean_angle_g1g3 = math.asin((Mean_g3x*Mean_g1y-Mean_g1x*Mean_g3y)/(Mean_g1x*Mean_g1x+Mean_g1y*Mean_g1y))
+    	print "Angles : ",Mean_angle_g1g2,"\t",Mean_angle_g1g3
     else:
         print '\n================\n\n\tInput Root File ',RootFile,' does not exits\n\n=====================\n\n'
         sys.exit(0)
-
-print '========================================================================='
-print 'args.TextOnly = ',args.TextOnly
-if args.TextOnly=="1":
-    print 'Start Running SelectTrackerEvents.C...'
-    if args.RunNumber < 1587:
-    	print('root -l -b -q SelectTrackerEvents_H2.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
-    	os.system('root -l -b -q SelectTrackerEvents_H2.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
-    else:
-    	print('root -l -b -q SelectTrackerEvents_H4.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
-    	os.system('root -l -b -q SelectTrackerEvents_H4.C\(\\"'+args.InputFile+'\\",'+args.RunNumber+',\\"'+args.Det+'\\"\)')
-    print '\n\nSelectTrackerEvents.C DONE...\n\n'
-else:
-    print "Don't re-run SelectTrackerEvents.C macro......"
-    print '\n\n======== Start::CALCULATING SHIFT PARAMETERS    =================================\n\n'
-    import ROOT
-    import math
-    from ROOT import TFile, TH1F, TObject
-    ROOT.gROOT.SetBatch(True)  # This will prevent histogram to show
-    RootFile = 'CoarseAligned_'+args.RunNumber+'.root'
-    print 'Input Root File : ',RootFile
-    f = TFile(RootFile)
-    g1x = f.Get("h_Pos_g1xcl")  
-    g1y = f.Get("h_Pos_g1ycl")  
-    g2x = f.Get("h_Pos_g2xcl")  
-    g2y = f.Get("h_Pos_g2ycl")  
-    g3x = f.Get("h_Pos_g3xcl")  
-    g3y = f.Get("h_Pos_g3ycl")  
-    LC1 = f.Get("h_Pos_GE11_IV_GIF")  
-    LC2 = f.Get("h_Pos_GE11_IV")  
-    LC3 = f.Get("h_Pos_sCMSNS2LC3")  
-    Mean_g1x = g1x.GetMean()
-    Mean_g1y = g1y.GetMean()
-    Mean_g2x = g2x.GetMean()
-    Mean_g2y = g2y.GetMean()
-    Mean_g3x = g3x.GetMean()
-    Mean_g3y = g3y.GetMean()
-    Mean_LC1 = LC1.GetMean()
-    Mean_LC2 = LC2.GetMean()
-    Mean_LC3 = LC3.GetMean()
-    print "Mean values : ",Mean_g1x,"\t",Mean_g1y,"\t",Mean_g2x,"\t",Mean_g2y,"\t",Mean_g3x,"\t",Mean_g3y
-    Mean_angle_g1g2 = math.asin((Mean_g2x*Mean_g1y-Mean_g1x*Mean_g2y)/(Mean_g1x*Mean_g1x+Mean_g1y*Mean_g1y))
-    Mean_angle_g1g3 = math.asin((Mean_g3x*Mean_g1y-Mean_g1x*Mean_g3y)/(Mean_g1x*Mean_g1x+Mean_g1y*Mean_g1y))
-    print "Angles : ",Mean_angle_g1g2,"\t",Mean_angle_g1g3
     print '\n\n======== END::CALCULATING SHIFT PARAMETERS    =================================\n\n'
     #=====================  START:: Running AlignTrackers_Shift.C	=================================
     if (RunWhichPart==1 or RunWhichPart>3):

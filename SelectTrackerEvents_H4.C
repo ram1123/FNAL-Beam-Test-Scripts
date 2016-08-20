@@ -33,7 +33,7 @@ void SelectTrackerEvents_H4(const char * InputTextFile, const int RunNumber, str
     fstream fout_1("Eff.txt",ios::out);
       
     bool verbose = 0;
-    bool verbose_forLoop = 1;
+    bool verbose_forLoop = 0;
 
    float NHits_g2 =0; float NHits_g3 =0; float NHits_g1 =0; float NHits_LC1=0; float NHits_LC2=0; float NHits_LC3 =0; float Pos_g2X=0; float Pos_g2Y=0; float Pos_g3X=0; float Pos_g1X=0; float Pos_g1Y=0;
 
@@ -214,12 +214,12 @@ if (verbose)
     cmsprem = new TLatex(0,101,"CMS Preliminary");
     cmsprem->SetTextSize(0.04);
     gStyle->SetOptStat("ne");*/
-    TH1F* h_Pos_g2xcl=new TH1F("h_Pos_g2xcl","",100, -10, 110);h_Pos_g2xcl->SetXTitle("Cluster position [mm]");h_Pos_g2xcl->SetYTitle("Frequency");h_Pos_g2xcl->SetTitleSize(0.04,"XY");h_Pos_g2xcl->SetLabelSize(0.04,"XY");									
+    TH1F* h_Pos_g1xcl=new TH1F("h_Pos_g1xcl","",100, -10, 110);h_Pos_g1xcl->SetXTitle("Cluster position [mm]");h_Pos_g1xcl->SetYTitle("Frequency");h_Pos_g1xcl->SetTitleSize(0.04,"XY");h_Pos_g1xcl->SetLabelSize(0.04,"XY");
+    TH1F* h_Pos_g1ycl=new TH1F("h_Pos_g1ycl","",100, -10, 110);h_Pos_g1ycl->SetXTitle("Cluster position [mm]");h_Pos_g1ycl->SetYTitle("Frequency");h_Pos_g1ycl->SetTitleSize(0.04,"XY");h_Pos_g1ycl->SetLabelSize(0.04,"XY");
+    TH1F* h_Pos_g2xcl=new TH1F("h_Pos_g2xcl","",100, -10, 110);h_Pos_g2xcl->SetXTitle("Cluster position [mm]");h_Pos_g2xcl->SetYTitle("Frequency");h_Pos_g2xcl->SetTitleSize(0.04,"XY");h_Pos_g2xcl->SetLabelSize(0.04,"XY");
     TH1F* h_Pos_g2ycl=new TH1F("h_Pos_g2ycl","",100, -10, 110);h_Pos_g2ycl->SetXTitle("Cluster position [mm]");h_Pos_g2ycl->SetYTitle("Frequency");h_Pos_g2ycl->SetTitleSize(0.04,"XY");h_Pos_g2ycl->SetLabelSize(0.04,"XY");
     TH1F* h_Pos_g3xcl=new TH1F("h_Pos_g3xcl","",100, -10, 110);h_Pos_g3xcl->SetXTitle("Cluster position [mm]");h_Pos_g3xcl->SetYTitle("Frequency");h_Pos_g3xcl->SetTitleSize(0.04,"XY");h_Pos_g3xcl->SetLabelSize(0.04,"XY");
     TH1F* h_Pos_g3ycl=new TH1F("h_Pos_g3ycl","",100, -10, 110);h_Pos_g3ycl->SetXTitle("Cluster position [mm]");h_Pos_g3ycl->SetYTitle("Frequency");h_Pos_g3ycl->SetTitleSize(0.04,"XY");h_Pos_g3ycl->SetLabelSize(0.04,"XY");
-    TH1F* h_Pos_g1xcl=new TH1F("h_Pos_g1xcl","",100, -10, 110);h_Pos_g1xcl->SetXTitle("Cluster position [mm]");h_Pos_g1xcl->SetYTitle("Frequency");h_Pos_g1xcl->SetTitleSize(0.04,"XY");h_Pos_g1xcl->SetLabelSize(0.04,"XY");
-    TH1F* h_Pos_g1ycl=new TH1F("h_Pos_g1ycl","",100, -10, 110);h_Pos_g1ycl->SetXTitle("Cluster position [mm]");h_Pos_g1ycl->SetYTitle("Frequency");h_Pos_g1ycl->SetTitleSize(0.04,"XY");h_Pos_g1ycl->SetLabelSize(0.04,"XY");
     TH1F* h_Pos_GE11_IV_GIF=new TH1F("h_Pos_GE11_IV_GIF","",100, 0, 100);h_Pos_GE11_IV_GIF->SetXTitle("Cluster position [mm]");h_Pos_GE11_IV_GIF->SetYTitle("Frequency");h_Pos_GE11_IV_GIF->SetTitleSize(0.04,"XY");h_Pos_GE11_IV_GIF->SetLabelSize(0.04,"XY");
     TH1F* h_Pos_GE11_IV=new TH1F("h_Pos_GE11_IV","",100, 0, 100);h_Pos_GE11_IV->SetXTitle("Cluster position [mm]");h_Pos_GE11_IV->SetYTitle("Frequency");h_Pos_GE11_IV->SetTitleSize(0.04,"XY");h_Pos_GE11_IV->SetLabelSize(0.04,"XY");
     TH1F* h_Pos_sCMSNS2LC3=new TH1F("h_Pos_sCMSNS2LC3","",100, 0, 100);h_Pos_sCMSNS2LC3->SetXTitle("Cluster position [mm]");h_Pos_sCMSNS2LC3->SetYTitle("Frequency");h_Pos_sCMSNS2LC3->SetTitleSize(0.04,"XY");h_Pos_sCMSNS2LC3->SetLabelSize(0.04,"XY");
@@ -273,8 +273,10 @@ if (verbose){
 	    NHits_g2++;
 	  }
 
+	if (verbose_forLoop)
 	cout<<"DEBUG 1"<<endl;	
 	Bool_t cutNHits_g3 = false;
+	if (verbose_forLoop)
 	cout<<"g3x = "<<NHits_g3xcl.at(i)<<"\tg3y = "<<NHits_g3ycl.at(i)<<endl;
         if(NHits_g3xcl.at(i)>0 && NHits_g3ycl.at(i)>0)
           {
@@ -282,6 +284,7 @@ if (verbose){
 	    NHits_g3++;
 	  }
 	
+	if (verbose_forLoop)
 	cout<<"DEBUG 2"<<endl;	
 	Bool_t cutNHits_g1 = false;
         if(NHits_g1xcl.at(i)>0 && NHits_g1ycl.at(i)>0)
