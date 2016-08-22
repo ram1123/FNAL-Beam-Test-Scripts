@@ -20,6 +20,8 @@
 using namespace std;
 void GetHitTxtFile_H4(const char* inputfile, string RunName , int EfficiencyType , int TrkOnly )//main programme
 {
+    bool verbose = 0;
+    //bool TrkOnly = 1;
 
     /*
      * EfficiencyType : If want to calculate efficiency of each GE11's independently
@@ -32,16 +34,24 @@ void GetHitTxtFile_H4(const char* inputfile, string RunName , int EfficiencyType
      *			tracker then put it = 2
      */
 
+    cout<<"\n=================================================\n"<<endl;
+    cout<<"\tPrint Input Parameters:"<<endl;
+    cout<<"\n=================================================\n"<<endl;
+    cout<<"Name of input file = "<<inputfile<<endl<<endl;
+    cout<<"Run Name = "<<RunName<<endl<<endl;
+    cout<<"Efficiency Type : Trigger with all 3 trackers"<<endl<<endl;
+    cout<<"TrkOnly = "<<TrkOnly<<endl;
+    cout<<"\n=================================================\n\n\n"<<endl;
+
     TChain* t = new TChain("rd51tbgeo");
     t->Add(inputfile);
-    //t->Add("CRC-Run0411_Muon_10k_MSPL2_HVScan_710pt1_710pt1_710pt0_T20_T20_T20_Lat22-141011_013955-0.root");
     
     ClassReadTree CRC(t);
     
     Long64_t nentries = t->GetEntries();
     cout<< "Total "<<nentries<<endl;
 
-    string outputtxtfile = "HitTxtFiles/"+RunName+".txt";
+    string outputtxtfile = "FirstStage_textFile/"+RunName+"_HitInfo.txt";
     std::ofstream file_out(outputtxtfile);
     std::ofstream file_outEff;
     string outputEfficiencyFile;
@@ -49,7 +59,7 @@ void GetHitTxtFile_H4(const char* inputfile, string RunName , int EfficiencyType
     if (EfficiencyType == 1 ) outputEfficiencyFile = "If_Hit_2_Trk";
     if (EfficiencyType == 2 ) outputEfficiencyFile = "Hit_all_3_Trk";
 
-    outputEfficiencyFile = "GE11s_Efficiency_"+outputEfficiencyFile+".txt";
+    outputEfficiencyFile = "FirstStage_textFile/"+RunName+"_Efficiency_"+outputEfficiencyFile+".txt";
 
     file_outEff.open(outputEfficiencyFile, std::ios_base::app);
     if (!file_out)
@@ -64,8 +74,6 @@ void GetHitTxtFile_H4(const char* inputfile, string RunName , int EfficiencyType
 
     //================================   initialize some of variables   ======================================================
     Long64_t nbytes = 0, nb = 0;
-    bool verbose = 0;
-//    bool TrkOnly = 1;
 
     int count_ngeoch_occ = 0;
     int EventNb = 0;

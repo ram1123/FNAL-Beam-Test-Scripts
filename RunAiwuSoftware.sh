@@ -22,7 +22,7 @@ FRunNo=$2
 ILat=15
 FLat=30
 RunCounter=$IRunNo
-PathOfInputData=HitTxtFiles
+PathOfInputData=FirstStage_textFile
 Detector=$3  # options: No, LC1 and LC2 and LC3
 IfTxtOnly=$4
 WhatToRun=$5 	# if 0 : Run SelectTrackerEvent
@@ -48,6 +48,8 @@ function make_dir
 }	# end of make_dir
 
 echo -e "\E[33mcreate dir starts:\E[0m"
+make_dir CoarsedAligned
+make_dir SecondStage_TextFile
 make_dir Residual_XY_Trk_RootFile
 make_dir shiftParameters
 make_dir residual_txtFile
@@ -71,7 +73,7 @@ do
             fi
         fi
     fi
-    for dir in ${PathOfInputData}/Run$file*.txt; do	    # Start of dir for loop
+    for dir in ${PathOfInputData}/Run$file*_HitInfo.txt; do	    # Start of dir for loop
     	echo ${dir}
 	echo $(basename $dir)
 	echo -e "\E[33mStarted Running the Python Code.\E[0m"

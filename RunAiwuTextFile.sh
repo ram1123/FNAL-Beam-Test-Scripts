@@ -22,8 +22,8 @@ ILat=15
 FLat=30
 RunCounter=$IRunNo
 
-PathOfInputData=/afs/cern.ch/user/r/rasharma/public/TurboSoftware/EventBuilder/OutPutData/
-#PathOfInputData=/home/ramkrishna/cernbox/LaptopBackup/AllAnalysis/TBA/FNAL-Beam-Test-Scripts/
+#PathOfInputData=/afs/cern.ch/user/r/rasharma/public/TurboSoftware/EventBuilder/OutPutData/
+PathOfInputData=$PWD
 
     #/*
     # * EfficiencyType : If want to calculate efficiency of each GE11's independently
@@ -80,12 +80,13 @@ rm GE11s_Effeciency_Info.txt
 
 make_dir HitTxtFiles
 make_dir RootFile_ClusterInfo
-make_dir RootFiles
-make_dir ResidualFiles
-make_dir ShiftParameterFiles
-make_dir EfficiencyTxtFiles
+make_dir FirstStage_textFile
+#make_dir RootFiles
+#make_dir ResidualFiles
+#make_dir ShiftParameterFiles
+#make_dir EfficiencyTxtFiles
 
-echo -e "RunName\t\t\t\t\t\t\t\t GE11_IV_GIF \t GE11_IV \t GE11_V" > ${OutputEffFileName}
+#echo -e "RunName\t\t\t\t\t\t\t\t GE11_IV_GIF \t GE11_IV \t GE11_V" > ${OutputEffFileName}
 while [ $RunCounter -le $FRunNo ]
 do
     if [[(($RunCounter -le 9))]]; then
@@ -121,31 +122,32 @@ do
     done	# END of dir for loop
     ((++RunCounter))	# increment counter for while loop
 done			# while loop ends
-cp ${OutputEffFileName} GE11s_Effeciency_${info}_R${IRunNo}_R$FRunNo.txt
-mv GE11s_Effeciency_${info}_R${IRunNo}_R$FRunNo.txt EfficiencyTxtFiles/
 
-echo "file(s) of interest:"
-rm EfficiencyTxtFiles/FilesToAnalyze.txt
-echo "GE11s_Effeciency_${info}_R${IRunNo}_R$FRunNo.txt" >> EfficiencyTxtFiles/FilesToAnalyze.txt
-
-while [ $ILat -le $FLat ]
-do
-	rm -f EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
-	grep "Lat$ILat" EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R$FRunNo.txt >> EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
-	outputFile=EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
-	outputFile_short=EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
-
-	if [[ $(stat -c%s "$outputFile") -le 46 ]]; then
-		rm $outputFile
-	else
-		echo "vim $outputFile"
-		echo "GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt" >> EfficiencyTxtFiles/FilesToAnalyze.txt
-	fi
-
-	ILat=$[$ILat+1]
-done 	# End of while loop
-
-cp EfficiencyTxtFiles/FilesToAnalyze.txt EfficiencyTxtFiles/FilesToAnalyze_R${IRunNo}_R${FRunNo}.txt
-
+#cp ${OutputEffFileName} GE11s_Effeciency_${info}_R${IRunNo}_R$FRunNo.txt
+#mv GE11s_Effeciency_${info}_R${IRunNo}_R$FRunNo.txt EfficiencyTxtFiles/
+#
+#echo "file(s) of interest:"
+#rm EfficiencyTxtFiles/FilesToAnalyze.txt
+#echo "GE11s_Effeciency_${info}_R${IRunNo}_R$FRunNo.txt" >> EfficiencyTxtFiles/FilesToAnalyze.txt
+#
+#while [ $ILat -le $FLat ]
+#do
+#	rm -f EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
+#	grep "Lat$ILat" EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R$FRunNo.txt >> EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
+#	outputFile=EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
+#	outputFile_short=EfficiencyTxtFiles/GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt
+#
+#	if [[ $(stat -c%s "$outputFile") -le 46 ]]; then
+#		rm $outputFile
+#	else
+#		echo "vim $outputFile"
+#		echo "GE11s_Effeciency_${info}_R${IRunNo}_R${FRunNo}_Lat${ILat}.txt" >> EfficiencyTxtFiles/FilesToAnalyze.txt
+#	fi
+#
+#	ILat=$[$ILat+1]
+#done 	# End of while loop
+#
+#cp EfficiencyTxtFiles/FilesToAnalyze.txt EfficiencyTxtFiles/FilesToAnalyze_R${IRunNo}_R${FRunNo}.txt
+#
 #echo "To Make Efficiency Curves Execute In Terminal:"
 #echo "./analyzeEff.sh"

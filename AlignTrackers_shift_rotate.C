@@ -12,9 +12,7 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 {
 
 	bool verbose = 0;
-
-	//cout<<"aREF3REF1 = "<<aREF3REF1<<"\taREF2REF1 = "<<aREF2REF1<<endl;
-	//cout<<"Program Start"<<endl;
+	bool IncludeFirstTracker = 0;
 
 	string thestring = {"Position"};
 	
@@ -115,10 +113,10 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		
 		TH1F* residualg1xcl = new TH1F(nameRes1X,"",200,-2.0,2.0); residualg1xcl->SetXTitle("mm"); residualg1xcl->SetYTitle("Frequency");residualg1xcl->SetLabelSize(0.045,"XY");residualg1xcl->SetTitleSize(0.045,"XY");
 		TH1F* residualg1ycl = new TH1F(nameRes1Y,"",200,-2.0,2.0); residualg1ycl->SetXTitle("mm"); residualg1ycl->SetYTitle("Frequency");residualg1ycl->SetLabelSize(0.045,"XY");residualg1ycl->SetTitleSize(0.045,"XY");
-		TH1F* residualg2xcl = new TH1F(nameRes2X,"",200,-2.0,2.0); residualg2xcl->SetXTitle("Residual [mm]"); residualg2xcl->SetYTitle("Frequency");residualg2xcl->SetLabelSize(0.045,"XY");residualg2xcl->SetTitleSize(0.045,"XY");
-		TH1F* residualg2ycl = new TH1F(nameRes2Y,"",200,-2.0,2.0); residualg2ycl->SetXTitle("Residual [mm]"); residualg2ycl->SetYTitle("Frequency");residualg2ycl->SetLabelSize(0.045,"XY");residualg2ycl->SetTitleSize(0.045,"XY");
-		TH1F* residualg3xcl = new TH1F(nameRes3X,"",200,-2.0,2.0); residualg3xcl->SetXTitle("Residual [mm]"); residualg3xcl->SetYTitle("Frequency");residualg3xcl->SetLabelSize(0.045,"XY");residualg3xcl->SetTitleSize(0.045,"XY");
-		TH1F* residualg3ycl = new TH1F(nameRes3Y,"",200,-2.0,2.0); residualg3ycl->SetXTitle("Residual [mm]"); residualg3ycl->SetYTitle("Frequency");residualg3ycl->SetLabelSize(0.045,"XY");residualg3ycl->SetTitleSize(0.045,"XY");
+		TH1F* residualg2xcl = new TH1F(nameRes2X,"",100,-2.0,2.0); residualg2xcl->SetXTitle("Residual [mm]"); residualg2xcl->SetYTitle("Frequency");residualg2xcl->SetLabelSize(0.045,"XY");residualg2xcl->SetTitleSize(0.045,"XY");
+		TH1F* residualg2ycl = new TH1F(nameRes2Y,"",100,-2.0,2.0); residualg2ycl->SetXTitle("Residual [mm]"); residualg2ycl->SetYTitle("Frequency");residualg2ycl->SetLabelSize(0.045,"XY");residualg2ycl->SetTitleSize(0.045,"XY");
+		TH1F* residualg3xcl = new TH1F(nameRes3X,"",100,-2.0,2.0); residualg3xcl->SetXTitle("Residual [mm]"); residualg3xcl->SetYTitle("Frequency");residualg3xcl->SetLabelSize(0.045,"XY");residualg3xcl->SetTitleSize(0.045,"XY");
+		TH1F* residualg3ycl = new TH1F(nameRes3Y,"",100,-2.0,2.0); residualg3ycl->SetXTitle("Residual [mm]"); residualg3ycl->SetYTitle("Frequency");residualg3ycl->SetLabelSize(0.045,"XY");residualg3ycl->SetTitleSize(0.045,"XY");
 		
 		
 		TH1F* angleREF2 = new TH1F("angleREF2","Rotation angle distribution of REF1 and REF2",200,-2.0,2.0); angleREF2->SetXTitle("Angle [radian]"); angleREF2->SetYTitle("Frequency");
@@ -170,8 +168,11 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 			g1->Fit("line1","Q");
 			double intercept1 = f1->GetParameter(0);
 			double slope1     = f1->GetParameter(1);
-			//double Measuredg1xcl = intercept1 + slope1*Trk1Pos;
-			double Measuredg1xcl = vPos_g1xcl[i];
+			double Measuredg1xcl;
+			if (IncludeFirstTracker)
+				Measuredg1xcl = intercept1 + slope1*Trk1Pos;
+			else
+				Measuredg1xcl = vPos_g1xcl[i];
 			double Measuredg2xcl = intercept1 + slope1*Trk2Pos;
 			double Measuredg3xcl = intercept1 + slope1*Trk3Pos;
 			if (verbose)
@@ -196,8 +197,11 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 			g2->Fit("line2","Q");
 			double intercept2 = f2->GetParameter(0);
 			double slope2     = f2->GetParameter(1);
-			//double Measuredg1ycl = intercept2 + slope2*Trk1Pos;
-			double Measuredg1ycl = vPos_g1ycl[i];
+			double Measuredg1ycl;
+			if (IncludeFirstTracker)
+				Measuredg1ycl = intercept2 + slope2*Trk1Pos;
+			else
+				Measuredg1ycl = vPos_g1ycl[i];
 			double Measuredg2ycl = intercept2 + slope2*Trk2Pos;
 			double Measuredg3ycl = intercept2 + slope2*Trk3Pos;
 			
@@ -213,15 +217,10 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		
 			double cosineREF2 = CalculateCosTheta1(vPos_g1xcl[i],vPos_g1ycl[i],vPos_g2xcl[i],vPos_g2ycl[i]);
 			double cosineREF3 = CalculateCosTheta1(vPos_g1xcl[i],vPos_g1ycl[i],vPos_g3xcl[i],vPos_g3ycl[i]);
-			// double cosineEta5 = CalculateCosTheta1(vPos_g2xcl[i],vPos_g2ycl[i],vPos_g2xcl[i],vpEta5[i]);
-			angleREF2->Fill(cosineREF2);   //angleREF3_2->Fill(cosineREF3_2);
-			// angleUVA3->Fill(cosineUVA3); //angleUVA3_2->Fill(cosineUVA3_2);
-			angleREF3->Fill(cosineREF3); //angleREF1_2->Fill(cosineREF1_2);
-			//angleEta5->Fill(cosineEta5);
+			angleREF2->Fill(cosineREF2);
+			angleREF3->Fill(cosineREF3); 
 			
 			nnnn++;
-			//if(nnnn%1000==0) cout<<nnnn<<"......"<<endl;
-			//if(nnnn>1000) break;
 		} //for loop
 
 		//cout<<"after for loop"<<endl;
@@ -268,27 +267,16 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 
 		meanAngleREF3=myValues.mean;
 		
-		
-		
-		
-		//maximum=angleEta5->GetMean(); rms=angleEta5->GetRMS(1); lRange=maximum-rms*0.7; hRange=maximum+rms*0.7;
-		//TF1* funAngleEta5=new TF1("funAngleEta5","gaus",lRange,hRange); angleEta5->Fit("funAngleEta5","RQ");
-		//meanAngleEta5=funAngleEta5->GetParameter(1);
-		//maximum=xTrackChi2->GetMean(); rms=xTrackChi2->GetRMS(1); lRange=maximum-rms*0.5; hRange=maximum+rms*0.5;
-		//TF1* funXTrackChi2=new TF1("funXTrackChi2","gaus",lRange,hRange); xTrackChi2->Fit("funXTrackChi2","RQ");
 		meanXChi2=xTrackChi2->GetMean();
-		//maximum=yTrackChi2->GetMean(); rms=yTrackChi2->GetRMS(1); lRange=maximum-rms*0.5; hRange=maximum+rms*0.5;
-		//TF1* funYTrackChi2=new TF1("funYTrackChi2","gaus",lRange,hRange); yTrackChi2->Fit("funYTrackChi2","RQ");
 		meanYChi2=yTrackChi2->GetMean();
 		if (iterNb != 1)
 		{
-		   	Tot_Shift_2X +=shiREF2X;
+		Tot_Shift_2X +=shiREF2X;
     		Tot_Shift_2Y +=shiREF2Y;
     		Tot_Shift_3X +=shiREF3X;
     		Tot_Shift_3Y +=shiREF3Y;
-			totalAngleREF2 += aREF2REF1;
-			// totalAngleUVA3 += aUVA3REF2;
-			totalAngleREF3 += aREF3REF1;
+		totalAngleREF2 += aREF2REF1;
+		totalAngleREF3 += aREF3REF1;
 		}
 
 		fout3<<sigmag1xcl<<"\t"<<sigmag1ycl<<"\t"<<sigmag2xcl<<"\t"<<sigmag2ycl<<"\t"<</*sigmaUVA3X<<"\t"<<sigmaUVA3Y<<*/"\t"<<sigmag3xcl<<"\t"<<sigmag3ycl<<"\t"<<totalAngleREF2<<"\t"<</*totalAngleUVA3<<*/"\t"<<totalAngleREF3<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<endl;
@@ -296,44 +284,49 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		cout<<sigmag1xcl<<"\t"<<sigmag1ycl<<"\t"<<sigmag2xcl<<"\t"<<sigmag2ycl<<"\t"<</*sigmaUVA3X<<"\t"<<sigmaUVA3Y<<*/"\t"<<sigmag3xcl<<"\t"<<sigmag3ycl<<"\t"<<totalAngleREF2<<"\t"<</*totalAngleUVA3<<*/"\t"<<totalAngleREF3<<"\t"<<meanXChi2<<"\t"<<meanYChi2<<endl;
 
 		 if (verbose) 
-	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
+			cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
 		 if (verbose) 
-	cout<<"meanREF2X = "<<meanREF2X <<"\tmeanREF2Y = "<<meanREF2Y<<"\tmeanREF3X = "<<meanREF3X<<"\tmeanREF3Y = "<<meanREF3Y<<"\tmeanAngleREF3 = "<<meanAngleREF3<<"\tmeanAngleREF2 = "<<meanAngleREF2<<endl;
+			cout<<"meanREF2X = "<<meanREF2X <<"\tmeanREF2Y = "<<meanREF2Y<<"\tmeanREF3X = "<<meanREF3X<<"\tmeanREF3Y = "<<meanREF3Y<<"\tmeanAngleREF3 = "<<meanAngleREF3<<"\tmeanAngleREF2 = "<<meanAngleREF2<<endl;
 		 if (verbose) 
-	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
+			cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
 
 		
 		f->Write();
 		f->Close();
-		//delete funPosEta5; delete funPosg1ycl; delete funPosUVA3Y; delete funPosg3ycl; delete funPosg2ycl;
 		
-		//if((meanREF1X>=-0.005 && meanREF1X<=0.005) && (meanREF1Y>=-0.005 && meanREF1Y<=0.005))
-		if((meanREF2X>=-0.005 && meanREF2X<=0.005) && (meanREF2Y>=-0.005 && meanREF2Y<=0.005))
-		if((meanREF3X>=-0.005 && meanREF3X<=0.005) && (meanREF3Y>=-0.005 && meanREF3Y<=0.005))
-		if(meanAngleREF3>=-0.005 && meanAngleREF3<=0.005 && meanAngleREF2>=-0.005 && meanAngleREF2<=0.005)
+		if (IncludeFirstTracker)
 		{
+			if((meanREF1X>=-0.005 && meanREF1X<=0.005) && (meanREF1Y>=-0.005 && meanREF1Y<=0.005))
+			if((meanREF2X>=-0.005 && meanREF2X<=0.005) && (meanREF2Y>=-0.005 && meanREF2Y<=0.005))
+			if((meanREF3X>=-0.005 && meanREF3X<=0.005) && (meanREF3Y>=-0.005 && meanREF3Y<=0.005))
+			if(meanAngleREF3>=-0.005 && meanAngleREF3<=0.005 && meanAngleREF2>=-0.005 && meanAngleREF2<=0.005)
+			{
 			cout<<"find it...iterating "<<iterNb<<" times."<<endl;
 			break;
+			}
 		}
-  		// break;
+		else
+		{
+			if((meanREF2X>=-0.005 && meanREF2X<=0.005) && (meanREF2Y>=-0.005 && meanREF2Y<=0.005))
+			if((meanREF3X>=-0.005 && meanREF3X<=0.005) && (meanREF3Y>=-0.005 && meanREF3Y<=0.005))
+			if(meanAngleREF3>=-0.005 && meanAngleREF3<=0.005 && meanAngleREF2>=-0.005 && meanAngleREF2<=0.005)
+			{
+			cout<<"find it...iterating "<<iterNb<<" times."<<endl;
+			break;
+			}
+		}
 		if(iterNb==500) break;
 		cout<<"iterating "<<iterNb<<" time done."<<endl;
 
 		double factor = -0.1;
-		shiREF1X = 0.0;				 shiREF1Y = 0.0; 
-		//shiREF1X = meanREF1X*factor; shiREF1Y = meanREF1Y*factor; 
+		if (IncludeFirstTracker)
+		{		shiREF1X = 0.0;				shiREF1Y = 0.0; 		}
+		else
+		{		shiREF1X = meanREF1X*factor; 		shiREF1Y = meanREF1Y*factor; 	}
 		shiREF2X = meanREF2X*factor; shiREF2Y = meanREF2Y*factor; 
 		shiREF3X = meanREF3X*factor; shiREF3Y = meanREF3Y*factor; 
 		aREF2REF1 = meanAngleREF2;
 		aREF3REF1 = meanAngleREF3;
-		
-		//aREF2REF1 = meanAngleREF2*factor;
-		//aREF3REF1 = meanAngleREF3*factor;
-		//if((meanREF2X>=-0.05 && meanREF2X<=0.05) && (meanREF2Y>=-0.05 && meanREF2Y<=0.05))
-		//if((meanREF3X>=-0.05 && meanREF3X<=0.05) && (meanREF3Y>=-0.05 && meanREF3Y<=0.05))
-		//if(meanAngleREF3>=-0.05 && meanAngleREF3<=0.05 && meanAngleREF2>=-0.05 && meanAngleREF2<=0.05)
-		// aEta5REF2 = meanAngleEta5*factor;
-		// if(iterNb>0) break; // only cylce once.
 		
 	}//while(1)
 	fout.close();
@@ -359,7 +352,8 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		
 int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, double shiREF1Y, double shiREF2X, double shiREF2X_TrkAlign, double shiREF2Y, double shiREF2Y_TrkAlign, double shiREF3X, double shiREF3X_TrkAlign, double shiREF3Y, double shiREF3Y_TrkAlign, double Trk1Pos, double Trk2Pos, double Trk3Pos, double aREF2REF1, double aREF3REF1  )
 {
-	//  string name={"Position"}; 
+    	bool shiftOrigin = 1;
+
 	cout<<"\n=================================================\n"<<endl;
 	cout<<"\tPrint Input Parameters:"<<endl;
 	cout<<"\n================================================="<<endl;
@@ -376,15 +370,9 @@ int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, doub
 	cout<<"\tTrk 2Y: Mean = "<<shiREF2Y<<"\tDetector Shift = "<<shiREF2Y_TrkAlign<<endl;
 	cout<<"\tTrk 3X: Mean = "<<shiREF3X<<"\tDetector Shift = "<<shiREF3X_TrkAlign<<endl;
 	cout<<"\tTrk 3Y: Mean = "<<shiREF3Y<<"\tDetector Shift = "<<shiREF3Y_TrkAlign<<endl;
-	cout<<"\tTracker 1 Position = "<<Trk1Pos<<endl;
-	cout<<"\tTracker 2 Position = "<<Trk2Pos<<endl;
-	cout<<"\tTracker 3 Position = "<<Trk3Pos<<endl;
 	cout<<"\tAngle between Trk 2 and 1 = "<<aREF2REF1<<endl;
 	cout<<"\tAngle between Trk 3 and 1 = "<<aREF3REF1<<endl;
 	cout<<"\n================================================="<<endl;
-	//  name={"Position"}; 
-	// cout<<"Start of program"<<endl;
-    bool shiftOrigin = 1;
 
 	if(shiftOrigin)
 	{
@@ -397,8 +385,6 @@ int AlignTrackers_shift_rotate(string name, int RunNumber, double shiREF1X, doub
 		aREF2REF1+= 0.0;
 		aREF3REF1+= 0.0;
 	}
-
-//cout<<"++++++++++++++++ = "<<shiREF1X<<endl;
 
 	for(int i=0;i<1;i++) tracking(name, RunNumber, shiREF1X, shiREF1Y, shiREF2X, shiREF2Y, shiREF3X, shiREF3Y, Trk1Pos, Trk2Pos, Trk3Pos, aREF2REF1, aREF3REF1 );  
 	return 0;

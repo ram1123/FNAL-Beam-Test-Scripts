@@ -12,7 +12,7 @@
 //#include "CMS_lumi.C"
 
 
-void SelectTrackerEvents_H4(const char * InputTextFile, const int RunNumber, string LargeGEM)
+void SelectTrackerEvents_H4(const char * InputTextFile, string RunName, const int RunNumber, string LargeGEM)
 {
 /*	setTDRStyle();
 
@@ -24,13 +24,17 @@ void SelectTrackerEvents_H4(const char * InputTextFile, const int RunNumber, str
 	
 	int iPeriod = 3;    // 1=7TeV, 2=8TeV, 3=7+8TeV, 7=7+8+13TeV, 0=free form (uses lumi_sqrtS)
 */
-//   InputTextFile = InputTextFile+".txt";
-    cout<<"Input file = "<<InputTextFile<<endl;
-    cout<<"Run Number = "<<RunNumber<<endl;
+    cout<<"\n=================================================\n"<<endl;
+    cout<<"\tPrint Input Parameters:"<<endl;
+    cout<<"\n=================================================\n"<<endl;
+    cout<<"Input file = "<<InputTextFile<<endl<<endl;
+    cout<<"Run Name = "<<RunName<<endl<<endl;
+    cout<<"Run Number = "<<RunNumber<<endl<<endl;
+    cout<<"GEM under evaluation = "<<LargeGEM<<endl;
+    cout<<"\n=================================================\n"<<endl;
 
     fstream fin(InputTextFile,ios::in);
-    //fstream fin("Hit_Position_Info.txt",ios::in);
-    fstream fout_1("Eff.txt",ios::out);
+    fstream fout_1("SecondStage_TextFile/"+RunName+"_SelectTrker_Efficiency.txt",ios::out);
       
     bool verbose = 0;
     bool verbose_forLoop = 0;
@@ -198,15 +202,15 @@ if (verbose)
 
     TString outputfile;
     if ( LargeGEM == "No")
-        outputfile = Form("TrackerOnly_Position_RunNumber%i.txt",RunNumber);
+        outputfile = "SecondStage_TextFile/"+RunName+"_TrackerOnly_Position.txt";
     if ( LargeGEM == "LC1")
-        outputfile = Form("TrackerAndLC1_Position_RunNumber%i.txt",RunNumber);
+        outputfile = "SecondStage_TextFile/"+RunName+"_TrackerAndLC1_Position.txt";
     if ( LargeGEM == "LC2")
-        outputfile = Form("TrackerAndLC2_Position_RunNumber%i.txt",RunNumber);
+        outputfile = "SecondStage_TextFile/"+RunName+"_TrackerAndLC2_Position.txt";
     if ( LargeGEM == "LC3")
-        outputfile = Form("TrackerAndLC3_Position_RunNumber%i.txt",RunNumber);
+        outputfile = "SecondStage_TextFile/"+RunName+"_TrackerAndLC3_Position.txt";
 
-    TString rootfile = Form("CoarseAligned_%i.root",RunNumber);
+    TString rootfile = "CoarsedAligned/"+RunName+"_CoarseAligned.root";
     //TString rootfile = Form("RootFiles/CoarseAligned.root");
     fstream fout(outputfile.Data(),ios::out);
     TFile* f = new TFile(rootfile.Data(),"recreate");

@@ -384,9 +384,6 @@ void AlignGEM_XYoffsets(string InputTextFile, int RunNumber, double shiREF1X, do
 	cout<<"\tTrk 2Y: Mean = "<<shiREF2Y<<"\tDetector Shift = "<<shiREF2Y_TrkAlign<<endl;
 	cout<<"\tTrk 3X: Mean = "<<shiREF3X<<"\tDetector Shift = "<<shiREF3X_TrkAlign<<endl;
 	cout<<"\tTrk 3Y: Mean = "<<shiREF3Y<<"\tDetector Shift = "<<shiREF3Y_TrkAlign<<endl;
-	cout<<"\tTracker 1 Position = "<<Trk1Pos<<endl;
-	cout<<"\tTracker 2 Position = "<<Trk2Pos<<endl;
-	cout<<"\tTracker 3 Position = "<<Trk3Pos<<endl;
 	cout<<"\tAngle between Trk 2 and 1 = "<<aREF2REF1<<"\t Detector Rot = "<<aREF2REF1_TrkAlign<<endl;
 	cout<<"\tAngle between Trk 3 and 1 = "<<aREF3REF1<<"\t Detector Rot = "<<aREF3REF1_TrkAlign<<endl;
 	cout<<"\n================================================="<<endl;
