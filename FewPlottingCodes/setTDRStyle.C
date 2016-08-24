@@ -4,12 +4,12 @@ void setTDRStyle() {
   TStyle *tdrStyle = new TStyle("tdrStyle","Style for P-TDR");
 
   // For the canvas:
-  tdrStyle->SetCanvasBorderMode(0);
-  tdrStyle->SetCanvasColor(kWhite);
-  tdrStyle->SetCanvasDefH(600); //Height of canvas
-  tdrStyle->SetCanvasDefW(600); //Width of canvas
-  tdrStyle->SetCanvasDefX(0);   //POsition on screen
-  tdrStyle->SetCanvasDefY(0);
+//  tdrStyle->SetCanvasBorderMode(0);
+//  tdrStyle->SetCanvasColor(kWhite);
+//  tdrStyle->SetCanvasDefH(600); //Height of canvas
+//  tdrStyle->SetCanvasDefW(600); //Width of canvas
+//  tdrStyle->SetCanvasDefX(0);   //POsition on screen
+//  tdrStyle->SetCanvasDefY(0);
 
   // For the Pad:
   tdrStyle->SetPadBorderMode(0);
@@ -74,10 +74,10 @@ void setTDRStyle() {
   // tdrStyle->SetStatY(Float_t y = 0);
 
   // Margins:
-  tdrStyle->SetPadTopMargin(0.05);
+  tdrStyle->SetPadTopMargin(1.05);
   tdrStyle->SetPadBottomMargin(0.13);
-  tdrStyle->SetPadLeftMargin(0.13);
-  tdrStyle->SetPadRightMargin(0.05);
+  tdrStyle->SetPadLeftMargin(0.11);
+  tdrStyle->SetPadRightMargin(0.08);
 
   // For the Global title:
 
@@ -102,7 +102,7 @@ void setTDRStyle() {
   // tdrStyle->SetTitleXSize(Float_t size = 0.02); // Another way to set the size?
   // tdrStyle->SetTitleYSize(Float_t size = 0.02);
   tdrStyle->SetTitleXOffset(0.9);
-  tdrStyle->SetTitleYOffset(1.05);
+  tdrStyle->SetTitleYOffset(0.75);
   // tdrStyle->SetTitleOffset(1.1, "Y"); // Another way to set the Offset
 
   // For the axis labels:

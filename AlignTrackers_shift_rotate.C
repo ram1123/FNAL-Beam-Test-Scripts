@@ -253,11 +253,6 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		meanREF3Y = myValues.mean; sigmag3ycl=myValues.sigma;
 		if (verbose) cout<<"=========================>Passed 6 "<<endl;
 		
-		
-		if (verbose)
-			cout<<"residual mean: "<<meanREF1X<<"\t"<<meanREF1Y<<"\t"<<meanREF2X<<"\t"<<meanREF2Y<<"\t"<<meanREF3X<<"\t"<<meanREF3Y<<endl;
-		fout1<<"residual mean: "<<meanREF1X<<"\t"<<meanREF1Y<<"\t"<<meanREF2X<<"\t"<<meanREF2Y<<"\t"<<meanREF3X<<"\t"<<meanREF3Y<<endl;
-		
 		myValues = I2GFmainLoop(angleREF2, 8, 3, 1);
 		if (verbose) cout<<"=========================>Passed 8 "<<endl;
 
@@ -269,6 +264,11 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		
 		meanXChi2=xTrackChi2->GetMean();
 		meanYChi2=yTrackChi2->GetMean();
+		
+		
+		//if (verbose)
+		cout<<"residual mean: "<<meanREF1X<<"\t"<<meanREF1Y<<"\t"<<meanREF2X<<"\t"<<meanREF2Y<<"\t"<<meanREF3X<<"\t"<<meanREF3Y<<"\t"<<meanAngleREF3<<"\t"<<meanAngleREF2<<endl;
+		fout1<<"residual mean: "<<meanREF1X<<"\t"<<meanREF1Y<<"\t"<<meanREF2X<<"\t"<<meanREF2Y<<"\t"<<meanREF3X<<"\t"<<meanREF3Y<<endl;
 		if (iterNb != 1)
 		{
 		Tot_Shift_2X +=shiREF2X;
@@ -285,10 +285,10 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 
 		 if (verbose) 
 			cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
-		 if (verbose) 
-			cout<<"meanREF2X = "<<meanREF2X <<"\tmeanREF2Y = "<<meanREF2Y<<"\tmeanREF3X = "<<meanREF3X<<"\tmeanREF3Y = "<<meanREF3Y<<"\tmeanAngleREF3 = "<<meanAngleREF3<<"\tmeanAngleREF2 = "<<meanAngleREF2<<endl;
-		 if (verbose) 
-			cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
+		 //if (verbose) 
+		//	cout<<"meanREF2X = "<<meanREF2X <<"\tmeanREF2Y = "<<meanREF2Y<<"\tmeanREF3X = "<<meanREF3X<<"\tmeanREF3Y = "<<meanREF3Y<<"\tmeanAngleREF3 = "<<meanAngleREF3<<"\tmeanAngleREF2 = "<<meanAngleREF2<<endl;
+		 //if (verbose) 
+		//	cout<<"\n\n++++++++++++++++++++++++++++++++++++++++++\n\n"<<endl;
 
 		
 		f->Write();
@@ -320,9 +320,9 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 
 		double factor = -0.1;
 		if (IncludeFirstTracker)
-		{		shiREF1X = 0.0;				shiREF1Y = 0.0; 		}
-		else
 		{		shiREF1X = meanREF1X*factor; 		shiREF1Y = meanREF1Y*factor; 	}
+		else
+		{		shiREF1X = 0.0;				shiREF1Y = 0.0; 		}
 		shiREF2X = meanREF2X*factor; shiREF2Y = meanREF2Y*factor; 
 		shiREF3X = meanREF3X*factor; shiREF3Y = meanREF3Y*factor; 
 		aREF2REF1 = meanAngleREF2;

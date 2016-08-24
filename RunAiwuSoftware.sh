@@ -14,9 +14,9 @@
 ############################################################
 
 
-clear   	# Clear the screen
-source /afs/cern.ch/sw/lcg/external/gcc/4.8/x86_64-slc6/setup.sh
-source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh
+#clear   	# Clear the screen
+#source /afs/cern.ch/sw/lcg/external/gcc/4.8/x86_64-slc6/setup.sh
+#source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh
 IRunNo=$1
 FRunNo=$2
 ILat=15
@@ -49,6 +49,8 @@ function make_dir
 
 echo -e "\E[33mcreate dir starts:\E[0m"
 make_dir CoarsedAligned
+make_dir mean_txtFile
+make_dir RootFiles
 make_dir SecondStage_TextFile
 make_dir Residual_XY_Trk_RootFile
 make_dir shiftParameters
@@ -82,7 +84,7 @@ do
     		python RunAiwuSoftware_H2.py -RN ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}
 	else
     		echo "python RunAiwuSoftware_H4.py -RNum ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly}"
-    		python RunAiwuSoftware_H4.py -RNum ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly} 
+    		python RunAiwuSoftware_H4.py -RNum ${RunCounter} -i ${dir} -det ${Detector} -t ${IfTxtOnly} -Run ${WhatToRun} 
 		echo "done RunAiwuSoftware_H4.py...."
 	fi
 	echo -e "\E[33mCompleted Running the Python Code.\E[0m"

@@ -37,8 +37,8 @@ void Plot_residual()
     int iPeriod = 0;    // 1=7TeV, 2=8TeV, 3=7+8TeV, 7=7+8+13TeV, 0=free form (uses lumi_sqrtS)
 
     ifstream residualFile;
-    //residualFile.open("Residual_rotation_Tracker.dat");
-    residualFile.open("Residual_Tracker.dat");
+    residualFile.open("../residual_txtFile/residuals_Position_alignTrackers_R1644.txt");
+    //residualFile.open("../mean_txtFile/mean_Position_alignTrackers_R1644.txt");
 
     vector<double> Res_g1x, Res_g1y, Res_g2x, Res_g2y, Res_g3x, Res_g3y;
 
@@ -76,11 +76,14 @@ void Plot_residual()
 	gr6->SetPoint(i,i,Res_g3y[i]);
     }
     
-    gr3->GetYaxis()->SetRangeUser(-1.,1);
+    //gr1->GetYaxis()->SetRangeUser(-4.,2);
+    gr1->GetYaxis()->SetRangeUser(-0.01,0.25);
+
     //gr1->GetXaxis()->SetRangeUser(0,62);
     gr1->SetTitle("");
     gr1->GetXaxis()->SetTitle("Iteration Number");
-    gr1->GetYaxis()->SetTitle("Residual mean (mm)");
+    gr1->GetYaxis()->SetTitle("Residual Sigma (mm)");
+    //gr1->GetYaxis()->SetTitle("Residual mean (mm)");
 
 
     gr1->SetMarkerColor(1);
@@ -104,16 +107,17 @@ void Plot_residual()
     gr5->SetMarkerStyle(22);
     gr6->SetMarkerStyle(26);
 
-    //gr1->Draw("ACP");
-    //gr2->Draw("SameCP");
-    gr3->Draw("ACP");
+    gr1->Draw("ACP");
+    gr2->Draw("SameCP");
+    gr3->Draw("SameCP");
+    //gr3->Draw("ACP");
     gr4->Draw("SameCP");
     gr5->Draw("SameCP");
     gr6->Draw("SameCP");
 
-    TLegend *leg = new TLegend(0.65,0.600,0.90,0.90);
-    //leg->AddEntry(gr1,"Tracker 1X","LPE");
-    //leg->AddEntry(gr2,"Tracker 1Y","LPE");
+    TLegend *leg = new TLegend(0.65,0.140,0.90,0.35);
+    leg->AddEntry(gr1,"Tracker 1X","LPE");
+    leg->AddEntry(gr2,"Tracker 1Y","LPE");
     leg->AddEntry(gr3,"Tracker 2X","LPE");
     leg->AddEntry(gr4,"Tracker 2Y","LPE");
     leg->AddEntry(gr5,"Tracker 3X","LPE");
@@ -122,4 +126,7 @@ void Plot_residual()
     leg->Draw("same");
     CMS_lumi( c1, iPeriod, 0 );
     c1->SaveAs("Residual_Tracker.pdf");
+    c1->SaveAs("Residual_Tracker.png");
+    //c1->SaveAs("Mean_Tracker.pdf");
+    //c1->SaveAs("Mean_Tracker.png");
 }

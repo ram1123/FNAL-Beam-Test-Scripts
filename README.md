@@ -29,9 +29,9 @@ You may need to modify the path of input root files. Also, there are two variabl
 Few things to keep in mind:
 1. s
 
-	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> No 1		# Will create text file with tracker info only
-	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> LC1 1		# Will create text file with tracker & one GE11
-	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> LC1 0		# Run the alignment code
+	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> No 1 0		# Will create text file with tracker info only
+	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> LC1 1 0		# Will create text file with tracker & one GE11
+	./RunAiwuSoftware.sh <Initial Run Number>  <Final Run Number> LC1 0 1		# Run the alignment code
 
 **Some time you may get error**, stating following error
 	Warning in <Fit>: Fit data is empty 
@@ -42,7 +42,10 @@ This is because while aligning the detector it is going outside the range of def
 ## Some Additional Codes
 These codes are in dierctory named **FewPlottingCodes**.
 
-1. **EfficiencyTxtFileSplitBOLat.sh**: This splits text file w.r.t. the latency.
-2. **Plot_GEMXY_Output.C**: Plotting code from output of GEM align code.
-3. **Plot_Trk_Linear.C**: Plotting code from out of Linear shift tracker.
-4. **CoarseAnalyze.py**: This is to analyze the root file named CoarseAligned\_\*.root
+1. **Plot_TrackerAlign_Lin.py**: This macro plots the residual from the root file of first step of code.
+2. **Plot_residual.C**: This takes input the file that contains mean/residual of all trackers with iteration. And gives us plot for mean or sigma with iteration.
+3. SpaceResolution_vs_HV.C
+3. EfficiencyTxtFileSplitBOLat.sh: This splits text file w.r.t. the latency.
+4. Plot_GEMXY_Output.C: Plotting code from output of GEM align code.
+5. Plot_Trk_Linear.C: Plotting code from out of Linear shift tracker.
+6. CoarseAnalyze.py: This is to analyze the root file named CoarseAligned\_\*.root

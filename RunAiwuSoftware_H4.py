@@ -23,11 +23,15 @@ if args.Lxplus=="1":
 	print('source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh')
 	os.system('source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh')
 
-RunWhichPart=1
-
+RunWhichPart = args.RunWhichPart		# This part is not working somehow, Need to manually reset this
+print "RunWhichPart = ",RunWhichPart
+RunWhichPart = 1
 
 Dir_Shift_Par="FinalShiftPar_LinShiftTrk/ShiftPar_LinearShiftTrkOnly_alignTrackers_R"+args.RunNumber+".txt"
 Dir_Shift_Rot_Par="FinalShiftPar_RotShiftTrk/Shift_Rotate_Parameter_R"+args.RunNumber+".txt"
+
+print Dir_Shift_Par
+print Dir_Shift_Rot_Par
 
 def getVarFromFile(filename):
     import imp
@@ -36,8 +40,10 @@ def getVarFromFile(filename):
     data = imp.load_source('data', '', f)
     f.close()
 
-#getVarFromFile(Dir_Shift_Par)
-#getVarFromFile(Dir_Shift_Rot_Par)
+if RunWhichPart==2 or RunWhichPart==3:
+	getVarFromFile(Dir_Shift_Par)
+if RunWhichPart==3:
+	getVarFromFile(Dir_Shift_Rot_Par)
 
 print '========================================================================='
 print 'args.TextOnly = ',args.TextOnly
@@ -99,6 +105,7 @@ else:
         print '\n\nAlignTrackers_Shift.C...  DONE'
     #=====================  END:: Running AlignTrackers_Shift.C	=================================
     #=====================  START:: Running AlignTrackers_shift_rotate.C	=================================
+    print "========>  RunWhichPart = ",RunWhichPart
     if (RunWhichPart==2 or RunWhichPart>3) :
         print('root -l -b -q AlignTrackers_shift_rotate.C\(\\"SecondStage_TextFile/'+RunName+'_TrackerOnly_Position.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x)+ ','+str(data.Shift_2X)+ ','+str(Mean_g2y)+','+str(data.Shift_2Y)+',' +str(Mean_g3x)+','+str(data.Shift_3X)+','+str(Mean_g3y)+','+str(data.Shift_3Y)+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
         os.system('root -l -b -q AlignTrackers_shift_rotate.C\(\\"SecondStage_TextFile/'+RunName+'_TrackerOnly_Position.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x)+ ','+str(data.Shift_2X)+ ','+str(Mean_g2y)+','+str(data.Shift_2Y)+',' +str(Mean_g3x)+','+str(data.Shift_3X)+','+str(Mean_g3y)+','+str(data.Shift_3Y)+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+','+str(Mean_angle_g1g2)+','+str(Mean_angle_g1g3)+'\)')
@@ -106,6 +113,6 @@ else:
     ##=====================  START:: Running AlignGEM_XYoffsets.C	=================================
     if (RunWhichPart==3 or RunWhichPart>3) :
         print '\n\n============		START:: Running AlignGEM_XYoffsets.C	================\n\n'
-	print('root -l -b -q AlignGEM_XYoffsets.C\(\\"SecondStage_TextFile/'+RunName+'_TrackerAndLC2.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(data.Shift_2X+data.Shift_2X_Rot) + ','+str(Mean_g2y) +','+str(data.Shift_2Y+data.Shift_2Y_Rot) +','+str(Mean_g3x) +','+str(data.Shift_3X+data.Shift_3X_Rot) +','+str(Mean_g3y) +','+str(data.Shift_3Y+data.Shift_3Y_Rot) +','+str(LC2.GetMean())+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+','+str(H4_GE11_IV_Pos)+','+str(Mean_angle_g1g2) +','+ str(data.TotalAngleREF2)+','+str(Mean_angle_g1g3)+','+str(data.TotalAngleREF3)+'\)')
-	os.system('root -l -b -q AlignGEM_XYoffsets.C\(\\"SecondStage_TextFile/'+RunName+'_TrackerAndLC2.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(data.Shift_2X+data.Shift_2X_Rot) + ','+str(Mean_g2y) +','+str(data.Shift_2Y+data.Shift_2Y_Rot) +','+str(Mean_g3x) +','+str(data.Shift_3X+data.Shift_3X_Rot) +','+str(Mean_g3y) +','+str(data.Shift_3Y+data.Shift_3Y_Rot) +','+str(LC2.GetMean())+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+','+str(H4_GE11_IV_Pos)+','+str(Mean_angle_g1g2) +','+ str(data.TotalAngleREF2)+','+str(Mean_angle_g1g3)+','+str(data.TotalAngleREF3)+'\)')
+	print('root -l -b -q AlignGEM_XYoffsets.C\(\\"SecondStage_TextFile/'+RunName+'_TrackerAndLC2_Position.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(data.Shift_2X+data.Shift_2X_Rot) + ','+str(Mean_g2y) +','+str(data.Shift_2Y+data.Shift_2Y_Rot) +','+str(Mean_g3x) +','+str(data.Shift_3X+data.Shift_3X_Rot) +','+str(Mean_g3y) +','+str(data.Shift_3Y+data.Shift_3Y_Rot) +','+str(LC2.GetMean())+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+','+str(H4_GE11_IV_Pos)+','+str(Mean_angle_g1g2) +','+ str(data.TotalAngleREF2)+','+str(Mean_angle_g1g3)+','+str(data.TotalAngleREF3)+'\)')
+	os.system('root -l -b -q AlignGEM_XYoffsets.C\(\\"SecondStage_TextFile/'+RunName+'_TrackerAndLC2_Position.txt\\",'+args.RunNumber+','+str(Mean_g1x)+','+str(Mean_g1y)+','+str(Mean_g2x) + ','+str(data.Shift_2X+data.Shift_2X_Rot) + ','+str(Mean_g2y) +','+str(data.Shift_2Y+data.Shift_2Y_Rot) +','+str(Mean_g3x) +','+str(data.Shift_3X+data.Shift_3X_Rot) +','+str(Mean_g3y) +','+str(data.Shift_3Y+data.Shift_3Y_Rot) +','+str(LC2.GetMean())+','+str(H4_Trk1_Pos)+','+str(H4_Trk2_Pos)+','+str(H4_Trk3_Pos)+','+str(H4_GE11_IV_Pos)+','+str(Mean_angle_g1g2) +','+ str(data.TotalAngleREF2)+','+str(Mean_angle_g1g3)+','+str(data.TotalAngleREF3)+'\)')
         print '\n\n=============	END:: Running AlignGEM_XYoffsets.C	=================\n\n'

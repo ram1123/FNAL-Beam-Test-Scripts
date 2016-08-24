@@ -17,6 +17,9 @@
 void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, double shi_g1ycl, double shi_g2xcl, double shi_g2ycl, double shi_g3xcl, double shi_g3ycl , double Trk1Pos, double Trk2Pos, double Trk3Pos)
 {
 
+    bool verbose = 0;
+    bool IncludeFirstTracker = 0;
+
 	cout<<"\n=================================================\n"<<endl;
 	cout<<"\tPrint Input Parameters:"<<endl;
 	cout<<"\n================================================="<<endl;
@@ -40,6 +43,7 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 
     string shiftHead	= "shiftParameters_";
     string residualHead	= "residuals_";
+    string meanHead	= "mean_";
     string ResidualRHead= "Residual_";
     string FinalShiftParameters = "ShiftPar_LinearShiftTrkOnly";
 
@@ -47,10 +51,12 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
     string DirName_FinalShiftPar_LinShiftTrk = "FinalShiftPar_LinShiftTrk/";
     string DirNameShiftPar = "shiftParameters/";
     string DirNameResidual = "residual_txtFile/";
+    string DirNameMean = "mean_txtFile/";
 
     char runname[50]; sprintf(runname,"_alignTrackers_R%i.txt",RunNumber);
     string foutname	= DirNameShiftPar+shiftHead+thestring+runname;	// Shift parameter will go in this text file
     string fout1name	= DirNameResidual+residualHead+thestring+runname;	// Residual will go into this
+    string fout2name	= DirNameMean+meanHead+thestring+runname;	// Residual will go into this
     string foutFinalShiftPar = DirName_FinalShiftPar_LinShiftTrk+FinalShiftParameters+runname;	// Final shift parameter will go this this file
 
     fstream fin(txtfilename.c_str(),ios::in);
@@ -58,6 +64,7 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 
     fstream fout(foutname.c_str(),ios::out);
     fstream fout1(fout1name.c_str(),ios::out);
+    fstream fout2(fout2name.c_str(),ios::out);
     fstream foutFshiPar(foutFinalShiftPar.c_str(),ios::out);
 
     double Pos_g2xcl=0.0, Pos_g2ycl=0.0;
@@ -67,7 +74,6 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
     std::vector<double> vPos_g3xcl; std::vector<double> vPos_g3ycl;
     std::vector<double> vPos_g1xcl; std::vector<double> vPos_g1ycl;
     
-    bool verbose = 0;
     
     Int_t nbLines=0;
     //
@@ -88,9 +94,20 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	cout << "................................................"<<endl;
     
     
-    double mean_g2xcl=0.0, mean_g2ycl=0.0;
-    double mean_g3xcl=0.0, mean_g3ycl=0.0;
-    double mean_g1xcl=0.0, mean_g1ycl=0.0;
+    double mean_g2xcl=10.0, mean_g2ycl=10.0;
+    double mean_g3xcl=10.0, mean_g3ycl=10.0;
+    double mean_g1xcl=10.0, mean_g1ycl=10.0;
+    double sigma_g2xcl=0.0, sigma_g2ycl=0.0;
+    double sigma_g3xcl=0.0, sigma_g3ycl=0.0;
+    double sigma_g1xcl=0.0, sigma_g1ycl=0.0;
+
+TH1F* h_residual_g1xcl;
+TH1F* h_residual_g1ycl;
+TH1F* h_residual_g2xcl;
+TH1F* h_residual_g2ycl;
+TH1F* h_residual_g3xcl;
+TH1F* h_residual_g3ycl;
+
     
     if (verbose)
 	cout << "****************************************************"<<endl;
@@ -135,12 +152,50 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	char nameRes2X[30];sprintf(nameRes2X,"residual_g2xcl_%i",iterNb);char nameRes2Y[30];sprintf(nameRes2Y,"residual_g2ycl_%i",iterNb);
 	char nameRes3X[30];sprintf(nameRes3X,"residual_g3xcl_%i",iterNb);char nameRes3Y[30];sprintf(nameRes3Y,"residual_g3ycl_%i",iterNb);
 	
-        TH1F* h_residual_g1xcl = new TH1F(nameRes1X,"",100,-4,4); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g1ycl = new TH1F(nameRes1Y,"",100,-4,4); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g2xcl = new TH1F(nameRes2X,"",100,-6,1); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g2ycl = new TH1F(nameRes2Y,"",61,-1.5,2.8); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g3xcl = new TH1F(nameRes3X,"",50,-1,2.5); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_residual_g3ycl = new TH1F(nameRes3Y,"",36,-1.5,1); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
+
+
+	if( fabs(mean_g1xcl)<0.5 && fabs(mean_g1ycl)<0.5 && fabs(mean_g2xcl)<0.5 && fabs(mean_g2ycl)<0.5 && fabs(mean_g3xcl)<0.5 && fabs(mean_g3ycl)<0.5)
+	    {
+	    cout<<"==========> Fourth Loop"<<endl;
+         h_residual_g1xcl = new TH1F(nameRes1X,"",100,-2,2); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
+         h_residual_g1ycl = new TH1F(nameRes1Y,"",100,-2,2); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
+         h_residual_g2xcl = new TH1F(nameRes2X,"",100,-2,2); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
+         h_residual_g2ycl = new TH1F(nameRes2Y,"",100,-2,2); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
+         h_residual_g3xcl = new TH1F(nameRes3X,"",100,-2,2); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
+         h_residual_g3ycl = new TH1F(nameRes3Y,"",100,-2,2); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
+	}
+	else
+	if( fabs(mean_g1xcl)<1.0 && fabs(mean_g1ycl)<1.0 && fabs(mean_g2xcl)<1.0 && fabs(mean_g2ycl)<1.0 && fabs(mean_g3xcl)<1.0 && fabs(mean_g3ycl)<1.0)
+	    {
+	    cout<<"==========> Third Loop"<<endl;
+         h_residual_g1xcl = new TH1F(nameRes1X,"",100,-3,3); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
+         h_residual_g1ycl = new TH1F(nameRes1Y,"",100,-3,3); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
+         h_residual_g2xcl = new TH1F(nameRes2X,"",100,-3,3); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
+         h_residual_g2ycl = new TH1F(nameRes2Y,"",100,-3,3); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
+         h_residual_g3xcl = new TH1F(nameRes3X,"",100,-3,3); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
+         h_residual_g3ycl = new TH1F(nameRes3Y,"",100,-3,3); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
+	}
+	else
+	if( fabs(mean_g1xcl)<2.0 && fabs(mean_g1ycl)<2.0 && fabs(mean_g2xcl)<2.0 && fabs(mean_g2ycl)<2.0 && fabs(mean_g3xcl)<2.0 && fabs(mean_g3ycl)<2.0)
+	    {
+	    cout<<"==========> Second Loop"<<endl;
+         h_residual_g1xcl = new TH1F(nameRes1X,"",100,-4,3); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
+         h_residual_g1ycl = new TH1F(nameRes1Y,"",100,-4,3); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
+         h_residual_g2xcl = new TH1F(nameRes2X,"",100,-4,3); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
+         h_residual_g2ycl = new TH1F(nameRes2Y,"",100,-4,3); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
+         h_residual_g3xcl = new TH1F(nameRes3X,"",100,-4,3); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
+         h_residual_g3ycl = new TH1F(nameRes3Y,"",100,-4,3); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
+	}
+	else
+	    {
+	    cout<<"==========> First Loop"<<endl;
+         h_residual_g1xcl = new TH1F(nameRes1X,"",100,-6,3); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
+         h_residual_g1ycl = new TH1F(nameRes1Y,"",100,-6,3); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
+         h_residual_g2xcl = new TH1F(nameRes2X,"",100,-6,3); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
+         h_residual_g2ycl = new TH1F(nameRes2Y,"",100,-6,3); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
+         h_residual_g3xcl = new TH1F(nameRes3X,"",100,-6,3); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
+         h_residual_g3ycl = new TH1F(nameRes3Y,"",100,-6,3); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
+}
 
 	// Print the mean position of each Detector
 	fout<<shi_g1xcl<<"\t"<<shi_g1ycl<<"\t"<<shi_g2xcl<<"\t"<<shi_g2ycl<<"\t"<<shi_g3xcl<<"\t"<<shi_g3ycl<<"\t"<<endl;
@@ -186,8 +241,11 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	    
 	    double intercept1 = f1->GetParameter(0);
 	    double slope1     = f1->GetParameter(1);
-	    //double Measured_g1xcl = intercept1 + slope1*Trk1Pos;
-	    double Measured_g1xcl = vPos_g1xcl[i];		// Reference Tracker position should not be changed.
+	    double Measured_g1xcl;
+	    if (IncludeFirstTracker == 1)
+	    	Measured_g1xcl = intercept1 + slope1*Trk1Pos;
+	    else
+	    	Measured_g1xcl = vPos_g1xcl[i];		// Reference Tracker position should not be changed.
 	    double Measured_g2xcl = intercept1 + slope1*Trk2Pos;
 	    double Measured_g3xcl = intercept1 + slope1*Trk3Pos;
 	    
@@ -215,8 +273,11 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	    g2->Fit("line2","Q");
 	    double intercept2 = f2->GetParameter(0);
 	    double slope2     = f2->GetParameter(1);
-	    //double Measured_g1ycl = intercept2 + slope2*Trk1Pos;
-	    double Measured_g1ycl = vPos_g1ycl[i];	// Reference Tracker position should not be changed.
+	    double Measured_g1ycl;
+	    if (IncludeFirstTracker == 1)
+	    	Measured_g1ycl = intercept2 + slope2*Trk1Pos;
+	    else
+	    	Measured_g1ycl = vPos_g1ycl[i];	// Reference Tracker position should not be changed.
 	    double Measured_g2ycl = intercept2 + slope2*Trk2Pos;
 	    double Measured_g3ycl = intercept2 + slope2*Trk3Pos;
 	    
@@ -244,38 +305,48 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	
 	myValues = I2GFmainLoop(h_residual_g1xcl,8,3,1);
 	mean_g1xcl = myValues.mean; //
+	sigma_g1xcl = myValues.sigma; //
 	if (verbose)	    cout<<"DEBUG  17"<<endl;
 
 	myValues = I2GFmainLoop(h_residual_g1ycl,8,3,1);
 	mean_g1ycl = myValues.mean;
+	sigma_g1ycl = myValues.sigma;
 	if (verbose)	    cout<<"DEBUG  18"<<endl;
 
 	myValues = I2GFmainLoop(h_residual_g2xcl,8,3,1);
 	mean_g2xcl = myValues.mean; //sigmaEta5=myValues.sigma;
+	sigma_g2xcl = myValues.sigma; //sigmaEta5=myValues.sigma;
 	if (verbose)	    cout<<"DEBUG  13c"<<endl;
 
 	myValues = I2GFmainLoop(h_residual_g2ycl,8,3,1);
 	mean_g2ycl = myValues.mean; //
+	sigma_g2ycl = myValues.sigma; //
 	if (verbose)	    cout<<"DEBUG  14"<<endl;
 
 	myValues = I2GFmainLoop(h_residual_g3xcl,8,3,1);
 	mean_g3xcl = myValues.mean; //
+	sigma_g3xcl = myValues.sigma; //
 	if (verbose)	    cout<<"DEBUG  15"<<endl;
 
 	myValues = I2GFmainLoop(h_residual_g3ycl,8,3,1);
 	mean_g3ycl = myValues.mean;
+	sigma_g3ycl = myValues.sigma;
 	if (verbose)	    cout<<"DEBUG  16"<<endl;
 
 	cout<<"residual mean: "<<mean_g1xcl<<"\t"<<mean_g1ycl<<"\t"<<mean_g2xcl<<"\t"<<mean_g2ycl<<"\t"<<mean_g3xcl<<"\t"<<mean_g3ycl<<endl;
-	fout1<<"residual mean: "<<mean_g1xcl<<"\t"<<mean_g1ycl<<"\t"<<mean_g2xcl<<"\t"<<mean_g2ycl<<"\t"<<mean_g3xcl<<"\t"<<mean_g3ycl<<endl;
+	fout1<<sigma_g1xcl<<"\t"<<sigma_g1ycl<<"\t"<<sigma_g2xcl<<"\t"<<sigma_g2ycl<<"\t"<<sigma_g3xcl<<"\t"<<sigma_g3ycl<<endl;
+	fout2<<mean_g1xcl<<"\t"<<mean_g1ycl<<"\t"<<mean_g2xcl<<"\t"<<mean_g2ycl<<"\t"<<mean_g3xcl<<"\t"<<mean_g3ycl<<endl;
+	//fout1<<"residual mean: "<<mean_g1xcl<<"\t"<<mean_g1ycl<<"\t"<<mean_g2xcl<<"\t"<<mean_g2ycl<<"\t"<<mean_g3xcl<<"\t"<<mean_g3ycl<<endl;
 	
 	f->Write();
 	f->Close();
 	
 	double factor = -0.1;
 	
-	//shi_g1xcl = mean_g1xcl*factor; shi_g1ycl = mean_g1ycl*factor; 
-	shi_g1xcl = 0.0; shi_g1ycl = 0.0; 
+	if (IncludeFirstTracker == 1)
+		{shi_g1xcl = mean_g1xcl*factor; shi_g1ycl = mean_g1ycl*factor; }
+	else
+		{shi_g1xcl = 0.0; shi_g1ycl = 0.0; }
 	shi_g2xcl = mean_g2xcl*factor; shi_g2ycl = mean_g2ycl*factor; 
 	shi_g3xcl = mean_g3xcl*factor; shi_g3ycl = mean_g3ycl*factor; 
 
@@ -284,13 +355,25 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 	Tot_Shift_3X +=shi_g3xcl;
 	Tot_Shift_3Y +=shi_g3ycl;
 	
-	//	if((mean_g1xcl>=-0.005 && mean_g1xcl<=0.005) && (mean_g1ycl>=-0.005 && mean_g1ycl<=0.005))
+	if (IncludeFirstTracker == 1)
+	{
+	if((mean_g1xcl>=-0.005 && mean_g1xcl<=0.005) && (mean_g1ycl>=-0.005 && mean_g1ycl<=0.005))
 	if((mean_g2xcl>=-0.005 && mean_g2xcl<=0.005) && (mean_g2ycl>=-0.005 && mean_g2ycl<=0.005))
 	    if((mean_g3xcl>=-0.005 && mean_g3xcl<=0.005) && (mean_g3ycl>=-0.005 && mean_g3ycl<=0.005))
 		{
 		    cout<<"find it...iterating "<<iterNb<<" times."<<endl;
 		    break;
 		}
+	}
+	else
+	{
+	if((mean_g2xcl>=-0.005 && mean_g2xcl<=0.005) && (mean_g2ycl>=-0.005 && mean_g2ycl<=0.005))
+	    if((mean_g3xcl>=-0.005 && mean_g3xcl<=0.005) && (mean_g3ycl>=-0.005 && mean_g3ycl<=0.005))
+		{
+		    cout<<"find it...iterating "<<iterNb<<" times."<<endl;
+		    break;
+		}
+	}
 	//h_residual_g2xcl->Reset();
 	//h_residual_g1xcl->Reset();
 	//h_residual_g3xcl->Reset();
@@ -312,6 +395,7 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 
     fout.close();
     fout1.close();
+    fout2.close();
     foutFshiPar.close();
     // return 0;
 } // entire script
