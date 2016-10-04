@@ -18,7 +18,7 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
 {
 
     bool verbose = 0;
-    bool IncludeFirstTracker = 0;
+    bool IncludeFirstTracker = 1;
 
 	cout<<"\n=================================================\n"<<endl;
 	cout<<"\tPrint Input Parameters:"<<endl;
@@ -66,6 +66,8 @@ void  AlignTrackers_Shift( string txtfilename, int RunNumber, double shi_g1xcl, 
     fstream fout1(fout1name.c_str(),ios::out);
     fstream fout2(fout2name.c_str(),ios::out);
     fstream foutFshiPar(foutFinalShiftPar.c_str(),ios::out);
+    fstream foutChiSqr1("ShiftLinear_Shift_vs_Chi2_TrkX.dat",ios::out);
+    fstream foutChiSqr2("ShiftLinear_Shift_vs_Chi2_TrkY.dat",ios::out);
 
     double Pos_g2xcl=0.0, Pos_g2ycl=0.0;
     double Pos_g3xcl=0.0, Pos_g3ycl=0.0;
@@ -132,18 +134,39 @@ TH1F* h_residual_g3ycl;
 
 	TFile* f = new TFile(outputrootname.c_str(),"recreate");  
 	iterNb++;
-	char name1X[15];sprintf(name1X,"Pos_g1xcl_%i",iterNb); char name1Y[15];sprintf(name1Y,"Pos_g1xcl_%i",iterNb);
+	char name1X[15];sprintf(name1X,"Pos_g1xcl_%i",iterNb); char name1Y[15];sprintf(name1Y,"Pos_g1ycl_%i",iterNb);
 	char name2X[15];sprintf(name2X,"Pos_g2xcl_%i",iterNb); char name2Y[15];sprintf(name2Y,"Pos_g2ycl_%i",iterNb);
 	char name3X[15];sprintf(name3X,"Pos_g3xcl_%i",iterNb); char name3Y[15];sprintf(name3Y,"Pos_g3ycl_%i",iterNb);
+
+	TH2F* Trk1_ResXPosY = new TH2F("Trk1_ResXPosY","",20,-50,50,20,-1,1);
+	TH2F* Trk1_ResXPosX = new TH2F("Trk1_ResXPosX","",20,-50,50,20,-1,1);
+	TH2F* Trk1_ResYPosX = new TH2F("Trk1_ResYPosX","",20,-50,50,20,-1,1);
+	TH2F* Trk1_ResYPosY = new TH2F("Trk1_ResYPosY","",20,-50,50,20,-1,1);
+
+	TH2F* Trk2_ResXPosY = new TH2F("Trk2_ResXPosY","",20,-50,50,20,-1,1);
+	TH2F* Trk2_ResXPosX = new TH2F("Trk2_ResXPosX","",20,-50,50,20,-1,1);
+	TH2F* Trk2_ResYPosX = new TH2F("Trk2_ResYPosX","",20,-50,50,20,-1,1);
+	TH2F* Trk2_ResYPosY = new TH2F("Trk2_ResYPosY","",20,-50,50,20,-1,1);
+	
+	TH2F* Trk3_ResXPosY = new TH2F("Trk3_ResXPosY","",20,-50,50,20,-1,1);
+	TH2F* Trk3_ResXPosX = new TH2F("Trk3_ResXPosX","",20,-50,50,20,-1,1);
+	TH2F* Trk3_ResYPosX = new TH2F("Trk3_ResYPosX","",20,-50,50,20,-1,1);
+	TH2F* Trk3_ResYPosY = new TH2F("Trk3_ResYPosY","",20,-50,50,20,-1,1);
+	
+	TH1F* TrkX_Slope = new TH1F("TrkX_Slope","Tracker-X: Slope",200,-.03,.03);
+	TH1F* TrkY_Slope = new TH1F("TrkY_Slope","Tracker-Y: Slope",200,-.03,.03);
+	
+	TH1F* TrkX_Intercept = new TH1F("TrkX_Intercept","Tracker-X: Intercept",200,-50.00,50.00);
+	TH1F* TrkY_Intercept = new TH1F("TrkY_Intercept","Tracker-Y: Intercept",200,-50.00,50.00);
 	
 	if (verbose)
 	    cout<<"DEBUG  3"<<endl;
-        TH1F* h_Pos_g1xcl = new TH1F(name3X,"",100,-110,110); h_Pos_g1xcl->SetXTitle("Cluster position [mm]"); h_Pos_g1xcl->SetYTitle("Frequency");h_Pos_g1xcl->SetLabelSize(0.045,"XY");h_Pos_g1xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_Pos_g1ycl = new TH1F(name3Y,"",100,-110,110); h_Pos_g1ycl->SetXTitle("Cluster position [mm]"); h_Pos_g1ycl->SetYTitle("Frequency");h_Pos_g1ycl->SetLabelSize(0.045,"XY");h_Pos_g1ycl->SetTitleSize(0.045,"XY");  
-		TH1F* h_Pos_g2xcl = new TH1F(name2X,"",100,-110,110); h_Pos_g2xcl->SetXTitle("Cluster position [mm]"); h_Pos_g2xcl->SetYTitle("Frequency");h_Pos_g2xcl->SetLabelSize(0.045,"XY");h_Pos_g2xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_Pos_g2ycl = new TH1F(name2Y,"",100,-110,110); h_Pos_g2ycl->SetXTitle("Cluster position [mm]"); h_Pos_g2ycl->SetYTitle("Frequency");h_Pos_g2ycl->SetLabelSize(0.045,"XY");h_Pos_g2ycl->SetTitleSize(0.045,"XY");  
-        TH1F* h_Pos_g3xcl = new TH1F(name1X,"",100,-110,110); h_Pos_g3xcl->SetXTitle("Cluster position [mm]"); h_Pos_g3xcl->SetYTitle("Frequency");h_Pos_g3xcl->SetLabelSize(0.045,"XY");h_Pos_g3xcl->SetTitleSize(0.045,"XY");
-        TH1F* h_Pos_g3ycl = new TH1F(name1Y,"",100,-110,110); h_Pos_g3ycl->SetXTitle("Cluster position [mm]"); h_Pos_g3ycl->SetYTitle("Frequency");h_Pos_g3ycl->SetLabelSize(0.045,"XY");h_Pos_g3ycl->SetTitleSize(0.045,"XY");  
+        TH1F* h_Pos_g1xcl = new TH1F(name3X,"",100,-60,70); h_Pos_g1xcl->SetXTitle("Cluster position [mm]"); h_Pos_g1xcl->SetYTitle("Frequency");h_Pos_g1xcl->SetLabelSize(0.045,"XY");h_Pos_g1xcl->SetTitleSize(0.045,"XY");
+        TH1F* h_Pos_g1ycl = new TH1F(name3Y,"",100,-60,70); h_Pos_g1ycl->SetXTitle("Cluster position [mm]"); h_Pos_g1ycl->SetYTitle("Frequency");h_Pos_g1ycl->SetLabelSize(0.045,"XY");h_Pos_g1ycl->SetTitleSize(0.045,"XY");  
+		TH1F* h_Pos_g2xcl = new TH1F(name2X,"",100,-60,70); h_Pos_g2xcl->SetXTitle("Cluster position [mm]"); h_Pos_g2xcl->SetYTitle("Frequency");h_Pos_g2xcl->SetLabelSize(0.045,"XY");h_Pos_g2xcl->SetTitleSize(0.045,"XY");
+        TH1F* h_Pos_g2ycl = new TH1F(name2Y,"",100,-60,70); h_Pos_g2ycl->SetXTitle("Cluster position [mm]"); h_Pos_g2ycl->SetYTitle("Frequency");h_Pos_g2ycl->SetLabelSize(0.045,"XY");h_Pos_g2ycl->SetTitleSize(0.045,"XY");  
+        TH1F* h_Pos_g3xcl = new TH1F(name1X,"",100,-60,70); h_Pos_g3xcl->SetXTitle("Cluster position [mm]"); h_Pos_g3xcl->SetYTitle("Frequency");h_Pos_g3xcl->SetLabelSize(0.045,"XY");h_Pos_g3xcl->SetTitleSize(0.045,"XY");
+        TH1F* h_Pos_g3ycl = new TH1F(name1Y,"",100,-60,70); h_Pos_g3ycl->SetXTitle("Cluster position [mm]"); h_Pos_g3ycl->SetYTitle("Frequency");h_Pos_g3ycl->SetLabelSize(0.045,"XY");h_Pos_g3ycl->SetTitleSize(0.045,"XY");  
 
 	
 	if (verbose)
@@ -154,18 +177,29 @@ TH1F* h_residual_g3ycl;
 	
 
 
-	if( fabs(mean_g1xcl)<0.5 && fabs(mean_g1ycl)<0.5 && fabs(mean_g2xcl)<0.5 && fabs(mean_g2ycl)<0.5 && fabs(mean_g3xcl)<0.5 && fabs(mean_g3ycl)<0.5)
+	if( fabs(mean_g2xcl)<0.05 && fabs(mean_g2ycl)<0.05 && fabs(mean_g3xcl)<0.05 && fabs(mean_g3ycl)<0.5)
 	    {
 	    cout<<"==========> Fourth Loop"<<endl;
-         h_residual_g1xcl = new TH1F(nameRes1X,"",100,-2,2); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
-         h_residual_g1ycl = new TH1F(nameRes1Y,"",100,-2,2); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
-         h_residual_g2xcl = new TH1F(nameRes2X,"",100,-2,2); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
-         h_residual_g2ycl = new TH1F(nameRes2Y,"",100,-2,2); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
-         h_residual_g3xcl = new TH1F(nameRes3X,"",100,-2,2); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
-         h_residual_g3ycl = new TH1F(nameRes3Y,"",100,-2,2); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
+         h_residual_g1xcl = new TH1F(nameRes1X,"",40,-1,1); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
+         h_residual_g1ycl = new TH1F(nameRes1Y,"",40,-1,1); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
+         h_residual_g2xcl = new TH1F(nameRes2X,"",40,-1,1); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
+         h_residual_g2ycl = new TH1F(nameRes2Y,"",40,-1,1); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
+         h_residual_g3xcl = new TH1F(nameRes3X,"",40,-1,1); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
+         h_residual_g3ycl = new TH1F(nameRes3Y,"",40,-1,1); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
 	}
 	else
-	if( fabs(mean_g1xcl)<1.0 && fabs(mean_g1ycl)<1.0 && fabs(mean_g2xcl)<1.0 && fabs(mean_g2ycl)<1.0 && fabs(mean_g3xcl)<1.0 && fabs(mean_g3ycl)<1.0)
+	if( fabs(mean_g2xcl)<0.5 && fabs(mean_g2ycl)<0.5 && fabs(mean_g3xcl)<0.5 && fabs(mean_g3ycl)<0.5)
+	    {
+	    cout<<"==========> Fourth Loop"<<endl;
+         h_residual_g1xcl = new TH1F(nameRes1X,"",50,-2,2); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
+         h_residual_g1ycl = new TH1F(nameRes1Y,"",50,-2,2); h_residual_g1ycl->SetXTitle("Residual [mm]"); h_residual_g1ycl->SetYTitle("Frequency");h_residual_g1ycl->SetLabelSize(0.045,"XY");h_residual_g1ycl->SetTitleSize(0.045,"XY");
+         h_residual_g2xcl = new TH1F(nameRes2X,"",50,-2,2); h_residual_g2xcl->SetXTitle("Residual [mm]"); h_residual_g2xcl->SetYTitle("Frequency");h_residual_g2xcl->SetLabelSize(0.045,"XY");h_residual_g2xcl->SetTitleSize(0.045,"XY");
+         h_residual_g2ycl = new TH1F(nameRes2Y,"",50,-2,2); h_residual_g2ycl->SetXTitle("Residual [mm]"); h_residual_g2ycl->SetYTitle("Frequency");h_residual_g2ycl->SetLabelSize(0.045,"XY");h_residual_g2ycl->SetTitleSize(0.045,"XY");
+         h_residual_g3xcl = new TH1F(nameRes3X,"",50,-2,2); h_residual_g3xcl->SetXTitle("Residual [mm]"); h_residual_g3xcl->SetYTitle("Frequency");h_residual_g3xcl->SetLabelSize(0.045,"XY");h_residual_g3xcl->SetTitleSize(0.045,"XY");
+         h_residual_g3ycl = new TH1F(nameRes3Y,"",50,-2,2); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
+	}
+	else
+	if( fabs(mean_g2xcl)<1.0 && fabs(mean_g2ycl)<1.0 && fabs(mean_g3xcl)<1.0 && fabs(mean_g3ycl)<1.0)
 	    {
 	    cout<<"==========> Third Loop"<<endl;
          h_residual_g1xcl = new TH1F(nameRes1X,"",100,-3,3); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
@@ -176,7 +210,7 @@ TH1F* h_residual_g3ycl;
          h_residual_g3ycl = new TH1F(nameRes3Y,"",100,-3,3); h_residual_g3ycl->SetXTitle("Residual [mm]"); h_residual_g3ycl->SetYTitle("Frequency");h_residual_g3ycl->SetLabelSize(0.045,"XY");h_residual_g3ycl->SetTitleSize(0.045,"XY");
 	}
 	else
-	if( fabs(mean_g1xcl)<2.0 && fabs(mean_g1ycl)<2.0 && fabs(mean_g2xcl)<2.0 && fabs(mean_g2ycl)<2.0 && fabs(mean_g3xcl)<2.0 && fabs(mean_g3ycl)<2.0)
+	if( fabs(mean_g2xcl)<2.0 && fabs(mean_g2ycl)<2.0 && fabs(mean_g3xcl)<2.0 && fabs(mean_g3ycl)<2.0)
 	    {
 	    cout<<"==========> Second Loop"<<endl;
          h_residual_g1xcl = new TH1F(nameRes1X,"",100,-4,3); h_residual_g1xcl->SetXTitle("Residual [mm]"); h_residual_g1xcl->SetYTitle("Frequency");h_residual_g1xcl->SetLabelSize(0.045,"XY");h_residual_g1xcl->SetTitleSize(0.045,"XY");
@@ -209,6 +243,9 @@ TH1F* h_residual_g3ycl;
 	if (verbose)
 	    cout<<"DEBUG  6"<<endl;
 	
+	double 	tmpChiSquare1=0.0,tmpIntercept1=0.0 ;
+	double 	tmpChiSquare2=0.0,tmpIntercept2=0.0 ;
+
 	for(unsigned int i=0;i<vPos_g2xcl.size();i++){
 
 	    TGraph* g1 = new TGraph();
@@ -241,6 +278,8 @@ TH1F* h_residual_g3ycl;
 	    
 	    double intercept1 = f1->GetParameter(0);
 	    double slope1     = f1->GetParameter(1);
+	    TrkX_Slope->Fill(slope1);
+	    TrkX_Intercept->Fill(intercept1);
 	    double Measured_g1xcl;
 	    if (IncludeFirstTracker == 1)
 	    	Measured_g1xcl = intercept1 + slope1*Trk1Pos;
@@ -256,6 +295,15 @@ TH1F* h_residual_g3ycl;
 	    h_residual_g1xcl->Fill(Measured_g1xcl-vPos_g1xcl[i]);
 	    h_residual_g2xcl->Fill(Measured_g2xcl-vPos_g2xcl[i]);
 	    h_residual_g3xcl->Fill(Measured_g3xcl-vPos_g3xcl[i]);
+
+	    Trk1_ResXPosY->Fill(vPos_g1ycl[i],Measured_g1xcl-vPos_g1xcl[i]);
+	    Trk1_ResXPosX->Fill(vPos_g1xcl[i],Measured_g1xcl-vPos_g1xcl[i]);
+
+	    Trk2_ResXPosY->Fill(vPos_g2ycl[i],Measured_g2xcl-vPos_g2xcl[i]);
+	    Trk2_ResXPosX->Fill(vPos_g2xcl[i],Measured_g2xcl-vPos_g2xcl[i]);
+
+	    Trk3_ResXPosY->Fill(vPos_g3ycl[i],Measured_g3xcl-vPos_g3xcl[i]);
+	    Trk3_ResXPosX->Fill(vPos_g3xcl[i],Measured_g3xcl-vPos_g3xcl[i]);
 
 	    if (verbose)
 		cout<<"Measured_g1xcl = "<<Measured_g1xcl<<"\t vPos_g2xcl = "<<vPos_g2xcl[i]<<"\tDifference = "<<Measured_g2xcl-vPos_g2xcl[i]<<endl;
@@ -273,6 +321,9 @@ TH1F* h_residual_g3ycl;
 	    g2->Fit("line2","Q");
 	    double intercept2 = f2->GetParameter(0);
 	    double slope2     = f2->GetParameter(1);
+	    TrkY_Slope->Fill(slope2);
+	    TrkY_Intercept->Fill(intercept2);
+
 	    double Measured_g1ycl;
 	    if (IncludeFirstTracker == 1)
 	    	Measured_g1ycl = intercept2 + slope2*Trk1Pos;
@@ -287,7 +338,17 @@ TH1F* h_residual_g3ycl;
 	    h_residual_g1ycl->Fill(Measured_g1ycl-vPos_g1ycl[i]);
 	    h_residual_g2ycl->Fill(Measured_g2ycl-vPos_g2ycl[i]);
 	    h_residual_g3ycl->Fill(Measured_g3ycl-vPos_g3ycl[i]);
+
+	    Trk1_ResYPosY->Fill(vPos_g1ycl[i],Measured_g1ycl-vPos_g1ycl[i]);
+	    Trk1_ResYPosX->Fill(vPos_g1xcl[i],Measured_g1ycl-vPos_g1ycl[i]);
 	    
+	    Trk2_ResYPosY->Fill(vPos_g2ycl[i],Measured_g2ycl-vPos_g2ycl[i]);
+	    Trk2_ResYPosX->Fill(vPos_g2xcl[i],Measured_g2ycl-vPos_g2ycl[i]);
+	    
+	    Trk3_ResYPosY->Fill(vPos_g3ycl[i],Measured_g3ycl-vPos_g3ycl[i]);
+	    Trk3_ResYPosX->Fill(vPos_g3xcl[i],Measured_g3ycl-vPos_g3ycl[i]);
+	    
+
 	    delete f2; delete g2;
 	    
 	    if (verbose)
@@ -295,11 +356,27 @@ TH1F* h_residual_g3ycl;
 	    
 	    nnnn++;
 	    
+
+	tmpChiSquare1 += f1->GetChisquare();
+	tmpIntercept1 += intercept1;
+	tmpChiSquare2 += f2->GetChisquare();
+	tmpIntercept2 += intercept2;
 	}//for loop g2xcl size
+	    
+	foutChiSqr2<< tmpIntercept2/((double)(vPos_g2xcl.size())) <<"\t"<< tmpChiSquare2/((double)(vPos_g2xcl.size())) << "\t"<<0.0<<endl;
+	foutChiSqr1<< tmpIntercept1/((double)(vPos_g2xcl.size())) <<"\t"<< tmpChiSquare1/((double)(vPos_g2xcl.size())) << "\t"<<0.0<<endl;
 	
 	gStyle->SetOptFit(1111);
 	
 	if (verbose)	    cout<<"DEBUG  13"<<endl;
+
+
+	TH1F *residual_g1xcl_NoFit = (TH1F*) h_residual_g1xcl->Clone("residual_g1xcl_NoFit");
+	TH1F *residual_g1ycl_NoFit = (TH1F*) h_residual_g1ycl->Clone("residual_g1ycl_NoFit");
+	TH1F *residual_g2xcl_NoFit = (TH1F*) h_residual_g2xcl->Clone("residual_g2xcl_NoFit");
+	TH1F *residual_g2ycl_NoFit = (TH1F*) h_residual_g2ycl->Clone("residual_g2ycl_NoFit");
+	TH1F *residual_g3xcl_NoFit = (TH1F*) h_residual_g3xcl->Clone("residual_g3xcl_NoFit");
+	TH1F *residual_g3ycl_NoFit = (TH1F*) h_residual_g3ycl->Clone("residual_g3ycl_NoFit");
 	
 	I2GFvalues myValues;
 	
@@ -357,9 +434,9 @@ TH1F* h_residual_g3ycl;
 	
 	if (IncludeFirstTracker == 1)
 	{
-	if((mean_g1xcl>=-0.005 && mean_g1xcl<=0.005) && (mean_g1ycl>=-0.005 && mean_g1ycl<=0.005))
-	if((mean_g2xcl>=-0.005 && mean_g2xcl<=0.005) && (mean_g2ycl>=-0.005 && mean_g2ycl<=0.005))
-	    if((mean_g3xcl>=-0.005 && mean_g3xcl<=0.005) && (mean_g3ycl>=-0.005 && mean_g3ycl<=0.005))
+	if((mean_g1xcl>=-0.001 && mean_g1xcl<=0.001) && (mean_g1ycl>=-0.001 && mean_g1ycl<=0.001))
+	if((mean_g2xcl>=-0.001 && mean_g2xcl<=0.001) && (mean_g2ycl>=-0.001 && mean_g2ycl<=0.001))
+	    if((mean_g3xcl>=-0.001 && mean_g3xcl<=0.001) && (mean_g3ycl>=-0.001 && mean_g3ycl<=0.001))
 		{
 		    cout<<"find it...iterating "<<iterNb<<" times."<<endl;
 		    break;
@@ -367,8 +444,8 @@ TH1F* h_residual_g3ycl;
 	}
 	else
 	{
-	if((mean_g2xcl>=-0.005 && mean_g2xcl<=0.005) && (mean_g2ycl>=-0.005 && mean_g2ycl<=0.005))
-	    if((mean_g3xcl>=-0.005 && mean_g3xcl<=0.005) && (mean_g3ycl>=-0.005 && mean_g3ycl<=0.005))
+	if((mean_g2xcl>=-0.001 && mean_g2xcl<=0.001) && (mean_g2ycl>=-0.001 && mean_g2ycl<=0.001))
+	    if((mean_g3xcl>=-0.001 && mean_g3xcl<=0.001) && (mean_g3ycl>=-0.001 && mean_g3ycl<=0.001))
 		{
 		    cout<<"find it...iterating "<<iterNb<<" times."<<endl;
 		    break;
@@ -396,6 +473,8 @@ TH1F* h_residual_g3ycl;
     fout.close();
     fout1.close();
     fout2.close();
+    foutChiSqr1.close();
+    foutChiSqr2.close();
     foutFshiPar.close();
     // return 0;
 } // entire script

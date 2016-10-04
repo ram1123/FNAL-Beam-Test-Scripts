@@ -420,7 +420,7 @@ if (NumCluster_g3x !=0 )
           }
           if (verbose)
               std::cout<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g1xcl_geoposX[0]<<"\t"<<CRC.g1xcl_geoposch[0]<<"\t";
-          file_out<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g1xcl_geoposX[0]<<"\t"<<CRC.g1xcl_geoposch[0]<<"\t";
+          file_out<<channelFired<<"\t"<<channelFired<<fixed<<setprecision(9)<<"\t"<<CRC.g1xcl_geoposX[0]<<"\t"<<CRC.g1xcl_geoposch[0]<<"\t";
           count_ngeoch_occ = 0;
           for(Int_t nch=0;nch<CRC.kMaxg1xcl;nch++)
           {
@@ -434,7 +434,8 @@ if (NumCluster_g3x !=0 )
                   if (verbose)
                       std::cout<<(CRC.g1xcl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
                   //std::cout<<(CRC.g1xcl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
-                  file_out<<(CRC.g1xcl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
+                  file_out<<fixed<<setprecision(9)<<(CRC.g1xcl_geoch)[count_ngeoch_occ][chfird];
+		  file_out<<"\t"<<1<<"\t";
 	      }
               count_ngeoch_occ += 1;
           }
@@ -464,7 +465,7 @@ int g1x = jentry ;
           }
           if (verbose)
               std::cout<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g1ycl_geoposY[0]<<"\t"<<CRC.g1ycl_geoposch[0]<<"\t";
-          file_out<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g1ycl_geoposY[0]<<"\t"<<CRC.g1ycl_geoposch[0]<<"\t";
+          file_out<<channelFired<<"\t"<<channelFired<<fixed<<setprecision(9)<<"\t"<<CRC.g1ycl_geoposY[0]<<"\t"<<CRC.g1ycl_geoposch[0]<<"\t";
           count_ngeoch_occ = 0;
           for(Int_t nch=0;nch<CRC.kMaxg1xcl;nch++)
           {
@@ -478,7 +479,8 @@ int g1x = jentry ;
                   if (verbose)
                       std::cout<<(CRC.g1ycl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
                   //std::cout<<(CRC.g1ycl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
-                  file_out<<(CRC.g1ycl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
+                  file_out<<fixed<<setprecision(9)<<(CRC.g1ycl_geoch)[count_ngeoch_occ][chfird];
+		  file_out<<"\t"<<1<<"\t";
               }
               count_ngeoch_occ += 1;
           }
@@ -510,7 +512,7 @@ int g1x = jentry ;
           }
           if (verbose)
               std::cout<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g2xcl_geoposX[0]<<"\t"<<CRC.g2xcl_geoposch[0]<<"\t";
-          file_out<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g2xcl_geoposX[0]<<"\t"<<CRC.g2xcl_geoposch[0]<<"\t";
+          file_out<<channelFired<<"\t"<<channelFired<<fixed<<setprecision(9)<<"\t"<<CRC.g2xcl_geoposX[0]<<"\t"<<CRC.g2xcl_geoposch[0]<<"\t";
           count_ngeoch_occ = 0;
 
           for(Int_t nch=0;nch<CRC.kMaxg2xcl;nch++)
@@ -525,7 +527,8 @@ int g1x = jentry ;
                   if (verbose)
                       std::cout<<(CRC.g2xcl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
                   //std::cout<<(CRC.g2xcl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
-                  file_out<<(CRC.g2xcl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
+                  file_out<<fixed<<setprecision(9)<<(CRC.g2xcl_geoch)[count_ngeoch_occ][chfird];
+		  file_out<<"\t"<<1<<"\t";
               }
               count_ngeoch_occ += 1;
           }
@@ -556,7 +559,7 @@ int g1x = jentry ;
           }
           if (verbose)
               std::cout<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g2ycl_geoposY[0]<<"\t"<<CRC.g2ycl_geoposch[0]<<"\t";
-          file_out<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g2ycl_geoposY[0]<<"\t"<<CRC.g2ycl_geoposch[0]<<"\t";
+          file_out<<channelFired<<"\t"<<channelFired<<fixed<<setprecision(9)<<"\t"<<CRC.g2ycl_geoposY[0]<<"\t"<<CRC.g2ycl_geoposch[0]<<"\t";
           count_ngeoch_occ = 0;
           for(Int_t nch=0;nch<CRC.kMaxg2ycl;nch++)
           {
@@ -571,7 +574,8 @@ int g1x = jentry ;
                   if (verbose)
                       std::cout<<(CRC.g2ycl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
                   //std::cout<<(CRC.g2ycl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
-                  file_out<<(CRC.g2ycl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
+                  file_out<<fixed<<setprecision(9)<<(CRC.g2ycl_geoch)[count_ngeoch_occ][chfird];
+		  file_out<<"\t"<<1<<"\t";
               }
               count_ngeoch_occ += 1;
           }
@@ -599,7 +603,7 @@ int g1x = jentry ;
           }
           if (verbose)
               std::cout<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g3xcl_geoposX[0]<<"\t"<<CRC.g3xcl_geoposch[0]<<"\t";
-          file_out<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g3xcl_geoposX[0]<<"\t"<<CRC.g3xcl_geoposch[0]<<"\t";
+          file_out<<channelFired<<"\t"<<channelFired<<fixed<<setprecision(9)<<"\t"<<CRC.g3xcl_geoposX[0]<<"\t"<<CRC.g3xcl_geoposch[0]<<"\t";
           count_ngeoch_occ = 0;
           for(Int_t nch=0;nch<CRC.kMaxg3xcl;nch++)
           {
@@ -612,7 +616,8 @@ int g1x = jentry ;
                   if (verbose)
                       std::cout<<(CRC.g3xcl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
                   //std::cout<<(CRC.g3xcl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
-                  file_out<<(CRC.g3xcl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
+                  file_out<<fixed<<setprecision(9)<<(CRC.g3xcl_geoch)[count_ngeoch_occ][chfird];
+		  file_out<<"\t"<<1<<"\t";
               }
               count_ngeoch_occ += 1;
           }
@@ -642,7 +647,7 @@ int g1x = jentry ;
           }
           if (verbose)
               std::cout<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g3ycl_geoposY[0]<<"\t"<<CRC.g3ycl_geoposch[0]<<"\t";
-          file_out<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.g3ycl_geoposY[0]<<"\t"<<CRC.g3ycl_geoposch[0]<<"\t";
+          file_out<<channelFired<<"\t"<<channelFired<<fixed<<setprecision(9)<<"\t"<<CRC.g3ycl_geoposY[0]<<"\t"<<CRC.g3ycl_geoposch[0]<<"\t";
           count_ngeoch_occ = 0;
           for(Int_t nch=0;nch<CRC.kMaxg3ycl;nch++)
           {
@@ -655,7 +660,8 @@ int g1x = jentry ;
                   if (verbose)
                       std::cout<<(CRC.g3ycl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
                   //std::cout<<(CRC.g3ycl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
-                  file_out<<(CRC.g3ycl_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
+                  file_out<<fixed<<setprecision(9)<<(CRC.g3ycl_geoch)[count_ngeoch_occ][chfird];
+		  file_out<<"\t"<<1<<"\t";
               }
               count_ngeoch_occ += 1;
           }
@@ -685,7 +691,7 @@ int g1x = jentry ;
           }
           if (verbose)
               std::cout<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.GE11_IV_GIF_geoposX[0]<<"\t"<<CRC.GE11_IV_GIF_geoposch[0]<<"\t";
-          file_out<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.GE11_IV_GIF_geoposX[0]<<"\t"<<CRC.GE11_IV_GIF_geoposch[0]<<"\t";
+          file_out<<channelFired<<"\t"<<channelFired<<fixed<<setprecision(9)<<"\t"<<CRC.GE11_IV_GIF_geoposX[0]<<"\t"<<CRC.GE11_IV_GIF_geoposch[0]<<"\t";
 	  if (NumCluster_LC1>=1)
 	  	  h_ClusterSize_LC1->Fill(channelFired);
           count_ngeoch_occ = 0;
@@ -707,7 +713,8 @@ int g1x = jentry ;
                   if (verbose)
                       std::cout<<(CRC.GE11_IV_GIF_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
                   //std::cout<<(GE11_IV_GIF_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
-                  file_out<<(CRC.GE11_IV_GIF_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
+                  file_out<<fixed<<setprecision(9)<<(CRC.GE11_IV_GIF_geoch)[count_ngeoch_occ][chfird];
+		  file_out<<"\t"<<1<<"\t";
               }
               count_ngeoch_occ += 1;
           }
@@ -737,7 +744,7 @@ int g1x = jentry ;
 	  }
 	  if (verbose)
 	      std::cout<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.GE11_IV_geoposX[0]<<"\t"<<CRC.GE11_IV_geoposch[0]<<"\t";
-	  file_out<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.GE11_IV_geoposX[0]<<"\t"<<CRC.GE11_IV_geoposch[0]<<"\t";
+	  file_out<<channelFired<<"\t"<<channelFired<<fixed<<setprecision(9)<<"\t"<<CRC.GE11_IV_geoposX[0]<<"\t"<<CRC.GE11_IV_geoposch[0]<<"\t";
 	  if (NumCluster_LC2>=1)
 	  	  h_ClusterSize_LC2->Fill(channelFired);
 	  count_ngeoch_occ = 0;
@@ -757,7 +764,8 @@ int g1x = jentry ;
 		  if (verbose)
 		      std::cout<<(CRC.GE11_IV_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
 		  //std::cout<<(GE11_IV_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
-		  file_out<<(CRC.GE11_IV_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
+		  file_out<<fixed<<setprecision(9)<<(CRC.GE11_IV_geoch)[count_ngeoch_occ][chfird];
+		  file_out<<"\t"<<1<<"\t";
 	      }
 	      count_ngeoch_occ += 1;
 	  }
@@ -786,7 +794,7 @@ int g1x = jentry ;
 	  }
 	  if (verbose)
 	      std::cout<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.sCMSNS2LC3_geoposX[1]<<"\t"<<CRC.sCMSNS2LC3_geoposch[0]<<"\t";
-	  file_out<<channelFired<<"\t"<<channelFired<<"\t"<<CRC.sCMSNS2LC3_geoposX[1]<<"\t"<<CRC.sCMSNS2LC3_geoposch[0]<<"\t";
+	  file_out<<channelFired<<"\t"<<channelFired<<fixed<<setprecision(9)<<"\t"<<CRC.sCMSNS2LC3_geoposX[1]<<"\t"<<CRC.sCMSNS2LC3_geoposch[0]<<"\t";
 	  if (NumCluster_LC3>=1)
 	  	  h_ClusterSize_LC3->Fill(channelFired);
 	  count_ngeoch_occ = 0;
@@ -805,7 +813,8 @@ int g1x = jentry ;
 		     // break;
 		  if (verbose)
 		      std::cout<<(CRC.sCMSNS2LC3_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
-		  file_out<<(CRC.sCMSNS2LC3_geoch)[count_ngeoch_occ][chfird]<<"\t"<<1<<"\t";
+		  file_out<<fixed<<setprecision(9)<<(CRC.sCMSNS2LC3_geoch)[count_ngeoch_occ][chfird];
+		  file_out<<"\t"<<1<<"\t";
 	      }
 	      count_ngeoch_occ += 1;
 	  }

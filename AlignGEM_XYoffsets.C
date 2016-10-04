@@ -46,7 +46,7 @@ int tracking(string thestring, int RunNumber, int iterNbX, double iterNbY, doubl
     double preshiEta5Y =0.0;//-500.;
     double preshiEta5X=-2540.0;
     
-    double aEta5REF1=-0.1+0.001*iterNbX;//0.008098;
+    double aEta5REF1=-0.01+0.001*iterNbX;//0.008098;
     //cout<<"aEta5REF1 = "<< aEta5REF1<<endl;
     //double aEta5REF1 = 0.0;//(with GE11)//-2.713;//(Only tracker)//-2.3198500;//56.849;
     //double aEta5REF1 = 1.0630000;//(with GE11)//-2.713;//(Only tracker)//-2.3198500;//56.849;
@@ -165,7 +165,7 @@ int tracking(string thestring, int RunNumber, int iterNbX, double iterNbY, doubl
         double rREF1	= sqrt(d.vpREF1X*d.vpREF1X+d.vpREF1Y*d.vpREF1Y);
         double phiREF1	= 0.0; if(d.vpREF1X != 0.0) phiREF1 = atan(d.vpREF1Y/d.vpREF1X);
         double rREF2	= sqrt(d.vpREF2X*d.vpREF2X+d.vpREF2Y*d.vpREF2Y);
-       double phiREF2	= 0.0; if(d.vpREF2X != 0.0) phiREF2 = atan(d.vpREF2Y/d.vpREF2X);
+        double phiREF2	= 0.0; if(d.vpREF2X != 0.0) phiREF2 = atan(d.vpREF2Y/d.vpREF2X);
         double rREF3	= sqrt(d.vpREF3X*d.vpREF3X+d.vpREF3Y*d.vpREF3Y);
         double phiREF3	= 0.0; if(d.vpREF3X != 0.0) phiREF3 = atan(d.vpREF3Y/d.vpREF3X);
         double rEta5	= sqrt(d.vpEta5X*d.vpEta5X+d.vpEta5Y*d.vpEta5Y);
@@ -178,13 +178,13 @@ int tracking(string thestring, int RunNumber, int iterNbX, double iterNbY, doubl
         d.vpREF2Y = phiREF2;
         d.vpREF3X = rREF3;
         d.vpREF3Y = phiREF3;
-		d.vpEta5X = rEta5;
-		d.vpEta5Y = phiEta5; 
+	d.vpEta5X = rEta5;
+	d.vpEta5Y = phiEta5; 
 	if(verbose)
-{
+	{	
 	cout<<"====== "<<d.vpREF1X<<"\t"<<d.vpREF1Y<<"\t"<<d.vpREF2X<<"\t"<<d.vpREF2Y<<"\t"<<d.vpREF3X<<"\t"<<d.vpREF3Y<<"\t"<<d.vpEta5Y<<"\t"<<d.vpEta5X<<endl;
 	//cin.get();
- }      
+	}      
         v->push_back(d);
     }
     if (verbose)
@@ -400,7 +400,7 @@ void AlignGEM_XYoffsets(string InputTextFile, int RunNumber, double shiREF1X, do
 		aREF2REF1 += 0.0+aREF2REF1_TrkAlign;
 		aREF3REF1 += 0.0+aREF3REF1_TrkAlign;
 	}
-  for(int iterNbX=0;iterNbX<1;iterNbX++)
+  for(int iterNbX=0;iterNbX<100;iterNbX++)
     for(int iterNbY=0;iterNbY<1;iterNbY++)
     {
      tracking(InputTextFile, RunNumber, iterNbX, iterNbY, shiREF1X, shiREF1Y, shiREF2X, shiREF2Y, shiREF3X, shiREF3Y, shiEta5Y, Trk1Pos, Trk2Pos, Trk3Pos, GEMPos , aREF2REF1, aREF3REF1);

@@ -23,9 +23,8 @@ if args.Lxplus=="1":
 	print('source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh')
 	os.system('source /afs/cern.ch/sw/lcg/app/releases/ROOT/6.04.02/x86_64-slc6-gcc48-opt/root/bin/thisroot.sh')
 
-RunWhichPart = args.RunWhichPart		# This part is not working somehow, Need to manually reset this
+RunWhichPart = int(args.RunWhichPart)		# This part is not working somehow, Need to manually reset this
 print "RunWhichPart = ",RunWhichPart
-RunWhichPart = 1
 
 Dir_Shift_Par="FinalShiftPar_LinShiftTrk/ShiftPar_LinearShiftTrkOnly_alignTrackers_R"+args.RunNumber+".txt"
 Dir_Shift_Rot_Par="FinalShiftPar_RotShiftTrk/Shift_Rotate_Parameter_R"+args.RunNumber+".txt"

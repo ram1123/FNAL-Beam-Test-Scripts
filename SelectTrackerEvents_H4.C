@@ -379,13 +379,13 @@ if (verbose){
 	  totalEvents++;
 
 	if ( LargeGEM == "No")
-	    fout<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<<endl;
+	    fout<<fixed<<setprecision(9)<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<<endl;
 	if ( LargeGEM == "LC1")
-	    fout<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<< "\t"<< Pos_GE11_IV_GIF.at(i)<<endl;
+	    fout<<fixed<<setprecision(9)<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<< "\t"<< Pos_GE11_IV_GIF.at(i)<<endl;
 	if ( LargeGEM == "LC2")
-	    fout<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<< "\t"<< Pos_GE11_IV.at(i)<<endl;
+	    fout<<fixed<<setprecision(9)<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<< "\t"<< Pos_GE11_IV.at(i)<<endl;
 	if ( LargeGEM == "LC3")
-	    fout<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<< "\t"<< Pos_sCMSNS2LC3.at(i)<<endl;
+	    fout<<fixed<<setprecision(9)<<Pos_g2xcl.at(i)<<"\t"<<Pos_g2ycl.at(i)<<"\t"<<Pos_g3xcl.at(i)<<"\t"<<Pos_g3ycl.at(i)<<"\t"<<Pos_g1xcl.at(i)<<"\t"<<Pos_g1ycl.at(i)<< "\t"<< Pos_sCMSNS2LC3.at(i)<<endl;
 
 	  h_Pos_g2xcl->Fill(Pos_g2xcl.at(i));
 	  h_Pos_g2ycl->Fill(Pos_g2ycl.at(i));

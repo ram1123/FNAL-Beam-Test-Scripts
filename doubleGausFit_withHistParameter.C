@@ -70,7 +70,6 @@ I2GFvalues I2GFmainLoop(TH1F *htemp, int N_iter, float N_sigma_range, bool ShowF
   Int_t NPeaks ;
   TSpectrum *s= new TSpectrum(); //TSpectrum(1,1)->Argument: (Number of peaks to find, Distance to neighboring peak: "1"-->3sigma)
  
-  //int NPeaks;
   Double_t *Peak;                     //TSpectrum *s = new TSpectrum(); --> No warning message 
 
   Double_t *PeakAmp;                    
@@ -123,7 +122,7 @@ I2GFvalues I2GFmainLoop(TH1F *htemp, int N_iter, float N_sigma_range, bool ShowF
   cout<<"binMaxCnt = "<<binMaxCnt<<"\tbinMaxCnt_value = "<<binMaxCnt_value<<"\t binMaxCnt_counts = "<<binMaxCnt_counts<<endl;
 
   //---------TSpectrum Peak Finding Parameters--------
-  if(ShowFit) NPeaks = s->Search(htemp, 2,"",0.5); 
+  if(ShowFit) NPeaks = s->Search(htemp, 1,"",0.005); 
   if (verbose)
       cout<<"NPeaks = "<<NPeaks<<endl;
 
@@ -189,7 +188,7 @@ I2GFvalues I2GFmainLoop(TH1F *htemp, int N_iter, float N_sigma_range, bool ShowF
       func->SetParameter(1, binMaxCnt_value);
     }
   
-  htemp->Fit("gaus", "Q0", "", low_limit, high_limit); //low_limit, high_limit); //  To Show fit: htemp->Fit("gaus"); //better fit?-> Fit("gaus", "MQ", "", "", ""); 
+  htemp->Fit("gaus", "LQ0", "", low_limit, high_limit); //low_limit, high_limit); //  To Show fit: htemp->Fit("gaus"); //better fit?-> Fit("gaus", "MQ", "", "", ""); 
   func  = htemp->GetFunction("gaus");
   Chi2 = func->GetChisquare();
   NDF = func->GetNDF();
@@ -229,11 +228,11 @@ I2GFvalues I2GFmainLoop(TH1F *htemp, int N_iter, float N_sigma_range, bool ShowF
 
 
 
-  for (int i=0; i< (N_iter ); i++)
   //for (int i=0; i< 2; i++)  //8 seems to work well, so let's keep it constant here.
+  for (int i=0; i< (N_iter ); i++)
     {
       //htemp->Fit("gaus", "", "",(f_mean - (N_sigma_range*f_sigma)), (f_mean + (N_sigma_range*f_sigma) ) ); //show fit
-      htemp->Fit("gaus", "Q0", "",(f_mean - (N_sigma_range*f_sigma)), (f_mean + (N_sigma_range*f_sigma) ) ); //don't show fit
+      htemp->Fit("gaus", "LQ0", "",(f_mean - (N_sigma_range*f_sigma)), (f_mean + (N_sigma_range*f_sigma) ) ); //don't show fit
       func  = htemp->GetFunction("gaus");
       Chi2 = func->GetChisquare();
       NDF = func->GetNDF();
@@ -279,7 +278,7 @@ I2GFvalues I2GFmainLoop(TH1F *htemp, int N_iter, float N_sigma_range, bool ShowF
   if (verbose)
       cout<<"f_mean = "<<f_mean<<"\tf_sigma = "<<f_sigma<<endl;
 
-  //func3 = new TF1("func3", "func1 + func2", (f_mean - 3*f_sigma), (f_mean + 3*f_sigma) );
+  //func3 = new TF1("func3", func1+func2, (f_mean - 3*f_sigma), (f_mean + 3*f_sigma) );
   func3 = new TF1("func3","gaus(0) + gaus(3)",(f_mean - 3*f_sigma), (f_mean + 3*f_sigma));
   //func3 = new TF1("func3", "func1 ", (f_mean - 3*f_sigma), (f_mean + 3*f_sigma) );
 
@@ -297,7 +296,7 @@ I2GFvalues I2GFmainLoop(TH1F *htemp, int N_iter, float N_sigma_range, bool ShowF
   //htemp->Fit("func3");//, "", "",(f_mean - (N_sigma_range*f_sigma)), (f_mean + (N_sigma_range*f_sigma) ) ); //Show Fit
   if (verbose)
       cout<<"ERROR 2"<<endl;
-  htemp->Fit("func3", "Q0"); //Don't show fit
+  htemp->Fit("func3", "LQ0"); //Don't show fit
   if (verbose)
       cout<<"ERROR 3"<<endl;
   func  = htemp->GetFunction("func3");
@@ -326,12 +325,14 @@ I2GFvalues I2GFmainLoop(TH1F *htemp, int N_iter, float N_sigma_range, bool ShowF
   //for (int j=0; j<4; j++)
     {
       func3->SetParameters(f_const, f_mean, f_sigma, f_const2, f_mean2, f_sigma2);
+      func3->SetParLimits(0,f_const-(f_const*0)/100, f_const+(f_const*0)/100);
+  //    func3->SetParLimits(3,f_const-(f_const*10)/100, f_const+(f_const*10)/100);
       //htemp->Fit("func3", "Q", "", "",(f_mean - (N_sigma_range*f_sigma)), (f_mean + (N_sigma_range*f_sigma) ) ); 
       
       //----------------Show or don't show fit----------------- 
       //if (ShowFit) htemp->Fit("func3");//*************Show Histo & Fit in quiet mode
-      if (ShowFit) htemp->Fit("func3", "Q");//*************Show Histo & Fit in quiet mode
-      else htemp->Fit("func3", "Q0"); //*****************Don't show Histo & Fit in quiet mode
+      if (ShowFit) htemp->Fit("func3", "LQ");//*************Show Histo & Fit in quiet mode
+      else htemp->Fit("func3", "LQ0"); //*****************Don't show Histo & Fit in quiet mode
       //-------------------------------------------------------     
 
       func3  = htemp->GetFunction("func3");
@@ -379,7 +380,9 @@ I2GFvalues I2GFmainLoop(TH1F *htemp, int N_iter, float N_sigma_range, bool ShowF
     }
   if (verbose)
       cout<<"ERROR 5"<<endl;
-  
+ 
+// TMinuit *gMinuit = new TMinuit(2);
+// gMinuit->mnmatu(1);
   return myI2GFvalues;
 
   delete s;

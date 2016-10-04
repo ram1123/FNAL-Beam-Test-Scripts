@@ -12,7 +12,7 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 {
 
 	bool verbose = 0;
-	bool IncludeFirstTracker = 0;
+	bool IncludeFirstTracker = 1;
 
 	string thestring = {"Position"};
 	
@@ -29,10 +29,10 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 	string ResidualRHead="RotationBack_Residual_";
 	string chi2Head = "ResolutionChi2Angle_";
 
-	string foutname = DirShiftPar+shiftHead+thestring+"_exclusive_"+std::to_string(RunNumber)+".txt";
-	string fout1name = DirResidual+residualHead+thestring+"_exclusive_"+std::to_string(RunNumber)+".txt";
-	string foutchi2name = DirResidual+chi2Head + thestring + "_exclusive_"+std::to_string(RunNumber)+".txt";
-	string foutRotationName = DirResidual+rotateHead + thestring + "_exclusive_"+std::to_string(RunNumber)+".txt";
+	string foutname = DirShiftPar+shiftHead+thestring+"_inclusive_"+std::to_string(RunNumber)+".txt";
+	string fout1name = DirResidual+residualHead+thestring+"_inclusive_"+std::to_string(RunNumber)+".txt";
+	string foutchi2name = DirResidual+chi2Head + thestring + "_inclusive_"+std::to_string(RunNumber)+".txt";
+	string foutRotationName = DirResidual+rotateHead + thestring + "_inclusive_"+std::to_string(RunNumber)+".txt";
     	string foutFinalShiftPar = DirName_FinalShiftPar_RotShiftTrk+"Shift_Rotate_Parameter_R"+std::to_string(RunNumber)+".txt";
 
 	fstream fin(txtfilename.c_str(),ios::in);
@@ -90,7 +90,7 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 	
 	Int_t iterNb=0;
 	while(1){
-    	char rootfile[50]; sprintf(rootfile,"_iter%i_exclusive_R%i.root",iterNb,RunNumber);
+    	char rootfile[50]; sprintf(rootfile,"_iter%i_inclusive_R%i.root",iterNb,RunNumber);
 		string outputrootname=DirRootFile+ResidualRHead+thestring+rootfile;
 		//if (verbose)
 			cout<<"outputroot file name :  "<< outputrootname <<endl;
@@ -268,7 +268,7 @@ void tracking(string InputFileName , int RunNumber, double shiREF1X, double shiR
 		
 		//if (verbose)
 		cout<<"residual mean: "<<meanREF1X<<"\t"<<meanREF1Y<<"\t"<<meanREF2X<<"\t"<<meanREF2Y<<"\t"<<meanREF3X<<"\t"<<meanREF3Y<<"\t"<<meanAngleREF3<<"\t"<<meanAngleREF2<<endl;
-		fout1<<"residual mean: "<<meanREF1X<<"\t"<<meanREF1Y<<"\t"<<meanREF2X<<"\t"<<meanREF2Y<<"\t"<<meanREF3X<<"\t"<<meanREF3Y<<endl;
+		fout1<<meanREF1X<<"\t"<<meanREF1Y<<"\t"<<meanREF2X<<"\t"<<meanREF2Y<<"\t"<<meanREF3X<<"\t"<<meanREF3Y<<endl;
 		if (iterNb != 1)
 		{
 		Tot_Shift_2X +=shiREF2X;

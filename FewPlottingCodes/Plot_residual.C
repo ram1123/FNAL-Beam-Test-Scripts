@@ -1,4 +1,5 @@
 /*
+
  * =====================================================================================
  *
  *       Filename:  Plot_residual.C
@@ -37,8 +38,9 @@ void Plot_residual()
     int iPeriod = 0;    // 1=7TeV, 2=8TeV, 3=7+8TeV, 7=7+8+13TeV, 0=free form (uses lumi_sqrtS)
 
     ifstream residualFile;
-    residualFile.open("../residual_txtFile/residuals_Position_alignTrackers_R1644.txt");
+    //residualFile.open("../residual_txtFile/residuals_Position_alignTrackers_R1644.txt");
     //residualFile.open("../mean_txtFile/mean_Position_alignTrackers_R1644.txt");
+    residualFile.open("../residual_txtFile/RotationBack_residuals_Position_inclusive_1644.txt");
 
     vector<double> Res_g1x, Res_g1y, Res_g2x, Res_g2y, Res_g3x, Res_g3y;
 
@@ -76,8 +78,8 @@ void Plot_residual()
 	gr6->SetPoint(i,i,Res_g3y[i]);
     }
     
-    //gr1->GetYaxis()->SetRangeUser(-4.,2);
-    gr1->GetYaxis()->SetRangeUser(-0.01,0.25);
+    gr1->GetYaxis()->SetRangeUser(-0.5,0.50);
+    //gr1->GetYaxis()->SetRangeUser(-0.02,0.02);
 
     //gr1->GetXaxis()->SetRangeUser(0,62);
     gr1->SetTitle("");
@@ -107,13 +109,13 @@ void Plot_residual()
     gr5->SetMarkerStyle(22);
     gr6->SetMarkerStyle(26);
 
-    gr1->Draw("ACP");
-    gr2->Draw("SameCP");
-    gr3->Draw("SameCP");
-    //gr3->Draw("ACP");
-    gr4->Draw("SameCP");
-    gr5->Draw("SameCP");
-    gr6->Draw("SameCP");
+    gr1->Draw("AP");
+    gr2->Draw("SameP");
+    gr3->Draw("SameP");
+    //gr3->Draw("AP");
+    gr4->Draw("SameP");
+    gr5->Draw("SameP");
+    gr6->Draw("SameP");
 
     TLegend *leg = new TLegend(0.65,0.140,0.90,0.35);
     leg->AddEntry(gr1,"Tracker 1X","LPE");

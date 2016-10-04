@@ -8,3 +8,4 @@ callgrind.out.*
 *.root
 *.pyc
 *R*R*.txt
+Run*/
